@@ -4,6 +4,8 @@ const publicRoutes = [
   { path: '/', component: <Home /> }
 ];
 
-const privateRoutes = [];
+const privateRoutes = [
+  { path: '/dashboard', component: <Home /> }
+];
 
 export { publicRoutes, privateRoutes };

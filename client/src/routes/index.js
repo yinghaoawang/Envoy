@@ -1,18 +1,36 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes as ReactRoutes, Route } from 'react-router-dom';
 import { publicRoutes, privateRoutes } from './allRoutes';
+import DefaultLayout from '../layouts/Default';
+import NonAuthLayout from '../layouts/NonAuth';
 
-const Index = () => {
+const Routes = () => {
   return (
-    <Routes>
+    <ReactRoutes>
       {publicRoutes.map((route, idx) => (
-        <Route path={route.path} element={route.component} key={idx} />
+        <Route
+          path={route.path}
+          element={
+            <NonAuthLayout>
+              {route.component}
+            </NonAuthLayout>
+          }
+          key={idx}
+        />
       ))}
 
       {privateRoutes.map((route, idx) => (
-        <Route path={route.path} element={route.component} key={idx} />
+          <Route
+            path={route.path}
+            element={
+              <DefaultLayout>
+                {route.component}
+              </DefaultLayout>
+            }
+            key={idx}
+          />
       ))}
-    </Routes>
+    </ReactRoutes>
   );
 };
 
-export default Index;
+export default Routes;
