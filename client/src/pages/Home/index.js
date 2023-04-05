@@ -12,7 +12,7 @@ const Home = () => {
     })
   );
   const onLogin = () => {
-    dispatch(loginUser());
+    dispatch(loginUser({ name: 'hey' }));
   };
   return (
     <div>
