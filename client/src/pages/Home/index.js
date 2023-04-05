@@ -12,11 +12,11 @@ const Home = () => {
     })
   );
   const onLogin = () => {
-    dispatch(loginUser({ name: 'hey' }));
+    dispatch(loginUser({ email: 'hey@email.com', password: 'password' }));
   };
   return (
     <div>
-      <div>{isUserLogin && 'isuserlogin'} {error && 'error'} {loginLoading && 'loginloading'} {isUserLogout && 'isuserlogout'}</div>
+      <div>{isUserLogin && 'isuserlogin'} {error} {loginLoading && 'loginloading'} {isUserLogout && 'isuserlogout'}</div>
       <div>Home</div>
       <button onClick={() => onLogin()}>Login</button>
     </div>
