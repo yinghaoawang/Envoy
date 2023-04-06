@@ -1,4 +1,4 @@
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { AuthLoginActionTypes } from './types';
 import {
   authLoginApiResponseError,
@@ -6,25 +6,31 @@ import {
 } from './actions';
 import firebaseHelper from '../../../helpers/firebase';
 
-function* loginUser({ payload }) {
+function* loginUser({ payload: { user } }) {
   try {
     const response = yield call(
       firebaseHelper.loginUser,
-      payload.email,
-      payload.password
+      user.email,
+      user.password
     );
     yield put(
-      authLoginApiResponseSuccess(AuthLoginActionTypes.LOGIN_USER, response)
+      authLoginApiResponseSuccess(
+        AuthLoginActionTypes.LOGIN_USER,
+        response
+      )
     );
   } catch (error) {
     yield put(
-      authLoginApiResponseError(AuthLoginActionTypes.LOGIN_USER, error)
+      authLoginApiResponseError(
+        AuthLoginActionTypes.LOGIN_USER,
+        error
+      )
     );
   }
 }
 
 function* loginSaga() {
-  yield takeEvery(AuthLoginActionTypes.LOGIN_USER, loginUser);
+  yield takeLatest(AuthLoginActionTypes.LOGIN_USER, loginUser);
 }
 
 export default loginSaga;

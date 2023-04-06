@@ -1,7 +1,11 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
+} from 'firebase/auth';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,21 +26,32 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 function loginUser(email, password) {
-  return new Promise((resolve, reject) => {
-    const auth = getAuth();
-    createUserWithEmailAndPassword(auth, email, password).then(
-      (user) => {
-        resolve(auth.currentUser);
-      },
-      (error) => {
-        reject(error.message);
-      }
-    );
+  return new Promise(async (resolve, reject) => {
+    try {
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      resolve(userCredential);
+    } catch (error) {
+      reject(error.message);
+    }
+  });
+}
+
+function registerUser(email, password) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const auth = getAuth();
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      resolve(userCredential);
+    } catch (error) {
+      reject(error.message);
+    }
   });
 }
 
 const firebaseHelper = {
-  loginUser
+  loginUser,
+  registerUser
 };
 
 export default firebaseHelper;

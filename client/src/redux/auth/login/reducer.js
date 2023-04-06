@@ -2,7 +2,9 @@ import { AuthLoginActionTypes } from './types';
 
 const INIT_STATE = {
   error: '',
-  loading: false
+  loading: false,
+  isUserLoggedIn: false,
+  isUserLoggedOut: false
 };
 
 const Login = (state = INIT_STATE, action) => {
@@ -14,14 +16,13 @@ const Login = (state = INIT_STATE, action) => {
             ...state,
             user: action.payload.data,
             loading: false,
-            isUserLogin: true,
-            isUserLogout: false,
+            isUserLoggedIn: true,
           };
         case AuthLoginActionTypes.LOGOUT_USER:
           return {
             ...state,
             loading: false,
-            isUserLogout: true,
+            isUserLoggedOut: true,
           };
         default:
           return { ...state };
@@ -33,15 +34,14 @@ const Login = (state = INIT_STATE, action) => {
           return {
             ...state,
             error: action.payload.error,
-            isUserLogin: false,
             loading: false,
+            isUserLoggedIn: false,
           };
         case AuthLoginActionTypes.LOGOUT_USER:
           return {
             ...state,
             loading: false,
-            isUserLogin: false,
-            isUserLogout: false,
+            isUserLoggedOut: false,
           };
         default:
           return { ...state };
@@ -51,7 +51,7 @@ const Login = (state = INIT_STATE, action) => {
       return {
         ...state,
         loading: true,
-        isUserLogin: false,
+        isUserLoggedIn: false,
       };
     }
 
@@ -59,7 +59,7 @@ const Login = (state = INIT_STATE, action) => {
       return {
         ...state,
         loading: false,
-        isUserLogout: false,
+        isUserLoggedOut: false,
       };
     default:
       return { ...state };
