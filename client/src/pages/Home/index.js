@@ -1,5 +1,5 @@
 import { useRedux } from '../../hooks';
-import { loginUser } from '../../redux/auth/login/actions';
+import { loginUser, logoutUser } from '../../redux/auth/login/actions';
 import { registerUser } from '../../redux/auth/register/actions';
 
 const Home = () => {
@@ -23,6 +23,10 @@ const Home = () => {
     dispatch(loginUser({email: 'hey@email.com', password: 'password'}));
   };
 
+  const onLogout = () => {
+    dispatch(logoutUser());
+  }
+
   const onRegister = () => {
     dispatch(registerUser({email: 'hey@email.com', password: 'password'}));
   }
@@ -33,6 +37,7 @@ const Home = () => {
       <div>{isUserRegistered && 'isUserRegistered'} {registerError && 'register error' + registerError} {registerLoading && 'registerLoading'}</div>
       <div>Home</div>
       <button onClick={() => onLogin()}>Login</button>
+      <button onClick={() => onLogout()}>Logout</button>
       <button onClick={() => onRegister()}>Register</button>
     </div>
   );

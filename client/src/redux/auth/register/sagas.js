@@ -8,20 +8,20 @@ import firebaseHelper from '../../../helpers/firebase';
 
 function* registerUser({ payload: { user } }) {
   try {
-    const response = yield call(firebaseHelper.registerUser, user.email, user.password);
-    console.log(response);
+    const userCredential = yield call(
+      firebaseHelper.registerUser,
+      user.email,
+      user.password
+    );
     yield put(
       authRegisterApiResponseSuccess(
         AuthRegisterActionTypes.REGISTER_USER,
-        response
+        userCredential
       )
     );
   } catch (error) {
     yield put(
-      authRegisterApiResponseError(
-        AuthRegisterActionTypes.REGISTER_USER,
-        error
-      )
+      authRegisterApiResponseError(AuthRegisterActionTypes.REGISTER_USER, error)
     );
   }
 }

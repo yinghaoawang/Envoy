@@ -23,6 +23,7 @@ const Login = (state = INIT_STATE, action) => {
             ...state,
             loading: false,
             isUserLoggedOut: true,
+            isUserLoggedIn: false,
           };
         default:
           return { ...state };

@@ -4,26 +4,41 @@ import { getAnalytics } from 'firebase/analytics';
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
 } from 'firebase/auth';
+import config from '../config';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: 'AIzaSyAECSkH3xgcFNxLeTbflXoOCmYuMjJTwag',
-  authDomain: 'envoy-fb9c4.firebaseapp.com',
-  projectId: 'envoy-fb9c4',
-  storageBucket: 'envoy-fb9c4.appspot.com',
-  messagingSenderId: '584606269189',
-  appId: '1:584606269189:web:a9bd8beb76c93137c4c16c',
-  measurementId: 'G-G9X46Z64X2'
+  apiKey: config.FIREBASE.API_KEY,
+  authDomain: config.FIREBASE.AUTH_DOMAIN,
+  projectId: config.FIREBASE.PROJECT_ID,
+  storageBucket: config.FIREBASE.STORAGE_BUCKET,
+  messagingSenderId: config.FIREBASE.MESSAGING_SENDER_ID,
+  appId: config.FIREBASE.APP_ID,
+  measurementId: config.FIREBASE.MEASUREMENT_ID
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+initFirebase();
+
+function initFirebase() {
+  const auth = getAuth();
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      setLoggedInUser(user);
+    } else {
+      localStorage.removeItem('authUser');
+    }
+  });
+}
 
 function loginUser(email, password) {
   return new Promise(async (resolve, reject) => {
@@ -35,6 +50,19 @@ function loginUser(email, password) {
       reject(error.message);
     }
   });
+}
+
+function logoutUser() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const auth = getAuth();
+      await signOut(auth);
+      console.log('sign out successful');
+      resolve();
+    } catch (error) {
+      reject(error.message);
+    }
+  })
 }
 
 function registerUser(email, password) {
@@ -49,9 +77,21 @@ function registerUser(email, password) {
   });
 }
 
+// function onAuthStateChanged(callback) {
+//   const auth = getAuth();
+//   return onFirebaseAuthStateChanged(auth, callback);
+// }
+
+const setLoggedInUser = user => {
+  localStorage.setItem('authUser', JSON.stringify(user));
+};
+
 const firebaseHelper = {
   loginUser,
-  registerUser
+  logoutUser,
+  registerUser,
+  setLoggedInUser,
+  // onAuthStateChanged
 };
 
 export default firebaseHelper;
