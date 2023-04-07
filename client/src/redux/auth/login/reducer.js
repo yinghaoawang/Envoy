@@ -1,4 +1,5 @@
 import { AuthLoginActionTypes } from './types';
+import firebaseHelper from '../../../helpers/firebase';
 
 const INIT_STATE = {
   error: '',
@@ -12,6 +13,7 @@ const Login = (state = INIT_STATE, action) => {
     case AuthLoginActionTypes.API_RESPONSE_SUCCESS:
       switch (action.payload.actionType) {
         case AuthLoginActionTypes.LOGIN_USER:
+          firebaseHelper.setLoggedInUser(action.payload.data);
           return {
             ...state,
             user: action.payload.data,
@@ -19,6 +21,7 @@ const Login = (state = INIT_STATE, action) => {
             isUserLoggedIn: true,
           };
         case AuthLoginActionTypes.LOGOUT_USER:
+          firebaseHelper.setLoggedInUser(null);
           return {
             ...state,
             loading: false,

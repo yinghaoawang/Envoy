@@ -9,10 +9,10 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // intercepting to capture errors
 axios.interceptors.response.use(
-  function (response: any) {
+  function (response) {
     return response.data ? response.data : response;
   },
-  function (error: any) {
+  function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     let message;
     switch (error.status) {
@@ -36,7 +36,7 @@ axios.interceptors.response.use(
  * Sets the default authorization
  * @param {*} token
  */
-const setAuthorization = (token: any) => {
+const setAuthorization = (token) => {
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 };
 
@@ -44,35 +44,35 @@ class APIClient {
   /**
    * Fetches data from given url
    */
-  get = (url: string, params?: {}) => {
+  get = (url, params = {}) => {
     return axios.get(url, params);
   };
 
   /**
    * post given data to url
    */
-  create = (url: string, data?: {}) => {
+  create = (url, data = {}) => {
     return axios.post(url, data);
   };
 
   /**
    * Updates data
    */
-  update = (url: string, data?: {}) => {
+  update = (url, data = {}) => {
     return axios.put(url, data);
   };
 
   /**
    * Delete
    */
-  delete = (url: string, config?: {}) => {
+  delete = (url, config = {}) => {
     return axios.delete(url, { ...config });
   };
 
   /*
    file upload update method
    */
-  updateWithFile = (url: string, data: any) => {
+  updateWithFile = (url, data) => {
     const formData = new FormData();
     for (const k in data) {
       formData.append(k, data[k]);
@@ -89,7 +89,7 @@ class APIClient {
   /*
    file upload post method
    */
-  createWithFile = (url: string, data: any) => {
+  createWithFile = (url, data) => {
     const formData = new FormData();
     for (const k in data) {
       formData.append(k, data[k]);
@@ -104,13 +104,4 @@ class APIClient {
   };
 }
 
-const getLoggedinUser = () => {
-  const user = localStorage.getItem('authUser');
-  if (!user) {
-    return null;
-  } else {
-    return JSON.parse(user);
-  }
-};
-
-export { APIClient, setAuthorization, getLoggedinUser };
+export { APIClient, setAuthorization };

@@ -31,7 +31,7 @@ initFirebase();
 
 function initFirebase() {
   const auth = getAuth();
-  onAuthStateChanged(auth, user => {
+  onAuthStateChanged(auth, (user) => {
     if (user) {
       setLoggedInUser(user);
     } else {
@@ -44,7 +44,11 @@ function loginUser(email, password) {
   return new Promise(async (resolve, reject) => {
     try {
       const auth = getAuth();
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       resolve(userCredential);
     } catch (error) {
       reject(error.message);
@@ -62,14 +66,18 @@ function logoutUser() {
     } catch (error) {
       reject(error.message);
     }
-  })
+  });
 }
 
 function registerUser(email, password) {
   return new Promise(async (resolve, reject) => {
     try {
       const auth = getAuth();
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       resolve(userCredential);
     } catch (error) {
       reject(error.message);
@@ -77,13 +85,14 @@ function registerUser(email, password) {
   });
 }
 
-// function onAuthStateChanged(callback) {
-//   const auth = getAuth();
-//   return onFirebaseAuthStateChanged(auth, callback);
-// }
+const setLoggedInUser = (user) => {
+  if (user == null) localStorage.removeItem('authUser');
+  else localStorage.setItem('authUser', JSON.stringify(user));
+};
 
-const setLoggedInUser = user => {
-  localStorage.setItem('authUser', JSON.stringify(user));
+const getLoggedInUser = () => {
+  if (!localStorage.getItem('authUser')) return null;
+  return JSON.parse(localStorage.getItem('authUser'));
 };
 
 const firebaseHelper = {
@@ -91,7 +100,7 @@ const firebaseHelper = {
   logoutUser,
   registerUser,
   setLoggedInUser,
-  // onAuthStateChanged
+  getLoggedInUser
 };
 
 export default firebaseHelper;

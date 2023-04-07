@@ -30,7 +30,6 @@ function* loginUser({ payload: { user } }) {
 }
 
 function* logoutUser() {
-  console.log('logout');
   try {
     yield call(firebaseHelper.logoutUser);
     yield put(authLoginApiResponseSuccess(AuthLoginActionTypes.LOGOUT_USER));
@@ -44,7 +43,9 @@ function* logoutUser() {
 function getAuthChannel() {
   return eventChannel((emit) => {
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => emit(user || 'null'));
+    const unsubscribe = onAuthStateChanged(auth, (user) =>
+      emit(user || 'null')
+    );
     return unsubscribe;
   });
 }
@@ -56,11 +57,10 @@ function* authWatch() {
     console.log(user);
     if (user !== 'null') {
       yield put(
-        authLoginApiResponseSuccess(
-          AuthLoginActionTypes.LOGIN_USER,
-          user
-        )
+        authLoginApiResponseSuccess(AuthLoginActionTypes.LOGIN_USER, user)
       );
+    } else {
+      yield put(authLoginApiResponseSuccess(AuthLoginActionTypes.LOGOUT_USER));
     }
   }
 }
