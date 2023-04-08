@@ -1,7 +1,9 @@
+import Leftbar from './Leftbar';
+
 const DefaultLayout = (props) => {
   return (
-    <div>
-      <div>Side Menu</div>
+    <div className="d-flex">
+      <Leftbar />
       {props.children}
     </div>
   );
