@@ -1,0 +1,17 @@
+:root {
+  --gray-800: #2e2e2e;
+  --gray-900: #222;
+  --gray-300: #555;
+}
+
+.bg-gray-800 {
+  background-color: var(--gray-800) !important;
+}
+
+.bg-gray-900 {
+  background-color: var(--gray-900) !important;
+}
+
+.border-gray-300 {
+  border-color: var(--gray-300) !important;
+}

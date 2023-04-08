@@ -1,5 +1,4 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import { TabContent, TabPane } from "reactstrap";
 
@@ -27,11 +26,11 @@ const Leftbar = (props) => {
 
   return (
     <div
-      className='d-flex flex-column flex-shrink-0 p-3 text-white bg-dark vh-100'
+      className='d-flex flex-column flex-shrink-0 p-3 text-white bg-gray-900 h-100'
       style={{ width: '280px' }}
     >
       <a
-        htmlHref='/'
+        htmlhref='/'
         className='d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none'
       >
         <svg className='bi me-2' width='40' height='32'></svg>
@@ -40,31 +39,31 @@ const Leftbar = (props) => {
       <hr />
       <ul className='nav nav-pills flex-column mb-auto'>
         <li className='nav-item'>
-          <a htmlHref='#' className='nav-link active' aria-current='page'>
+          <a htmlhref='#' className='nav-link active' aria-current='page'>
             <svg className='bi me-2' width='16' height='16'></svg>
             Home
           </a>
         </li>
         <li>
-          <a htmlHref='#' className='nav-link text-white'>
+          <a htmlhref='#' className='nav-link text-white'>
             <svg className='bi me-2' width='16' height='16'></svg>
             Dashboard
           </a>
         </li>
         <li>
-          <a htmlHref='#' className='nav-link text-white'>
+          <a htmlhref='#' className='nav-link text-white'>
             <svg className='bi me-2' width='16' height='16'></svg>
             Orders
           </a>
         </li>
         <li>
-          <a htmlHref='#' className='nav-link text-white'>
+          <a htmlhref='#' className='nav-link text-white'>
             <svg className='bi me-2' width='16' height='16'></svg>
             Products
           </a>
         </li>
         <li>
-          <a htmlHref='#' className='nav-link text-white'>
+          <a htmlhref='#' className='nav-link text-white'>
             <svg className='bi me-2' width='16' height='16'></svg>
             Customers
           </a>
@@ -73,7 +72,7 @@ const Leftbar = (props) => {
       <hr />
       <div className='dropdown'>
         <a
-          htmlHref='#'
+          htmlhref='#'
           className='d-flex align-items-center text-white text-decoration-none dropdown-toggle'
           id='dropdownUser1'
           data-bs-toggle='dropdown'
@@ -93,17 +92,17 @@ const Leftbar = (props) => {
           aria-labelledby='dropdownUser1'
         >
           <li>
-            <a className='dropdown-item' htmlHref='#'>
+            <a className='dropdown-item' htmlhref='#'>
               New project...
             </a>
           </li>
           <li>
-            <a className='dropdown-item' htmlHref='#'>
+            <a className='dropdown-item' htmlhref='#'>
               Settings
             </a>
           </li>
           <li>
-            <a className='dropdown-item' htmlHref='#'>
+            <a className='dropdown-item' htmlhref='#'>
               Profile
             </a>
           </li>
@@ -111,7 +110,7 @@ const Leftbar = (props) => {
             <hr className='dropdown-divider' />
           </li>
           <li>
-            <a className='dropdown-item' htmlHref='#'>
+            <a className='dropdown-item' htmlhref='#'>
               Sign out
             </a>
           </li>
