@@ -1,8 +1,10 @@
 import { useRedux } from '../../hooks';
 import { loginUser, logoutUser } from '../../redux/auth/login/actions';
 import { registerUser } from '../../redux/auth/register/actions';
+import { APIClient } from '../../api/apiCore';
 
 const Home = () => {
+  const api = new APIClient();
   const { dispatch,  useAppSelector } = useRedux();
   const { isUserLoggedIn, loginError, loginLoading, isUserLoggedOut } = useAppSelector(
     state => ({
@@ -19,8 +21,9 @@ const Home = () => {
       registerLoading: state.Register.loading
     })
   )
-  const onLogin = () => {
+  const onLogin = async () => {
     dispatch(loginUser({email: 'hey@email.com', password: 'password'}));
+    console.log(await api.get('/'));
   };
 
   const onLogout = () => {

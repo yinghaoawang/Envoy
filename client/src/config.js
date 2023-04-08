@@ -1,5 +1,5 @@
 const config = {
-  API_URL: "http://localhost:3000/",
+  API_URL: "http://localhost:1270/",
   FIREBASE: {
     API_KEY: process.env.REACT_APP_API_KEY,
     AUTH_DOMAIN: process.env.REACT_APP_AUTH_DOMAIN,
