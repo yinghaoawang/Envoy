@@ -65,6 +65,12 @@ const Login = (state = INIT_STATE, action) => {
         loading: false,
         isUserLoggedOut: false,
       };
+
+    case AuthLoginActionTypes.RESET_STATE:
+      return {
+        ...INIT_STATE
+      };
+
     default:
       return { ...state };
   }

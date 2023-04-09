@@ -4,8 +4,8 @@ const INIT_STATE = {
   error: '',
   loading: false,
   user: null,
-  isUserRegistereded: false
-}
+  isUserRegistered: false
+};
 
 const Register = (state = INIT_STATE, action) => {
   switch (action.type) {
@@ -17,7 +17,7 @@ const Register = (state = INIT_STATE, action) => {
             loading: false,
             user: action.payload.data,
             error: null,
-            isUserRegistereded: true
+            isUserRegistered: true
           };
         default:
           return { ...state };
@@ -29,8 +29,8 @@ const Register = (state = INIT_STATE, action) => {
             ...state,
             loading: false,
             error: action.payload.error,
-            isUserRegistereded: false
-          }
+            isUserRegistered: false
+          };
         default:
           return { ...state };
       }
@@ -38,12 +38,17 @@ const Register = (state = INIT_STATE, action) => {
       return {
         ...state,
         loading: true,
-        isUserRegistereded: false
-      }
+        isUserRegistered: false
+      };
+
+    case AuthRegisterActionTypes.RESET_STATE:
+      return {
+        ...INIT_STATE
+      };
 
     default:
       return { ...state };
   }
-}
+};
 
 export default Register;

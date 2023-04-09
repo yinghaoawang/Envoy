@@ -6,11 +6,12 @@ import { useRedux } from '../../hooks';
 import { loginUser } from '../../redux/auth/login/actions';
 import ErrorMessage from './ErrorMessage';
 import FormInput from '../../components/FormInput';
+import { emailPattern, passwordPattern } from '../../utils/patterns';
 
 const schema = yup
   .object({
-    email: yup.string().required().email().label('Email'),
-    password: yup.string().required().label('Password')
+    email: yup.string().required().matches(emailPattern, 'Email must be a valid email').label('Email'),
+    password: yup.string().required().matches(passwordPattern, 'Password must be a valid password').label('Password'),
   })
   .required();
 
@@ -26,7 +27,7 @@ const Login = (props) => {
   const { dispatch, useAppSelector } = useRedux();
   const { isLoading, loginError } = useAppSelector((state) => ({
     isLoading: state.Login.loading,
-    loginError: state.Login.error
+    loginError: state.Login.error,
   }));
 
   const onSubmit = (data) => {

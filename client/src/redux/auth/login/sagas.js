@@ -3,7 +3,7 @@ import { call, put, takeLatest, take, fork } from 'redux-saga/effects';
 import { AuthLoginActionTypes } from './types';
 import {
   authLoginApiResponseError,
-  authLoginApiResponseSuccess
+  authLoginApiResponseSuccess,
 } from './actions';
 import firebaseHelper from '../../../helpers/firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -53,13 +53,13 @@ function* authWatch() {
   const channel = yield call(getAuthChannel);
   while (true) {
     const user = yield take(channel);
-    console.log(user);
+    // TODO set user profile redux
     if (user !== 'null') {
       yield put(
-        authLoginApiResponseSuccess(AuthLoginActionTypes.LOGIN_USER, user)
+        call(firebaseHelper.setLoggedInUser, user)
       );
     } else {
-      yield put(authLoginApiResponseSuccess(AuthLoginActionTypes.LOGOUT_USER));
+      yield call(firebaseHelper.setLoggedInUser, null);
     }
   }
 }

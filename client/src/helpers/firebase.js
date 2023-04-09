@@ -61,7 +61,6 @@ function logoutUser() {
     try {
       const auth = getAuth();
       await signOut(auth);
-      console.log('sign out successful');
       resolve();
     } catch (error) {
       reject(error.message);

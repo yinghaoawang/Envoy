@@ -18,3 +18,7 @@ export const loginUser = (user) => ({
 export const logoutUser = () => ({
   type: AuthLoginActionTypes.LOGOUT_USER
 });
+
+export const resetLoginState = () => ({
+  type: AuthLoginActionTypes.RESET_STATE
+});

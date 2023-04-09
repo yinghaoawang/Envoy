@@ -1,28 +1,23 @@
-import React from 'react';
-
-// import { TabContent, TabPane } from "reactstrap";
+import React, { useEffect } from 'react';
 
 // hooks
 import { useRedux } from '../../hooks/index';
-
-// constants
-// import { TABS } from "../../constants/index";
-
-// // component
-// import Profile from "./Profile/index";
-// import Chats from "./Chats/index";
-// import Contacts from "./Contacts/index";
-// import Calls from "./Calls/index";
-// import Bookmark from "./Bookmark/index";
-// import Settings from "./Settings/index";
+import { useNavigate } from 'react-router-dom';
 
 const Leftbar = (props) => {
   // global store
   const { useAppSelector } = useRedux();
 
-  const { activeTab } = useAppSelector((state) => ({
-    activeTab: state.Layout.activeTab
+  const { activeTab, isUserLoggedOut } = useAppSelector((state) => ({
+    activeTab: state.Layout.activeTab,
+    isUserLoggedOut: state.Login.isUserLoggedOut
   }));
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isUserLoggedOut) navigate('/login');
+  }, [isUserLoggedOut]);
 
   return (
     <div

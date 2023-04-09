@@ -3,4 +3,5 @@ export const AuthLoginActionTypes = {
   API_RESPONSE_ERROR: 'API_RESPONSE',
   LOGIN_USER: 'LOGIN_USER',
   LOGOUT_USER: 'LOGOUT_USER',
+  RESET_STATE: 'RESET_STATE',
 }

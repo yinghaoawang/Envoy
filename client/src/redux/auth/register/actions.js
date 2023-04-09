@@ -14,3 +14,7 @@ export const registerUser = (user) => ({
   type: AuthRegisterActionTypes.REGISTER_USER,
   payload: { user }
 });
+
+export const resetRegisterState = () => ({
+  type: AuthRegisterActionTypes.RESET_STATE
+});
