@@ -8,7 +8,7 @@ const AuthProtected = (props) => {
 
   if (!userProfile && loading) {
     return (
-      <Navigate to={{ pathname: '/'}} />
+      <Navigate to={{ pathname: '/login'}} />
     );
   }
 

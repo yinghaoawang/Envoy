@@ -6,6 +6,8 @@ import {
   GridFill as DashboardIcon,
   PeopleFill as FriendsIcon
 } from 'react-bootstrap-icons';
+import { useRedux } from '../../hooks';
+import { logoutUser } from '../../redux/auth/login/actions';
 
 const MenuHeader = (props) => {
   return (
@@ -43,6 +45,11 @@ const MenuItem = (props) => {
 };
 
 const MenuDropdown = (props) => {
+  const { dispatch } = useRedux();
+  const onLogout = () => {
+    dispatch(logoutUser());
+  }
+
   return (
     <div className='dropdown border-top border-gray-300'>
       <a
@@ -78,9 +85,9 @@ const MenuDropdown = (props) => {
           <hr className='dropdown-divider' />
         </li>
         <li>
-          <a className='dropdown-item' href='#'>
+          <button className='dropdown-item' onClick={onLogout}>
             Sign out
-          </a>
+          </button>
         </li>
       </ul>
     </div>

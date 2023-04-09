@@ -4,6 +4,10 @@
   --gray-300: #555;
 }
 
+.bg-gray-300 {
+  background-color: var(--gray-300);
+}
+
 .bg-gray-800 {
   background-color: var(--gray-800) !important;
 }

@@ -30,7 +30,7 @@ const Leftbar = (props) => {
       style={{ width: '280px' }}
     >
       <a
-        htmlhref='/'
+        href='/'
         className='d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none'
       >
         <span className='fs-4'>Sidebar</span>
@@ -38,27 +38,27 @@ const Leftbar = (props) => {
       <hr />
       <ul className='nav nav-pills flex-column mb-auto'>
         <li className='nav-item'>
-          <a htmlhref='#' className='nav-link active' aria-current='page'>
+          <a href='#' className='nav-link active' aria-current='page'>
             Home
           </a>
         </li>
         <li>
-          <a htmlhref='#' className='nav-link text-white'>
+          <a href='#' className='nav-link text-white'>
             Dashboard
           </a>
         </li>
         <li>
-          <a htmlhref='#' className='nav-link text-white'>
+          <a href='#' className='nav-link text-white'>
             Orders
           </a>
         </li>
         <li>
-          <a htmlhref='#' className='nav-link text-white'>
+          <a href='#' className='nav-link text-white'>
             Products
           </a>
         </li>
         <li>
-          <a htmlhref='#' className='nav-link text-white'>
+          <a href='#' className='nav-link text-white'>
             Customers
           </a>
         </li>
@@ -66,7 +66,7 @@ const Leftbar = (props) => {
       <hr />
       <div className='dropdown'>
         <a
-          htmlhref='#'
+          href='#'
           className='d-flex align-items-center text-white text-decoration-none dropdown-toggle'
           id='dropdownUser1'
           data-bs-toggle='dropdown'
@@ -86,17 +86,17 @@ const Leftbar = (props) => {
           aria-labelledby='dropdownUser1'
         >
           <li>
-            <a className='dropdown-item' htmlhref='#'>
+            <a className='dropdown-item' href='#'>
               New project...
             </a>
           </li>
           <li>
-            <a className='dropdown-item' htmlhref='#'>
+            <a className='dropdown-item' href='#'>
               Settings
             </a>
           </li>
           <li>
-            <a className='dropdown-item' htmlhref='#'>
+            <a className='dropdown-item' href='#'>
               Profile
             </a>
           </li>
@@ -104,7 +104,7 @@ const Leftbar = (props) => {
             <hr className='dropdown-divider' />
           </li>
           <li>
-            <a className='dropdown-item' htmlhref='#'>
+            <a className='dropdown-item' href='#'>
               Sign out
             </a>
           </li>
