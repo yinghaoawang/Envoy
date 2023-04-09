@@ -19,3 +19,8 @@
 .border-gray-300 {
   border-color: var(--gray-300) !important;
 }
+
+.bg-pattern-1 {
+  background-repeat: repeat;
+  background-image: url("../images/bg-pattern/pattern-01.png");
+}

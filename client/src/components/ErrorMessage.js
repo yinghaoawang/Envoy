@@ -1,4 +1,4 @@
-import { ExclamationTriangleFill as WarningIcon } from 'react-bootstrap-icons';
+import { BsExclamationTriangleFill as WarningIcon } from 'react-icons/bs';
 
 const ErrorMessage = (props) => {
   return (

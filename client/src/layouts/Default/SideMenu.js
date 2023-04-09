@@ -1,22 +1,23 @@
 import { useEffect, useRef } from 'react';
 import { Tooltip } from 'bootstrap';
 import {
-  Explicit as LogoIcon,
-  HouseFill as HomeIcon,
-  GridFill as DashboardIcon,
-  PeopleFill as FriendsIcon
-} from 'react-bootstrap-icons';
+  BsExplicit as LogoIcon,
+  BsHouseFill as HomeIcon,
+  BsGridFill as DashboardIcon,
+  BsPeopleFill as FriendsIcon
+} from 'react-icons/bs';
 import { useRedux } from '../../hooks';
 import { logoutUser } from '../../redux/auth/login/actions';
 
 const MenuHeader = (props) => {
   return (
-    <a
-      href={props.href || '#'}
-      className='d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom border-gray-300 justify-content-center'
-    >
-      {props.children}
-    </a>
+    <div className='d-flex flex-column'>
+      <a
+        href={props.href || '#'}
+        className='d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none justify-content-center'
+      >{props.children}</a>
+      <hr className='sidebar-divider' />
+    </div>
   );
 };
 
@@ -32,7 +33,7 @@ const MenuItem = (props) => {
       <a
         ref={tooltipTriggerElement}
         href={props.href || '#'}
-        className='nav-link py-3 border-bottom border-gray-300 justify-content-center'
+        className='nav-link py-3 justify-content-center'
         aria-current='page'
         title={props.title}
         data-bs-toggle='tooltip'
@@ -48,7 +49,7 @@ const MenuDropdown = (props) => {
   const { dispatch } = useRedux();
   const onLogout = () => {
     dispatch(logoutUser());
-  }
+  };
 
   return (
     <div className='dropdown border-top border-gray-300'>
@@ -101,7 +102,7 @@ const SideMenu = (props) => {
       style={{ width: '4.5rem' }}
     >
       <MenuHeader href={'/'} title={'Bootstrap'}>
-        <LogoIcon color='white' size={30} />
+        <LogoIcon color='white' size={34} />
       </MenuHeader>
       <ul className='nav nav-pills nav-flush flex-column mb-auto text-center'>
         <MenuItem title={'Home'}>

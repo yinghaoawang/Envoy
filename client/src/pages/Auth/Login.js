@@ -4,9 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useRedux } from '../../hooks';
 import { loginUser } from '../../redux/auth/login/actions';
-import ErrorMessage from './ErrorMessage';
 import FormInput from '../../components/FormInput';
 import { emailPattern, passwordPattern } from '../../utils/patterns';
+import ErrorMessage from '../../components/ErrorMessage';
 
 const schema = yup
   .object({
@@ -39,7 +39,7 @@ const Login = (props) => {
     <AuthWrapper>
       <div className='card-body p-5'>
         <form className='mb-3' onSubmit={handleSubmit(onSubmit)}>
-          <h2 className='fw-bold mb-2'>Envoy</h2>
+          <h2 className='fw-bold mb-3'>Log in</h2>
           <div className='mb-3'>
             <FormInput label='Email address' name='email' placeholder='name@example.com' register={register} />
             <ErrorMessage message={errors.email?.message} />
