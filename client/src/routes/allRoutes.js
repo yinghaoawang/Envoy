@@ -1,8 +1,8 @@
 import Home from '../pages/Home';
 import Dashboard from '../pages/Dashboard';
 import Login from '../pages/Auth/Login';
-import Root from '../pages/Root';
 import Register from '../pages/Auth/Register';
+import Root from '../pages/Root';
 
 const publicRoutes = [
   { path: '/', component: <Root /> },

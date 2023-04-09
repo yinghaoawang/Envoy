@@ -9,7 +9,6 @@ import firebaseHelper from '../../../helpers/firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 function* loginUser({ payload: { user } }) {
-  console.log('login');
   try {
     const userCredential = yield call(
       firebaseHelper.loginUser,

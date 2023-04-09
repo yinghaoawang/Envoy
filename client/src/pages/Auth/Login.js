@@ -1,32 +1,51 @@
 import AuthWrapper from './AuthWrapper';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { useRedux } from '../../hooks';
+import { loginUser } from '../../redux/auth/login/actions';
+import ErrorMessage from './ErrorMessage';
+import FormInput from '../../components/FormInput';
+
+const schema = yup
+  .object({
+    email: yup.string().required().email().label('Email'),
+    password: yup.string().required().label('Password')
+  })
+  .required();
 
 const Login = (props) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    resolver: yupResolver(schema)
+  });
+
+  const { dispatch, useAppSelector } = useRedux();
+  const { isLoading, loginError } = useAppSelector((state) => ({
+    isLoading: state.Login.loading,
+    loginError: state.Login.error
+  }));
+
+  const onSubmit = (data) => {
+    if (isLoading) return;
+    dispatch(loginUser(data));
+  };
+
   return (
     <AuthWrapper>
       <div className='card-body p-5'>
-        <form className='mb-3'>
+        <form className='mb-3' onSubmit={handleSubmit(onSubmit)}>
           <h2 className='fw-bold mb-2'>Envoy</h2>
           <div className='mb-3'>
-            <label htmlFor='email' className='form-label '>
-              Email address
-            </label>
-            <input
-              type='email'
-              className='form-control'
-              id='email'
-              placeholder='name@example.com'
-            />
+            <FormInput label='Email address' name='email' placeholder='name@example.com' register={register} />
+            <ErrorMessage message={errors.email?.message} />
           </div>
           <div className='mb-3'>
-            <label htmlFor='password' className='form-label '>
-              Password
-            </label>
-            <input
-              type='password'
-              className='form-control'
-              id='password'
-              placeholder='*******'
-            />
+            <FormInput label='Password' name='password' placeholder='*******' type='password' register={register} />
+            <ErrorMessage message={errors.password?.message} />
           </div>
           <p className='small'>
             <a className='text-primary' href='forget-password.html'>
@@ -34,10 +53,15 @@ const Login = (props) => {
             </a>
           </p>
           <div className='d-grid'>
-            <button className='btn btn-primary' type='submit'>
+            <button
+              disabled={isLoading}
+              className='btn btn-primary'
+              type='submit'
+            >
               Login
             </button>
           </div>
+          <ErrorMessage message={loginError} />
         </form>
         <div>
           <p className='mb-0 text-center'>

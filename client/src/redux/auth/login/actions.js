@@ -18,8 +18,3 @@ export const loginUser = (user) => ({
 export const logoutUser = () => ({
   type: AuthLoginActionTypes.LOGOUT_USER
 });
-
-export const socialLogin = (data, type) => ({
-  type: AuthLoginActionTypes.SOCIAL_LOGIN,
-  payload: { data, type }
-});
