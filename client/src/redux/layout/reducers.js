@@ -1,8 +1,18 @@
-const INIT_STATE = {
+import { LayoutActionTypes } from './types';
 
+const INIT_STATE = {
+  activeTab: null,
 }
 const Layout = (state = INIT_STATE, action) => {
-  return { ...state };
+  switch (action.type) {
+    case LayoutActionTypes.SWITCH_TAB:
+      return {
+        ...state,
+        activeTab: action.payload.data
+      }
+    default:
+      return { ...state };
+  }
 }
 
 export default Layout;

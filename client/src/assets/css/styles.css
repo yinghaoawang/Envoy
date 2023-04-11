@@ -104,3 +104,7 @@ html {
 .sidebar-divider {
   margin: 4px 6px;
 }
+
+.hover-dim:hover {
+  opacity: .5;
+}

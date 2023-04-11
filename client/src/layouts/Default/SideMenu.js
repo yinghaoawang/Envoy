@@ -1,13 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { Tooltip } from 'bootstrap';
-import {
-  BsExplicit as LogoIcon,
-  BsHouseFill as HomeIcon,
-  BsGridFill as DashboardIcon,
-  BsPeopleFill as FriendsIcon
-} from 'react-icons/bs';
+import { BsExplicitFill as LogoIcon } from 'react-icons/bs';
+
 import { useRedux } from '../../hooks';
 import { logoutUser } from '../../redux/auth/login/actions';
+import { tabs } from '../../data';
+import { switchTab } from '../../redux/layout/actions';
 
 const MenuHeader = (props) => {
   return (
@@ -15,31 +13,49 @@ const MenuHeader = (props) => {
       <a
         href={props.href || '#'}
         className='d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none justify-content-center'
-      >{props.children}</a>
+      >
+        {props.children}
+      </a>
       <hr className='sidebar-divider' />
     </div>
   );
 };
 
-const MenuItem = (props) => {
+const MenuTabItem = (props) => {
+  const { dispatch, useAppSelector } = useRedux();
+  const { activeTab } = useAppSelector((state) => ({
+    activeTab: state.Layout.activeTab
+  }));
+
   const tooltipTriggerElement = useRef();
+  const { tab } = props;
 
   useEffect(() => {
-    const tooltip = new Tooltip(tooltipTriggerElement.current);
+    const tooltip = new Tooltip(tooltipTriggerElement.current, {
+      trigger: 'hover'
+    });
   }, []);
+  const IconComponent = tab.icon.component;
 
   return (
     <li className='nav-item'>
       <a
         ref={tooltipTriggerElement}
         href={props.href || '#'}
-        className='nav-link py-3 justify-content-center'
+        className='nav-link py-3 justify-content-center hover-dim'
         aria-current='page'
         title={props.title}
         data-bs-toggle='tooltip'
         data-bs-placement='right'
+        onClick={() => {
+          console.log('hey');
+          dispatch(switchTab(tab));
+        }}
       >
-        {props.children}
+        <IconComponent
+          size={tab.icon.size}
+          color={activeTab?.id === tab.id ? '#0a58ca' : 'white'}
+        />
       </a>
     </li>
   );
@@ -102,19 +118,12 @@ const SideMenu = (props) => {
       style={{ width: '4.5rem' }}
     >
       <MenuHeader href={'/'} title={'Bootstrap'}>
-        <LogoIcon color='white' size={34} />
+        <LogoIcon color='#0a58ca' size={34} />
       </MenuHeader>
       <ul className='nav nav-pills nav-flush flex-column mb-auto text-center'>
-        <MenuItem title={'Home'}>
-          <HomeIcon color='white' size={26} />
-        </MenuItem>
-
-        <MenuItem title={'Dashboard'}>
-          <DashboardIcon color='white' size={26} />
-        </MenuItem>
-        <MenuItem title={'Friends'}>
-          <FriendsIcon color='white' size={26} />
-        </MenuItem>
+        {tabs.map((tab) => {
+          return <MenuTabItem title={tab.title} tab={tab} />;
+        })}
       </ul>
       <MenuDropdown />
     </div>
