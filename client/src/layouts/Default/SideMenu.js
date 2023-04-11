@@ -48,12 +48,11 @@ const MenuTabItem = (props) => {
         data-bs-toggle='tooltip'
         data-bs-placement='right'
         onClick={() => {
-          console.log('hey');
           dispatch(switchTab(tab));
         }}
       >
         <IconComponent
-          size={tab.icon.size}
+          {...(tab.icon.props || {})}
           color={activeTab?.id === tab.id ? '#0a58ca' : 'white'}
         />
       </a>
@@ -67,12 +66,15 @@ const MenuDropdown = (props) => {
     dispatch(logoutUser());
   };
 
+  const profileTab = tabs.find((t) => t.title.toLowerCase() === 'profile');
+  const settingsTab = tabs.find((t) => t.title.toLowerCase() === 'settings');
+
   return (
     <div className='dropdown border-top border-gray-300'>
       <a
         href='#'
         className='d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle'
-        id='dropdownUser3'
+        id='dropdownUser'
         data-bs-toggle='dropdown'
         aria-expanded='false'
       >
@@ -86,18 +88,31 @@ const MenuDropdown = (props) => {
       </a>
       <ul
         className='dropdown-menu dropdown-menu-dark text-small shadow'
-        aria-labelledby='dropdownUser3'
+        aria-labelledby='dropdownUser'
       >
         <li>
-          <a className='dropdown-item' href='#'>
-            Settings
-          </a>
-        </li>
-        <li>
-          <a className='dropdown-item' href='#'>
+          <a
+            onClick={() => {
+              dispatch(switchTab(profileTab));
+            }}
+            className='dropdown-item'
+            href='#'
+          >
             Profile
           </a>
         </li>
+        <li>
+          <a
+            onClick={() => {
+              dispatch(switchTab(settingsTab));
+            }}
+            className='dropdown-item'
+            href='#'
+          >
+            Settings
+          </a>
+        </li>
+
         <li>
           <hr className='dropdown-divider' />
         </li>
@@ -117,12 +132,12 @@ const SideMenu = (props) => {
       className='d-flex flex-column flex-shrink-0 text-white bg-gray-800 vh-100'
       style={{ width: '4.5rem' }}
     >
-      <MenuHeader href={'/'} title={'Bootstrap'}>
+      <MenuHeader title={'Bootstrap'}>
         <LogoIcon color='#0a58ca' size={34} />
       </MenuHeader>
       <ul className='nav nav-pills nav-flush flex-column mb-auto text-center'>
-        {tabs.map((tab) => {
-          return <MenuTabItem title={tab.title} tab={tab} />;
+        {tabs.map((tab, idx) => {
+          return <MenuTabItem key={idx} title={tab.title} tab={tab} />;
         })}
       </ul>
       <MenuDropdown />

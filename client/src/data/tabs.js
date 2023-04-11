@@ -14,6 +14,8 @@ import {
 import {
   IoSettingsOutline as SettingsIcon,
 } from 'react-icons/io5';
+import Profile from '../pages/Dashboard/Profile';
+import ProfileLeftbar from '../pages/Dashboard/Profile/ProfileLeftbar';
 
 export const tabs = [
   {
@@ -21,15 +23,25 @@ export const tabs = [
     title: 'Profile',
     icon: {
       component: ProfileIcon,
-      size: 26
-    }
+      props: {
+        size: 26
+      }
+    },
+    leftbar: {
+      component: ProfileLeftbar,
+    },
+    content: {
+      component: Profile
+    },
   },
   {
     id: 2,
     title: 'Channels',
     icon: {
       component: ChannelsIcon,
-      size: 28
+      props: {
+        size: 28
+      }
     }
   },
   {
@@ -37,7 +49,9 @@ export const tabs = [
     title: 'Messages',
     icon: {
       component: MessagesIcon,
-      size: 25
+      props: {
+        size: 25
+      }
     }
   },
   {
@@ -45,7 +59,9 @@ export const tabs = [
     title: 'Friends',
     icon: {
       component: FriendsIcon,
-      size: 24
+      props: {
+        size: 24
+      }
     }
   },
   {
@@ -53,7 +69,9 @@ export const tabs = [
     title: 'Settings',
     icon: {
       component: SettingsIcon,
-      size: 26
+      props: {
+        size: 26
+      }
     }
   },
 ];
