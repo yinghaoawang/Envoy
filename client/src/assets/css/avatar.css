@@ -51,7 +51,7 @@
   } */
 }
 
-body[data-layout-mode="dark"] {
+body[data-layout-mode='dark'] {
   /* .avatar-group {
     .avatar-group-item {
       border-color: $gray-dark-200;

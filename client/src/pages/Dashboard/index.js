@@ -5,7 +5,7 @@ import Content from './Content';
 const Dashboard = (props) => {
   const { userProfile } = useProfile();
   return (
-    <div className="d-flex w-100">
+    <div className='d-flex w-100'>
       <Leftbar></Leftbar>
       <Content />
     </div>
