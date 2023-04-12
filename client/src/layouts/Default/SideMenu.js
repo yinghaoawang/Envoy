@@ -1,20 +1,25 @@
 import { useEffect, useRef } from 'react';
 import { Tooltip } from 'bootstrap';
-import { BsExplicitFill as LogoIcon } from 'react-icons/bs';
 
 import { useRedux } from '../../hooks';
 import { logoutUser } from '../../redux/auth/login/actions';
-import { tabs } from '../../data';
+import { rootTab, tabs } from '../../data';
 import { switchTab } from '../../redux/layout/actions';
 
 const MenuHeader = (props) => {
+  const { dispatch } = useRedux();
+  const { tab } = props;
+  const IconComponent = tab.icon.component;
   return (
     <div className='d-flex flex-column'>
       <a
         href={props.href || '#'}
-        className='d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none justify-content-center'
+        className='d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none justify-content-center hover-dim'
+        onClick={() => {
+          dispatch(switchTab(tab));
+        }}
       >
-        {props.children}
+        <IconComponent {...(tab.icon.props || {})} color={'#0a58ca'} />
       </a>
       <hr className='sidebar-divider' />
     </div>
@@ -72,7 +77,7 @@ const MenuDropdown = (props) => {
   return (
     <div className='dropdown border-top border-gray-300'>
       <a
-        href='#'
+        href='#!'
         className='d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle'
         id='dropdownUser'
         data-bs-toggle='dropdown'
@@ -96,7 +101,7 @@ const MenuDropdown = (props) => {
               dispatch(switchTab(profileTab));
             }}
             className='dropdown-item'
-            href='#'
+            href='#!'
           >
             Profile
           </a>
@@ -107,7 +112,7 @@ const MenuDropdown = (props) => {
               dispatch(switchTab(settingsTab));
             }}
             className='dropdown-item'
-            href='#'
+            href='#!'
           >
             Settings
           </a>
@@ -132,9 +137,7 @@ const SideMenu = (props) => {
       className='d-flex flex-column flex-shrink-0 text-white bg-gray-800 vh-100'
       style={{ width: '4.5rem' }}
     >
-      <MenuHeader title={'Bootstrap'}>
-        <LogoIcon color='#0a58ca' size={34} />
-      </MenuHeader>
+      <MenuHeader tab={rootTab}></MenuHeader>
       <ul className='nav nav-pills nav-flush flex-column mb-auto text-center'>
         {tabs.map((tab, idx) => {
           return <MenuTabItem key={idx} title={tab.title} tab={tab} />;

@@ -1,6 +1,6 @@
 const Profile = () => {
   return (
-    <div className='container py-5'>
+    <div className='px-5 py-5'>
       <div className='row d-flex justify-content-center align-items-center h-100'>
         <div className='col col-lg-9 col-xl-7 w-100'>
           <div className='card'>

@@ -23,7 +23,7 @@ const Content = (props) => {
   }));
 
   return (
-    <div className='w-100 bg-pattern-1 bg-gray-800 align-items-center text-white overflow-auto'>
+    <div className='w-100 bg-gray-800 align-items-center text-white overflow-auto'>
       <ActiveContentComponent activeTab={activeTab} />
     </div>
   );

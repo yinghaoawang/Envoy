@@ -1,11 +1,29 @@
 :root {
+  --gray-300: #555;
+  --gray-700: #333;
   --gray-800: #2e2e2e;
   --gray-900: #222;
-  --gray-300: #555;
+  --gray-950: #111;
+}
+
+.text-a-primary {
+  color: var(--gray-300) !important;
+}
+
+.text-a-secondary {
+
+}
+
+.text-a-link {
+
 }
 
 .bg-gray-300 {
-  background-color: var(--gray-300);
+  background-color: var(--gray-300) !important;
+}
+
+.bg-gray-700 {
+  background-color: var(--gray-700) !important;
 }
 
 .bg-gray-800 {

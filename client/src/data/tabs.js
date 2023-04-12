@@ -1,21 +1,38 @@
 import {
   BsPersonCircle as ProfileIcon,
-  BsPeople as FriendsIcon,
+  BsPeople as FriendsIcon
 } from 'react-icons/bs';
 
-import {
-  RiHashtag as ChannelsIcon,
-} from 'react-icons/ri';
+import { BsExplicitFill as LogoIcon } from 'react-icons/bs';
 
-import {
-  BiMessage as MessagesIcon,
-} from 'react-icons/bi';
 
-import {
-  IoSettingsOutline as SettingsIcon,
-} from 'react-icons/io5';
+import { RiHashtag as ChannelsIcon } from 'react-icons/ri';
+
+import { BiMessage as MessagesIcon } from 'react-icons/bi';
+
+import { IoSettingsOutline as SettingsIcon } from 'react-icons/io5';
 import Profile from '../pages/Dashboard/Profile';
 import ProfileLeftbar from '../pages/Dashboard/Profile/ProfileLeftbar';
+import PlaceholderSidebar from '../components/PlaceholderSidebar';
+import Welcome from '../components/Welcome';
+import Messages from '../pages/Dashboard/Messages';
+import MessagesLeftbar from '../pages/Dashboard/Messages/MessagesLeftbar';
+
+export const rootTab = {
+  id: -1,
+  icon: {
+    component: LogoIcon,
+    props: {
+      size: 34
+    },
+  },
+  leftbar: {
+    component: PlaceholderSidebar,
+  },
+  content: {
+    component: Welcome
+  }
+};
 
 export const tabs = [
   {
@@ -28,11 +45,11 @@ export const tabs = [
       }
     },
     leftbar: {
-      component: ProfileLeftbar,
+      component: ProfileLeftbar
     },
     content: {
       component: Profile
-    },
+    }
   },
   {
     id: 2,
@@ -52,6 +69,12 @@ export const tabs = [
       props: {
         size: 25
       }
+    },
+    leftbar: {
+      component: MessagesLeftbar,
+    },
+    content: {
+      component: Messages
     }
   },
   {
@@ -73,5 +96,5 @@ export const tabs = [
         size: 26
       }
     }
-  },
+  }
 ];

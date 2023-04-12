@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 // hooks
 import { useRedux } from '../../hooks/index';
 import { useNavigate } from 'react-router-dom';
+import PlaceholderSidebar from '../../components/PlaceholderSidebar';
 
 const ActiveLeftbarComponent = (props) => {
   const { useAppSelector } = useRedux();
@@ -18,7 +19,7 @@ const ActiveLeftbarComponent = (props) => {
     }
   }, [activeTab]);
 
-  if (activeComponent == null) return 'welcome';
+  if (activeComponent == null) return <PlaceholderSidebar />
 
   return activeComponent;
 }
