@@ -1,6 +1,6 @@
 import {
   BsPersonCircle as ProfileIcon,
-  BsPeople as FriendsIcon
+  BsPeople as PeopleIcon
 } from 'react-icons/bs';
 
 import { BsExplicitFill as LogoIcon } from 'react-icons/bs';
@@ -17,6 +17,9 @@ import PlaceholderSidebar from '../components/PlaceholderSidebar';
 import Welcome from '../components/Welcome';
 import Messages from '../pages/Dashboard/Messages';
 import MessagesLeftbar from '../pages/Dashboard/Messages/MessagesLeftbar';
+import ChannelsLeftbar from '../pages/Dashboard/Channels/ChannelsLeftbar';
+import SettingsLeftbar from '../pages/Dashboard/Settings/SettingsLeftbar';
+import PeopleLeftbar from '../pages/Dashboard/People/PeopleLeftbar';
 
 export const rootTab = {
   id: -1,
@@ -59,6 +62,9 @@ export const tabs = [
       props: {
         size: 28
       }
+    },
+    leftbar: {
+      component: ChannelsLeftbar
     }
   },
   {
@@ -74,17 +80,20 @@ export const tabs = [
       component: MessagesLeftbar,
     },
     content: {
-      component: Messages
+      // component: Messages
     }
   },
   {
     id: 4,
-    title: 'Friends',
+    title: 'People',
     icon: {
-      component: FriendsIcon,
+      component: PeopleIcon,
       props: {
         size: 24
       }
+    },
+    leftbar: {
+      component: PeopleLeftbar
     }
   },
   {
@@ -95,6 +104,9 @@ export const tabs = [
       props: {
         size: 26
       }
+    },
+    leftbar: {
+      component: SettingsLeftbar
     }
   }
 ];
