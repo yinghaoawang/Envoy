@@ -3,7 +3,6 @@ import { AuthRegisterActionTypes } from './types';
 const INIT_STATE = {
   error: '',
   loading: false,
-  user: null,
   isUserRegistered: false
 };
 
@@ -15,7 +14,6 @@ const Register = (state = INIT_STATE, action) => {
           return {
             ...state,
             loading: false,
-            user: action.payload.data,
             error: null,
             isUserRegistered: true
           };

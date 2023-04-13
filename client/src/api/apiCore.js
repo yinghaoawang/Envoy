@@ -51,14 +51,14 @@ class APIClient {
   /**
    * post given data to url
    */
-  create = (url, data = {}) => {
+  post = (url, data = {}) => {
     return axios.post(url, data);
   };
 
   /**
    * Updates data
    */
-  update = (url, data = {}) => {
+  put = (url, data = {}) => {
     return axios.put(url, data);
   };
 

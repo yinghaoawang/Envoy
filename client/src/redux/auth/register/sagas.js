@@ -4,12 +4,12 @@ import {
   authRegisterApiResponseSuccess
 } from './actions';
 import { AuthRegisterActionTypes } from './types';
-import firebaseHelper from '../../../helpers/firebase';
+import authHelper from '../../../helpers/authHelper';
 
 function* registerUser({ payload: { user } }) {
   try {
     const userCredential = yield call(
-      firebaseHelper.registerUser,
+      authHelper.registerUser,
       user.email,
       user.password
     );

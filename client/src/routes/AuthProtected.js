@@ -6,13 +6,11 @@ import { useProfile } from '../hooks/index';
 const AuthProtected = (props) => {
   const { userProfile, loading } = useProfile();
 
-  if (!userProfile && loading) {
-    return (
-      <Navigate to={{ pathname: '/login'}} />
-    );
-  }
+  // if (!userProfile && loading) {
+    return <Navigate to={{ pathname: '/login' }} />;
+  // }
 
-  return <>{props.children}</>;
+  // return <>{props.children}</>;
 };
 
 export { AuthProtected };
