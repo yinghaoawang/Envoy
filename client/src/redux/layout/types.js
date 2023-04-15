@@ -1,3 +1,5 @@
 export const LayoutActionTypes = {
   SWITCH_TAB: 'SWITCH_TAB',
+  SWITCH_CONTENT: 'SWITCH_CONTENT',
+  RESET_STATE: 'RESET_STATE'
 };

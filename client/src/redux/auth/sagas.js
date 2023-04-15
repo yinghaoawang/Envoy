@@ -1,8 +1,9 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { AuthActionTypes } from './types';
-import { authSuccess, authError } from './actions';
+import { authSuccess, authError, resetAuthState } from './actions';
 import authApi from '../../api/authApi';
-import { setUser } from '../profile/actions';
+import { resetProfileState, setUser } from '../profile/actions';
+import { resetLayoutState } from '../layout/actions';
 
 function* loginUser({ payload: { user } }) {
   try {
@@ -22,7 +23,9 @@ function* loginUser({ payload: { user } }) {
 function* logoutUser() {
   try {
     yield call(authApi.logoutUser);
-    yield put(setUser(null));
+    yield put(resetAuthState());
+    yield put(resetProfileState());
+    yield put(resetLayoutState());
     yield put(authSuccess());
   } catch (error) {
     yield put(authError(error));

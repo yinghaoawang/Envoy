@@ -1,12 +1,23 @@
 import { useEffect, useState } from 'react';
 import channelsApi from '../../../api/channelsApi';
+import { useRedux } from '../../../hooks';
+import { switchContent } from '../../../redux/layout/actions';
+import Channels from '.';
 
 const ChannelListItem = (props) => {
+  const { dispatch } = useRedux();
   const { channel } = props;
+  const content = {
+    component: Channels,
+    props: {
+      channel: channel
+    }
+  };
   return (
     <>
       <li className='py-3'>
         <a
+          onClick={() => dispatch(switchContent(content))}
           href='#!'
           className='d-flex text-decoration-none align-items-center text-light hover-dim'
         >

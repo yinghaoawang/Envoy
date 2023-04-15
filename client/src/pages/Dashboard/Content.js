@@ -2,21 +2,22 @@ import Welcome from '../../components/Welcome';
 import { useRedux } from '../../hooks';
 
 const ActiveContentComponent = (props) => {
-  const { activeTab } = props;
+  const { activeContent } = props;
 
-  if (activeTab?.content?.component) return <activeTab.content.component />;
+  if (activeContent?.component)
+    return <activeContent.component {...activeContent.props} />;
   return <Welcome />;
 };
 
 const Content = (props) => {
   const { useAppSelector } = useRedux();
-  const { activeTab } = useAppSelector((state) => ({
-    activeTab: state.Layout.activeTab
+  const { activeContent } = useAppSelector((state) => ({
+    activeContent: state.Layout.activeContent
   }));
 
   return (
     <div className='w-100 bg-gray-800 align-items-center text-white overflow-auto'>
-      <ActiveContentComponent activeTab={activeTab} />
+      <ActiveContentComponent activeContent={activeContent} />
     </div>
   );
 };

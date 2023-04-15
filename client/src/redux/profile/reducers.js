@@ -9,6 +9,11 @@ const Profile = (state = INIT_STATE, action) => {
     case ProfileActionTypes.SET_USER: {
       return { ...state, user: action.payload.user };
     }
+    case ProfileActionTypes.RESET_STATE: {
+      return {
+        ...INIT_STATE
+      }
+    }
     default:
       return { ...state };
   }
