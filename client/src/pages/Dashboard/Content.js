@@ -1,19 +1,11 @@
-import { useEffect, useState } from 'react';
 import Welcome from '../../components/Welcome';
 import { useRedux } from '../../hooks';
 
 const ActiveContentComponent = (props) => {
   const { activeTab } = props;
 
-  const [activeComponent, setActiveComponent] = useState(null);
-
-  useEffect(() => {
-    if (activeTab?.content?.component) setActiveComponent(activeTab.content.component);
-  }, [activeTab]);
-
-  if (activeComponent == null) return <Welcome />
-
-  return activeComponent;
+  if (activeTab?.content?.component) return <activeTab.content.component />;
+  return <Welcome />;
 };
 
 const Content = (props) => {

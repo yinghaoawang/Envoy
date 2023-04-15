@@ -1,8 +1,7 @@
-import React from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 import { BiMessageAltDetail as MessageIcon } from 'react-icons/bi';
 
-const Welcome = () => {
+const Welcome = (props) => {
   return (
     <div className='chat-welcome-section'>
       <Row className='w-100 justify-content-center'>

@@ -1,4 +1,10 @@
-const Profile = () => {
+import { useSelector } from 'react-redux';
+
+const Profile = (props) => {
+  const { user } = useSelector((state) => ({
+    user: state.Profile.user
+  }));
+
   return (
     <div className='px-5 py-5'>
       <div className='row d-flex justify-content-center align-items-center h-100'>
@@ -28,11 +34,14 @@ const Profile = () => {
                 </button>
               </div>
               <div className='ms-3' style={{ marginTop: '130px' }}>
-                <h5>Andy Horwitz</h5>
+                <h5>{user.email}</h5>
                 <p>New York</p>
               </div>
             </div>
-            <div className='p-4 text-black' style={{ backgroundColor: '#f8f9fa' }}>
+            <div
+              className='p-4 text-black'
+              style={{ backgroundColor: '#f8f9fa' }}
+            >
               <div className='d-flex justify-content-end text-center py-1'>
                 <div>
                   <p className='mb-1 h5'>253</p>
