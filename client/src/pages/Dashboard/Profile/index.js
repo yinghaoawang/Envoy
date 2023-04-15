@@ -1,9 +1,7 @@
-import { useSelector } from 'react-redux';
+import { useProfile } from '../../../hooks';
 
 const Profile = (props) => {
-  const { user } = useSelector((state) => ({
-    user: state.Profile.user
-  }));
+  const { userProfile } = useProfile();
 
   return (
     <div className='px-5 py-5'>
@@ -34,7 +32,7 @@ const Profile = (props) => {
                 </button>
               </div>
               <div className='ms-3' style={{ marginTop: '130px' }}>
-                <h5>{user.email}</h5>
+                <h5>{userProfile.email}</h5>
                 <p>New York</p>
               </div>
             </div>

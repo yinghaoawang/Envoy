@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useRedux } from '../../hooks';
-import { loginUser } from '../../redux/auth/login/actions';
+import { loginUser } from '../../redux/auth/actions';
 import FormInput from '../../components/FormInput';
 import { emailPattern, passwordPattern } from '../../utils/patterns';
 import ErrorMessage from '../../components/ErrorMessage';
@@ -26,8 +26,8 @@ const Login = (props) => {
 
   const { dispatch, useAppSelector } = useRedux();
   const { isLoading, loginError } = useAppSelector((state) => ({
-    isLoading: state.Login.loading,
-    loginError: state.Login.error,
+    isLoading: state.Auth.loading,
+    loginError: state.Auth.error,
   }));
 
   const onSubmit = (data) => {

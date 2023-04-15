@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Tooltip } from 'bootstrap';
 
 import { useRedux } from '../../hooks';
-import { logoutUser } from '../../redux/auth/login/actions';
+import { logoutUser } from '../../redux/auth/actions';
 import { rootTab, tabs } from '../../data';
 import { switchTab } from '../../redux/layout/actions';
 

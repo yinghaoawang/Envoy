@@ -4,7 +4,7 @@ import AuthWrapper from './AuthWrapper';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useRedux } from '../../hooks';
-import { registerUser } from '../../redux/auth/register/actions';
+import { registerUser } from '../../redux/auth/actions';
 import { emailPattern, passwordPattern } from '../../utils/patterns';
 import ErrorMessage from '../../components/ErrorMessage';
 
@@ -32,8 +32,8 @@ const Register = (props) => {
   const { dispatch, useAppSelector } = useRedux();
 
   const { isLoading, registerError } = useAppSelector((state) => ({
-    isLoading: state.Register.loading,
-    registerError: state.Register.error
+    isLoading: state.Auth.loading,
+    registerError: state.Auth.error
   }));
 
   const onSubmit = (data) => {
