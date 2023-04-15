@@ -5,11 +5,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useRedux } from '../../hooks';
 import { registerUser } from '../../redux/auth/actions';
-import { emailPattern, passwordPattern } from '../../utils/patterns';
+import { displayNamePattern, emailPattern, passwordPattern } from '../../utils/patterns';
 import ErrorMessage from '../../components/ErrorMessage';
 
 const schema = yup
   .object({
+    displayName: yup.string().required().matches(displayNamePattern, 'Display name must be valid').label('Display name'),
     email: yup.string().required().matches(emailPattern, 'Email must be a valid email').label('Email'),
     password: yup.string().required().matches(passwordPattern, 'Password must be a valid password').label('Password'),
     confirmPassword: yup
@@ -46,6 +47,15 @@ const Register = (props) => {
       <div className='card-body p-5'>
         <form className='mb-3' onSubmit={handleSubmit(onSubmit)}>
           <h2 className='fw-bold mb-3'>Sign up</h2>
+          <div className='mb-3'>
+            <FormInput
+              label='Display name'
+              name='displayName'
+              placeholder='JohnDoe42'
+              register={register}
+            />
+            <ErrorMessage message={errors.displayName?.message} />
+          </div>
           <div className='mb-3'>
             <FormInput
               label='Email'

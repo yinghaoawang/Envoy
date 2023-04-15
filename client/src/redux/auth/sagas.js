@@ -37,7 +37,8 @@ function* registerUser({ payload: { user } }) {
     const userData = yield call(
       authApi.registerUser,
       user.email,
-      user.password
+      user.password,
+      {displayName: user.displayName}
     );
     yield put(setUser(userData));
     yield put(authSuccess());

@@ -4,7 +4,7 @@ import * as url from './urls';
 function loginUser(email, password) {
   return new Promise(async (resolve, reject) => {
     try {
-      const user = await api.post(url.LOGIN, {email, password});
+      const user = await api.post(url.LOGIN, { email, password });
       resolve(user);
     } catch (error) {
       reject(error);
@@ -27,19 +27,21 @@ function getSessionUser() {
   return new Promise(async (resolve, reject) => {
     try {
       const user = await api.get(url.GET_SESSION_USER);
-      console.log('got session user');
       resolve(user);
     } catch (error) {
       reject(error);
     }
-  })
+  });
 }
 
-function registerUser(email, password) {
+function registerUser(email, password, additionalFields = {}) {
   return new Promise(async (resolve, reject) => {
     try {
-      const user = await api.post('register', {email, password});
-      console.log('user registered', user);
+      const user = await api.post('register', {
+        email,
+        password,
+        ...additionalFields
+      });
       resolve(user);
     } catch (error) {
       reject(error);

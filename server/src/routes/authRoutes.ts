@@ -26,7 +26,8 @@ router.post('/register', async (req: any, res: any, next: any) => {
       32,
       'sha256'
     );
-    const user = { email: req.body.email, hashedPassword, salt };
+    const user = { displayName: req.body.displayName, email: req.body.email, hashedPassword, salt };
+    console.log(req.body);
     const userData = await prisma.user.create({ data: user });
     passport.serializeUser(userData, (err: any, user: any) => {
       if (err) {

@@ -32,7 +32,7 @@ const Profile = (props) => {
                 </button>
               </div>
               <div className='ms-3' style={{ marginTop: '130px' }}>
-                <h5>{userProfile.email}</h5>
+                <h5>{userProfile?.displayName || 'Unknown'}</h5>
                 <p>New York</p>
               </div>
             </div>
@@ -58,13 +58,11 @@ const Profile = (props) => {
             <div className='card-body p-4 text-black'>
               <div className='mb-5'>
                 <p className='lead fw-normal mb-1'>About</p>
-                <div className='p-4' style={{ backgroundColor: '#f8f9fa' }}>
-                  <p className='font-italic mb-1'>Web Developer</p>
-                  <p className='font-italic mb-1'>Lives in New York</p>
-                  <p className='font-italic mb-0'>Photographer</p>
+                <div className='p-2' style={{ backgroundColor: '#f8f9fa' }}>
+                  {userProfile?.about || 'This user has nothing to say.'}
                 </div>
               </div>
-              <div className='d-flex justify-content-between align-items-center mb-4'>
+              {/* <div className='d-flex justify-content-between align-items-center mb-4'>
                 <p className='lead fw-normal mb-0'>Recent photos</p>
                 <p className='mb-0'>
                   <a href='#!' className='text-muted'>
@@ -103,7 +101,7 @@ const Profile = (props) => {
                     className='w-100 rounded-3'
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
