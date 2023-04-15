@@ -8,6 +8,6 @@ module.exports = (app: any) => {
   });
   app.use(require('./helperRoutes'));
   app.use(require('./authRoutes'));
-  app.use('/users', require('./userRoutes'));
-  app.use('/channels', require('./channelroutes'));
+  app.use('/user', require('./userRoutes'));
+  app.use('/channel', require('./channelroutes'));
 };

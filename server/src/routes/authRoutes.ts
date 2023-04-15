@@ -12,7 +12,7 @@ router.post(
   '/login',
   passport.authenticate('local'),
   (req: any, res: any, next: any) => {
-    res.json(req.user);
+    res.send(req.user);
   }
 );
 

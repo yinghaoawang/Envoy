@@ -5,8 +5,6 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const cors = require('cors');
-const { prisma } = require('./helpers/prismaHelper');
-const passport = require('passport');
 const session = require('express-session');
 
 const PORT_NUMBER: number = 1270;
@@ -31,6 +29,6 @@ io.on('connection', (socket: any) => {
   });
 });
 
-server.listen(1270, () => {
-  console.log('listening on *:1270');
+server.listen(PORT_NUMBER, () => {
+  console.log(`Listening on *: ${PORT_NUMBER}`);
 });

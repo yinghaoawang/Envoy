@@ -1,5 +1,5 @@
-import { APIClient } from '../api/apiCore';
-import { GET_SESSION_USER, LOGIN, LOGOUT } from '../api/urls';
+import { APIClient } from './apiCore';
+import { GET_SESSION_USER, LOGIN, LOGOUT } from './urls';
 
 const api = new APIClient();
 
@@ -49,11 +49,11 @@ function registerUser(email, password) {
   });
 }
 
-const authHelper = {
+const authApi = {
   loginUser,
   logoutUser,
   registerUser,
   getSessionUser
 };
 
-export default authHelper;
+export default authApi;

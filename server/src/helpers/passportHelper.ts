@@ -2,17 +2,8 @@ export {};
 const passport = require('passport');
 const crypto = require('crypto');
 const LocalStrategy = require('passport-local');
+const { filterKeys } = require('./');
 const { prisma } = require('./prismaHelper');
-
-function exclude<User, Key extends keyof User>(
-  user: User,
-  keys: Key[]
-): Omit<User, Key> {
-  for (let key of keys) {
-    delete user[key];
-  }
-  return user;
-}
 
 const passwordStrategy = new LocalStrategy(
   {
@@ -56,7 +47,7 @@ const passwordStrategy = new LocalStrategy(
 passport.use(passwordStrategy);
 passport.serializeUser(async (user: any, done: any) => {
   process.nextTick(() => {
-    done(null, exclude(user, ['hashedPassword', 'salt']));
+    done(null, filterKeys(user, ['hashedPassword', 'salt']));
   });
 });
 
@@ -75,4 +66,4 @@ passport.deserializeUser(async (user: any, done: any) => {
   }
 });
 
-module.exports = { passport, exclude };
+module.exports = { passport };

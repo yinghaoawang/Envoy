@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import Routes from './routes';
-import authHelper from './helpers/authHelper';
+import authApi from './api/auth';
 import { setUser } from './redux/profile/actions';
 import { useRedux } from './hooks';
 
@@ -10,7 +10,7 @@ const App = () => {
   // fetch session user from server on app load
   useEffect(() => {
     try {
-      authHelper.getSessionUser().then((user) => {
+      authApi.getSessionUser().then((user) => {
         dispatch(setUser(user));
       });
     } catch (error) {}
