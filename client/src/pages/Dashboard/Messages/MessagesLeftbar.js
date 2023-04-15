@@ -1,4 +1,4 @@
-const MessagesItem = (props) => {
+const MessageListItem = (props) => {
   const { user } = props;
   const unreadMessageCount = 0;
   return (
@@ -61,21 +61,21 @@ const MessagesLeftbar = (props) => {
 
         <div>
           <ul className='list-unstyled mb-0'>
-            <MessagesItem
+            <MessageListItem
               user={{
                 displayName: 'Alan',
                 profileImgUrl: 'https://i.imgur.com/lgrw6WV.png',
                 status: 'i have aids'
               }}
             />
-            <MessagesItem
+            <MessageListItem
               user={{
                 displayName: 'Ronpob',
                 profileImgUrl: 'https://i.imgur.com/cwUFRRI.png',
                 status: 'am sexually attracted to green goop blobs'
               }}
             />
-            <MessagesItem user={{ displayName: 'Shohei' }} />
+            <MessageListItem user={{ displayName: 'Shohei' }} />
           </ul>
         </div>
       </div>

@@ -97,4 +97,6 @@ class APIClient {
   };
 }
 
-export { APIClient };
+const api = new APIClient();
+
+export { api };

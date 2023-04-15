@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { AuthActionTypes } from './types';
 import { authSuccess, authError } from './actions';
-import authApi from '../../api/auth';
+import authApi from '../../api/authApi';
 import { setUser } from '../profile/actions';
 
 function* loginUser({ payload: { user } }) {

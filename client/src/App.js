@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import Routes from './routes';
-import authApi from './api/auth';
+import authApi from './api/authApi';
 import { setUser } from './redux/profile/actions';
 import { useRedux } from './hooks';
 

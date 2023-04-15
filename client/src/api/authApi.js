@@ -1,15 +1,13 @@
-import { APIClient } from './apiCore';
-import { GET_SESSION_USER, LOGIN, LOGOUT } from './urls';
-
-const api = new APIClient();
+import { api } from './apiCore';
+import * as url from './urls';
 
 function loginUser(email, password) {
   return new Promise(async (resolve, reject) => {
     try {
-      const user = await api.post(LOGIN, {email, password});
+      const user = await api.post(url.LOGIN, {email, password});
       resolve(user);
     } catch (error) {
-      reject(error.message);
+      reject(error);
     }
   });
 }
@@ -17,10 +15,10 @@ function loginUser(email, password) {
 function logoutUser() {
   return new Promise(async (resolve, reject) => {
     try {
-      await api.post(LOGOUT);
+      await api.post(url.LOGOUT);
       resolve();
     } catch (error) {
-      reject(error.message);
+      reject(error);
     }
   });
 }
@@ -28,11 +26,11 @@ function logoutUser() {
 function getSessionUser() {
   return new Promise(async (resolve, reject) => {
     try {
-      const user = await api.get(GET_SESSION_USER);
+      const user = await api.get(url.GET_SESSION_USER);
       console.log('got session user');
       resolve(user);
     } catch (error) {
-      reject(error.message);
+      reject(error);
     }
   })
 }
@@ -44,7 +42,7 @@ function registerUser(email, password) {
       console.log('user registered', user);
       resolve(user);
     } catch (error) {
-      reject(error.message);
+      reject(error);
     }
   });
 }
