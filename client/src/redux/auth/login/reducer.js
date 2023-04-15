@@ -14,7 +14,6 @@ const Login = (state = INIT_STATE, action) => {
         case AuthLoginActionTypes.LOGIN_USER:
           return {
             ...state,
-            user: action.payload.data,
             loading: false,
             isUserLoggedIn: true,
           };

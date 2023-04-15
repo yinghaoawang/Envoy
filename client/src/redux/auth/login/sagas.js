@@ -2,9 +2,10 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { AuthLoginActionTypes } from './types';
 import {
   authLoginApiResponseError,
-  authLoginApiResponseSuccess,
+  authLoginApiResponseSuccess
 } from './actions';
 import authHelper from '../../../helpers/authHelper';
+import { setUser } from '../../profile/actions';
 
 function* loginUser({ payload: { user } }) {
   try {
@@ -13,13 +14,12 @@ function* loginUser({ payload: { user } }) {
       user.email,
       user.password
     );
-    
+
+    yield put(setUser(userData));
     yield put(
-      authLoginApiResponseSuccess(
-        AuthLoginActionTypes.LOGIN_USER,
-        userData
-      )
+      authLoginApiResponseSuccess(AuthLoginActionTypes.LOGIN_USER)
     );
+
   } catch (error) {
     yield put(
       authLoginApiResponseError(AuthLoginActionTypes.LOGIN_USER, error)

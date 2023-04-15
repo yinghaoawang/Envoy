@@ -1,8 +1,5 @@
-// profile & settings
-export const GET_PROFILE_DETAILS = '/profile-details';
-export const GET_USER_SETTINGS = '/user-settings';
-export const UPDATE_ETTINGS = '/update-user-settings';
+export const LOGIN = '/login';
+export const LOGOUT = '/logout';
+export const REGISTER = '/register';
 
-// contacts
-export const GET_CONTACTS = '/user-contacts';
-export const INVITE_CONTACT = '/invite-contact';
+export const GET_SESSION_USER = '/users/me';

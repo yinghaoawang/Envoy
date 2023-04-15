@@ -1,8 +1,8 @@
 import { AuthLoginActionTypes } from './types';
 
-export const authLoginApiResponseSuccess = (actionType, data) => ({
+export const authLoginApiResponseSuccess = (actionType) => ({
   type: AuthLoginActionTypes.API_RESPONSE_SUCCESS,
-  payload: { actionType, data }
+  payload: { actionType }
 });
 
 export const authLoginApiResponseError = (actionType, error) => ({

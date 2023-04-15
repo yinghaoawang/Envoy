@@ -1,29 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useRedux } from './useRedux';
 import authHelper from '../helpers/authHelper';
+import { setUser } from '../redux/profile/actions';
 
 const useProfile = () => {
-  // global store
-  const { useAppSelector } = useRedux();
+  const { dispatch, useAppSelector } = useRedux();
 
-  // const { settings } = useAppSelector(state => ({
-  //   settings: state.Settings.settings,
-  // }));
-  // const image = settings.basicDetails && settings.basicDetails.profile;
-  // const image = {};
-  // const userProfileSession = authHelper.getLoggedInUser();
-  // const [loading] = useState(userProfileSession ? false : true);
-  // const [userProfile, setUserProfile] = useState(
-  //   userProfileSession ? { ...userProfileSession, profileImage: image } : null
-  // );
-  // useEffect(() => {
-  //   const userProfileSession = firebaseHelper.getLoggedInUser();
-  //   setUserProfile(
-  //     userProfileSession ? { ...userProfileSession, profileImage: image } : null
-  //   );
-  // }, []);
+  const { userProfile } = useAppSelector((state) => ({
+    userProfile: state.Profile.user
+  }));
+  const [loading, setLoading] = useState(userProfile ? false : true);
 
-  return { userProfile: null, loading: false };
+  useEffect(() => {
+    try {
+      authHelper.getSessionUser().then((user) => {
+        dispatch(setUser(user));
+        setLoading(false);
+      });
+    } catch (error) {}
+  }, []);
+
+  return { userProfile, loading };
 };
 
 export { useProfile };

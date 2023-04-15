@@ -1,11 +1,11 @@
 import { APIClient } from '../api/apiCore';
+import { GET_SESSION_USER, LOGIN, LOGOUT } from '../api/urls';
 
 function loginUser(email, password) {
   return new Promise(async (resolve, reject) => {
     try {
       const api = new APIClient();
-      const user = await api.post('login', {email, password});
-      console.log('user logged in', user);
+      const user = await api.post(LOGIN, {email, password});
       resolve(user);
     } catch (error) {
       reject(error.message);
@@ -16,13 +16,25 @@ function loginUser(email, password) {
 function logoutUser() {
   return new Promise(async (resolve, reject) => {
     try {
-      await new APIClient().get('/logout');
+      await new APIClient().get(LOGOUT);
       console.log('logged out');
       resolve();
     } catch (error) {
       reject(error.message);
     }
   });
+}
+
+function getSessionUser() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await new APIClient().get(GET_SESSION_USER);
+      console.log('got session user');
+      resolve(user);
+    } catch (error) {
+      reject(error.message);
+    }
+  })
 }
 
 function registerUser(email, password) {
@@ -38,22 +50,11 @@ function registerUser(email, password) {
   });
 }
 
-const setLoggedInUser = (user) => {
-  if (user == null) localStorage.removeItem('authUser');
-  else localStorage.setItem('authUser', JSON.stringify(user));
-};
-
-const getLoggedInUser = () => {
-  if (!localStorage.getItem('authUser')) return null;
-  return JSON.parse(localStorage.getItem('authUser'));
-};
-
 const authHelper = {
   loginUser,
   logoutUser,
   registerUser,
-  setLoggedInUser,
-  getLoggedInUser
+  getSessionUser
 };
 
 export default authHelper;

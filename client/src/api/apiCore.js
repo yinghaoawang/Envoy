@@ -6,6 +6,7 @@ axios.defaults.baseURL = config.API_URL;
 
 // content type
 axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.withCredentials = true;
 
 // intercepting to capture errors
 axios.interceptors.response.use(
@@ -31,14 +32,6 @@ axios.interceptors.response.use(
     return Promise.reject(message);
   }
 );
-
-/**
- * Sets the default authorization
- * @param {*} token
- */
-const setAuthorization = (token) => {
-  axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-};
 
 class APIClient {
   /**
@@ -80,8 +73,8 @@ class APIClient {
     const config = {
       headers: {
         ...axios.defaults.headers,
-        'content-type': 'multipart/form-data',
-      },
+        'content-type': 'multipart/form-data'
+      }
     };
     return axios.put(url, formData, config);
   };
@@ -97,11 +90,11 @@ class APIClient {
     const config = {
       headers: {
         ...axios.defaults.headers,
-        'content-type': 'multipart/form-data',
-      },
+        'content-type': 'multipart/form-data'
+      }
     };
     return axios.post(url, formData, config);
   };
 }
 
-export { APIClient, setAuthorization };
+export { APIClient };

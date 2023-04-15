@@ -4,6 +4,16 @@ const crypto = require('crypto');
 const LocalStrategy = require('passport-local');
 const { prisma } = require('./prismaHelper');
 
+function exclude<User, Key extends keyof User>(
+  user: User,
+  keys: Key[]
+): Omit<User, Key> {
+  for (let key of keys) {
+    delete user[key];
+  }
+  return user;
+}
+
 const passwordStrategy = new LocalStrategy(
   {
     usernameField: 'email',
@@ -19,7 +29,9 @@ const passwordStrategy = new LocalStrategy(
         }
       });
       if (!user) {
-        return done(null, false, { message: 'Incorrect username or password.' });
+        return done(null, false, {
+          message: 'Incorrect username or password.'
+        });
       }
 
       const hashedPassword = crypto.pbkdf2Sync(
@@ -30,7 +42,9 @@ const passwordStrategy = new LocalStrategy(
         'sha256'
       );
       if (!crypto.timingSafeEqual(user.hashedPassword, hashedPassword)) {
-        return done(null, false, { message: 'Incorrect username or password.' });
+        return done(null, false, {
+          message: 'Incorrect username or password.'
+        });
       }
       return done(null, user);
     } catch (error) {
@@ -39,6 +53,28 @@ const passwordStrategy = new LocalStrategy(
   }
 );
 
-module.exports = {
-  passwordStrategy
-};
+passport.use(passwordStrategy);
+passport.serializeUser(async (user: any, done: any) => {
+  process.nextTick(() => {
+    console.log('serializing');
+    done(null, exclude(user, ['hashedPassword', 'salt']));
+  });
+});
+
+passport.deserializeUser(async (user: any, done: any) => {
+  console.log('deserializing');
+  try {
+    const userData = await prisma.user.findFirst({
+      where: {
+        id: {
+          equals: user.id
+        }
+      }
+    });
+    done(null, userData);
+  } catch (error) {
+    done(error);
+  }
+});
+
+module.exports = { passport, exclude };

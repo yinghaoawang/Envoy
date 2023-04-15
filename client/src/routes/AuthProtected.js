@@ -4,13 +4,13 @@ import { Navigate } from 'react-router-dom';
 import { useProfile } from '../hooks/index';
 
 const AuthProtected = (props) => {
-  const { userProfile, loading } = useProfile();
+  const { userProfile } = useProfile();
 
-  // if (!userProfile && loading) {
+  if (!userProfile) {
     return <Navigate to={{ pathname: '/login' }} />;
-  // }
+  }
 
-  // return <>{props.children}</>;
+  return <>{props.children}</>;
 };
 
 export { AuthProtected };

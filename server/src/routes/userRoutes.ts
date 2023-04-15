@@ -1,8 +1,16 @@
 export {};
-const { prisma } = require('../helpers/prismaHelper.ts');
+const { prisma } = require('../helpers/prismaHelper');
+const { exclude } = require('../helpers/passportHelper');
+const { isAuthenticated } = require('./routeMiddlewares');
+
 const router = require('express').Router();
-router.get('/', async (req: any, res: any) => {
-  const users = await prisma.user.findMany()
-  res.json({users})
+router.get('/me', isAuthenticated, async (req: any, res: any) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      id: req.user.id
+    }
+  });
+  const filteredUser = exclude(user, ['hashedPassword', 'salt']);
+  res.json(filteredUser);
 });
 module.exports = router;
