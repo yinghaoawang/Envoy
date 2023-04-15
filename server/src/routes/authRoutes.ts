@@ -39,4 +39,13 @@ router.post(
   }
 );
 
+router.post('/logout', async (req: any, res: any, next: any) => {
+  req.logout(function (err: any) {
+    if (err) {
+      return next(err);
+    }
+    res.send('success');
+  });
+});
+
 module.exports = router;

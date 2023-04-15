@@ -22,6 +22,7 @@ function* loginUser({ payload: { user } }) {
 function* logoutUser() {
   try {
     yield call(authHelper.logoutUser);
+    yield put(setUser(null));
     yield put(authSuccess());
   } catch (error) {
     yield put(authError(error));

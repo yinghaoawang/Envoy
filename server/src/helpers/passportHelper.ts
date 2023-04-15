@@ -56,13 +56,11 @@ const passwordStrategy = new LocalStrategy(
 passport.use(passwordStrategy);
 passport.serializeUser(async (user: any, done: any) => {
   process.nextTick(() => {
-    console.log('serializing');
     done(null, exclude(user, ['hashedPassword', 'salt']));
   });
 });
 
 passport.deserializeUser(async (user: any, done: any) => {
-  console.log('deserializing');
   try {
     const userData = await prisma.user.findFirst({
       where: {
