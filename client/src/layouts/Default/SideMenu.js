@@ -13,7 +13,7 @@ const MenuHeader = (props) => {
   return (
     <div className='d-flex flex-column'>
       <a
-        href={props.href || '#'}
+        href={props.href || '#!'}
         className='d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none justify-content-center hover-dim'
         onClick={() => {
           dispatch(switchTab(tab));
@@ -46,7 +46,7 @@ const MenuTabItem = (props) => {
     <li className='nav-item'>
       <a
         ref={tooltipTriggerElement}
-        href={props.href || '#'}
+        href={props.href || '#!'}
         className='nav-link py-3 justify-content-center hover-dim'
         aria-current='page'
         title={props.title}
