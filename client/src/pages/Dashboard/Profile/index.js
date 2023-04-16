@@ -9,18 +9,26 @@ const Profile = (props) => {
   const onClickEditProfile = () => {
     const editProfileContent = {
       component: EditProfile
-    }
+    };
     dispatch(switchContent(editProfileContent));
-  }
+  };
 
   return (
     <div className='px-5 py-5'>
       <div className='row d-flex justify-content-center align-items-center h-100'>
         <div className='col col-lg-9 col-xl-7 w-100'>
-          <div className='card'>
+          <div
+            className='card mx-auto'
+            style={{
+              maxWidth: 800
+            }}
+          >
             <div
               className='rounded-top text-white d-flex flex-row'
-              style={{ backgroundColor: '#000', height: '200px' }}
+              style={{
+                backgroundColor: '#000',
+                height: '200px'
+              }}
             >
               <div
                 className='ms-4 mt-5 d-flex flex-column'
@@ -44,7 +52,7 @@ const Profile = (props) => {
               </div>
               <div className='ms-3' style={{ marginTop: '130px' }}>
                 <h5>{userProfile?.displayName || 'Unknown'}</h5>
-                <p>New York</p>
+                <p>{userProfile?.status}</p>
               </div>
             </div>
             <div
@@ -52,7 +60,7 @@ const Profile = (props) => {
               style={{ backgroundColor: '#f8f9fa' }}
             >
               <div className='d-flex justify-content-end text-center py-1'>
-                <div>
+                {/* <div>
                   <p className='mb-1 h5'>253</p>
                   <p className='small text-muted mb-0'>Photos</p>
                 </div>
@@ -63,14 +71,14 @@ const Profile = (props) => {
                 <div>
                   <p className='mb-1 h5'>478</p>
                   <p className='small text-muted mb-0'>Following</p>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className='card-body p-4 text-black'>
               <div className='mb-5'>
                 <p className='lead fw-normal mb-1'>About</p>
                 <div className='p-2' style={{ backgroundColor: '#f8f9fa' }}>
-                  {userProfile?.about || 'This user has nothing to say.'}
+                  {userProfile?.biography || 'This user has nothing to say.'}
                 </div>
               </div>
               {/* <div className='d-flex justify-content-between align-items-center mb-4'>

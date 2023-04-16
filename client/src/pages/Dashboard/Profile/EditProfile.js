@@ -14,6 +14,8 @@ import { updateUser } from '../../../redux/profile/actions';
 
 const schema = yup
   .object({
+    biography: yup.string().notRequired().max(256).label('Biography'),
+    status: yup.string().notRequired().max(40).label('Status'),
     displayName: yup
       .string()
       .notRequired()
@@ -47,7 +49,7 @@ const EditProfileForm = () => {
   const {
     isLoading,
     profileError,
-    user: { email, displayName }
+    user: { email, displayName, status, biography }
   } = useAppSelector((state) => ({
     isLoading: state.Profile.loading,
     profileError: state.Profile.error,
@@ -62,7 +64,9 @@ const EditProfileForm = () => {
     resolver: yupResolver(schema),
     defaultValues: {
       email,
-      displayName
+      displayName,
+      status,
+      biography
     }
   });
 
@@ -88,7 +92,7 @@ const EditProfileForm = () => {
         <FormInput label='Email address' name='email' register={register} />
         <ErrorMessage message={errors.email?.message} />
       </div>
-      <div className='mb-3'>
+      <div className='mb-1'>
         <FormInput
           label='Password'
           name='password'
@@ -99,6 +103,20 @@ const EditProfileForm = () => {
         <ErrorMessage message={errors.password?.message} />
       </div>
       <div className='mb-1'>
+        <FormInput label='Status' name='status' register={register} />
+        <ErrorMessage message={errors.status?.message} />
+      </div>
+      <div className='mb-1'>
+        <FormInput
+          type='textarea'
+          rows='3'
+          label='Biography'
+          name='biography'
+          register={register}
+        />
+        <ErrorMessage message={errors.biography?.message} />
+      </div>
+      <div className='my-3'>
         <button disabled={isLoading} className='btn btn-primary' type='submit'>
           Save Changes
         </button>
@@ -118,19 +136,23 @@ const EditProfile = (props) => {
         <h1>Edit Profile</h1>
         <hr />
         <div className='row gx-5'>
-          <div className='col-md-3'>
+          <div className='col-md-4'>
             <div className='text-center'>
               <img
                 src='//placehold.it/150'
                 className='avatar img-circle mb-3'
                 alt='avatar'
               />
-              <h6 className='mb-3'>Upload a different photo...</h6>
+              <h6 className='mb-3 mx-auto'>Update profile picture</h6>
 
-              <input type='file' className='form-control' />
+              <input
+                style={{ maxWidth: '150px' }}
+                type='file'
+                className='form-control mx-auto'
+              />
             </div>
           </div>
-          <div className='col-md-9 personal-info'>
+          <div className='col-md-8 personal-info'>
             <EditProfileForm />
           </div>
         </div>

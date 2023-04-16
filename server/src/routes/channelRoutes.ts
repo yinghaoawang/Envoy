@@ -26,7 +26,7 @@ router.get('/', isAuthenticated, async (req: any, res: any, next: any) => {
     });
     res.send(filterKeys(channels, ['hashedPassword', 'salt']));
   } catch (error) {
-    next(error);
+    return next(error);
   }
 });
 router.post(
@@ -46,7 +46,7 @@ router.post(
       const channelData = await prisma.channel.create({ data: channel });
       res.send(channelData);
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 );

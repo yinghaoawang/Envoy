@@ -16,13 +16,17 @@ router.post(
   }
 );
 
-router.get('/me', isAuthenticated, async (req: any, res: any) => {
-  const user = await prisma.user.findFirst({
-    where: {
-      id: req.user.id
-    }
-  });
-  res.send(filterKeys(user, ['hashedPassword', 'salt']));
+router.get('/me', isAuthenticated, async (req: any, res: any, next: any) => {
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        id: req.user.id
+      }
+    });
+    res.send(filterKeys(user, ['hashedPassword', 'salt']));
+  } catch (error) {
+    return next(error);
+  }
 });
 
 router.post('/register', async (req: any, res: any, next: any) => {
@@ -36,9 +40,9 @@ router.post('/register', async (req: any, res: any, next: any) => {
       salt
     };
     const userData = await prisma.user.create({ data: user });
-    passport.serializeUser(userData, (err: any, user: any) => {
-      if (err) {
-        return next(err);
+    passport.serializeUser(userData, (error: any, user: any) => {
+      if (error) {
+        return next(error);
       }
       req.session.passport = { user };
       res.send(user);
@@ -49,9 +53,9 @@ router.post('/register', async (req: any, res: any, next: any) => {
 });
 
 router.post('/logout', async (req: any, res: any, next: any) => {
-  req.logout(function (err: any) {
-    if (err) {
-      return next(err);
+  req.logout(function (error: any) {
+    if (error) {
+      return next(error);
     }
     res.send('success');
   });
