@@ -5,14 +5,30 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useRedux } from '../../hooks';
 import { registerUser } from '../../redux/auth/actions';
-import { displayNamePattern, emailPattern, passwordPattern } from '../../utils/patterns';
+import {
+  displayNamePattern,
+  emailPattern,
+  passwordPattern
+} from '../../utils';
 import ErrorMessage from '../../components/ErrorMessage';
 
 const schema = yup
   .object({
-    displayName: yup.string().required().matches(displayNamePattern, 'Display name must be valid').label('Display name'),
-    email: yup.string().required().matches(emailPattern, 'Email must be a valid email').label('Email'),
-    password: yup.string().required().matches(passwordPattern, 'Password must be a valid password').label('Password'),
+    displayName: yup
+      .string()
+      .required()
+      .matches(displayNamePattern, 'Display name must be valid')
+      .label('Display name'),
+    email: yup
+      .string()
+      .required()
+      .matches(emailPattern, 'Email must be a valid email')
+      .label('Email'),
+    password: yup
+      .string()
+      .required()
+      .matches(passwordPattern, 'Password must be a valid password')
+      .label('Password'),
     confirmPassword: yup
       .string()
       .oneOf([yup.ref('password'), null], 'Passwords must match')
@@ -22,6 +38,8 @@ const schema = yup
   .required();
 
 const Register = (props) => {
+  const { dispatch, useAppSelector } = useRedux();
+  
   const {
     register,
     handleSubmit,
@@ -29,8 +47,6 @@ const Register = (props) => {
   } = useForm({
     resolver: yupResolver(schema)
   });
-
-  const { dispatch, useAppSelector } = useRedux();
 
   const { isLoading, registerError } = useAppSelector((state) => ({
     isLoading: state.Auth.loading,

@@ -1,38 +1,37 @@
 import { AuthActionTypes } from './types';
 
 const INIT_STATE = {
-  error: '',
+  error: null,
   loading: false
 };
 
 const Auth = (state = INIT_STATE, action) => {
   switch (action.type) {
-    case AuthActionTypes.AUTH_SUCCESS:
+    case AuthActionTypes.RES_SUCCESS:
       return {
         ...state,
+        error: null,
         loading: false
       };
 
-    case AuthActionTypes.AUTH_ERROR:
+    case AuthActionTypes.RES_ERROR:
       return {
         ...state,
         error: action.payload.error,
         loading: false
       };
 
-    case AuthActionTypes.LOGIN_USER: {
+    case AuthActionTypes.LOGIN_USER:
       return {
         ...state,
         loading: true
       };
-    }
 
-    case AuthActionTypes.REGISTER_USER: {
+    case AuthActionTypes.REGISTER_USER:
       return {
         ...state,
         loading: true
       };
-    }
 
     case AuthActionTypes.LOGOUT_USER:
       return {

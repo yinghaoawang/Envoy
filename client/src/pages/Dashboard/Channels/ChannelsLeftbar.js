@@ -5,19 +5,24 @@ import { switchContent } from '../../../redux/layout/actions';
 import Channels from '.';
 
 const ChannelListItem = (props) => {
-  const { dispatch } = useRedux();
   const { channel } = props;
-  const content = {
-    component: Channels,
-    props: {
-      channel: channel
-    }
+  const { dispatch } = useRedux();
+  
+  const onClickChannelListItem = () => {
+    const channelContent = {
+      component: Channels,
+      props: {
+        channel: channel
+      }
+    };
+    dispatch(switchContent(channelContent));
   };
+
   return (
     <>
       <li className='py-3'>
         <a
-          onClick={() => dispatch(switchContent(content))}
+          onClick={onClickChannelListItem}
           href='#!'
           className='d-flex text-decoration-none align-items-center text-light hover-dim'
         >

@@ -1,19 +1,41 @@
 import { ProfileActionTypes } from './types';
 
 const INIT_STATE = {
-  user: null
+  user: null,
+  loading: false,
+  error: null
 };
 
 const Profile = (state = INIT_STATE, action) => {
   switch (action.type) {
-    case ProfileActionTypes.SET_USER: {
+    case ProfileActionTypes.RES_SUCCESS:
+      return {
+        ...state,
+        error: null,
+        loading: false
+      };
+
+    case ProfileActionTypes.RES_ERROR:
+      return {
+        ...state,
+        error: action.payload.error,
+        loading: false
+      };
+
+    case ProfileActionTypes.SET_USER:
       return { ...state, user: action.payload.user };
-    }
-    case ProfileActionTypes.RESET_STATE: {
+
+    case ProfileActionTypes.UPDATE_USER:
+      return {
+        ...state,
+        loading: true
+      };
+
+    case ProfileActionTypes.RESET_STATE:
       return {
         ...INIT_STATE
-      }
-    }
+      };
+      
     default:
       return { ...state };
   }

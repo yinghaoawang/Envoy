@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { useRedux } from '../../hooks';
 import { loginUser } from '../../redux/auth/actions';
 import FormInput from '../../components/FormInput';
-import { emailPattern, passwordPattern } from '../../utils/patterns';
+import { emailPattern, passwordPattern } from '../../utils';
 import ErrorMessage from '../../components/ErrorMessage';
 
 const schema = yup

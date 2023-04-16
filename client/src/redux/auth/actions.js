@@ -1,13 +1,12 @@
 import { AuthActionTypes } from './types';
 
-export const authSuccess = (actionType) => ({
-  type: AuthActionTypes.AUTH_SUCCESS,
-  payload: { actionType }
+export const authSuccess = () => ({
+  type: AuthActionTypes.RES_SUCCESS,
 });
 
-export const authError = (actionType, error) => ({
-  type: AuthActionTypes.AUTH_ERROR,
-  payload: { actionType, error }
+export const authError = (error) => ({
+  type: AuthActionTypes.RES_ERROR,
+  payload: { error }
 });
 
 export const registerUser = (user) => ({

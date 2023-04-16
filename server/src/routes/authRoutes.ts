@@ -1,10 +1,10 @@
 export {};
-const { prisma } = require('../helpers/prismaHelper');
-
-const { passport } = require('../helpers/passportHelper');
 const express = require('express');
 const router = express.Router();
-const crypto = require('crypto');
+const { prisma } = require('../helpers/prismaHelper');
+const { passport } = require('../helpers/passportHelper');
+const { filterKeys, generateSalt, encrypt } = require('../helpers');
+const { isAuthenticated } = require('../middlewares');
 router.use(passport.initialize());
 router.use(passport.session());
 
@@ -16,18 +16,25 @@ router.post(
   }
 );
 
+router.get('/me', isAuthenticated, async (req: any, res: any) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      id: req.user.id
+    }
+  });
+  res.send(filterKeys(user, ['hashedPassword', 'salt']));
+});
+
 router.post('/register', async (req: any, res: any, next: any) => {
   try {
-    const salt = crypto.randomBytes(16);
-    const hashedPassword = crypto.pbkdf2Sync(
-      req.body.password,
-      salt,
-      310000,
-      32,
-      'sha256'
-    );
-    const user = { displayName: req.body.displayName, email: req.body.email, hashedPassword, salt };
-    console.log(req.body);
+    const salt = generateSalt(16);
+    const hashedPassword = encrypt(req.body.password, salt);
+    const user = {
+      displayName: req.body.displayName,
+      email: req.body.email,
+      hashedPassword,
+      salt
+    };
     const userData = await prisma.user.create({ data: user });
     passport.serializeUser(userData, (err: any, user: any) => {
       if (err) {

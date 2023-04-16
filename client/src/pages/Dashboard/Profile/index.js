@@ -1,7 +1,17 @@
-import { useProfile } from '../../../hooks';
+import { useProfile, useRedux } from '../../../hooks';
+import { switchContent } from '../../../redux/layout/actions';
+import EditProfile from './EditProfile';
 
 const Profile = (props) => {
   const { userProfile } = useProfile();
+  const { dispatch } = useRedux();
+
+  const onClickEditProfile = () => {
+    const editProfileContent = {
+      component: EditProfile
+    }
+    dispatch(switchContent(editProfileContent));
+  }
 
   return (
     <div className='px-5 py-5'>
@@ -27,6 +37,7 @@ const Profile = (props) => {
                   className='btn btn-outline-dark'
                   data-mdb-ripple-color='dark'
                   style={{ zIndex: 1 }}
+                  onClick={onClickEditProfile}
                 >
                   Edit profile
                 </button>
