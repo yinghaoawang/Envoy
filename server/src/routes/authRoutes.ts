@@ -23,7 +23,7 @@ router.get('/me', isAuthenticated, async (req: any, res: any, next: any) => {
         id: req.user.id
       }
     });
-    res.send(filterKeys(user, ['hashedPassword', 'salt']));
+    res.send(filterPasswordKeys(user));
   } catch (error) {
     return next(error);
   }

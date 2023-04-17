@@ -1,7 +1,7 @@
 export {};
 const { prisma } = require('../helpers/prismaHelper');
 const { isAuthenticated } = require('../middlewares');
-const { filterKeys } = require('../helpers');
+const { filterPasswordKeys } = require('../helpers');
 const router = require('express').Router();
 router.get('/', isAuthenticated, async (req: any, res: any, next: any) => {
   try {
@@ -24,7 +24,7 @@ router.get('/', isAuthenticated, async (req: any, res: any, next: any) => {
         }
       }
     });
-    res.send(filterKeys(channels, ['hashedPassword', 'salt']));
+    res.send(filterPasswordKeys(channels));
   } catch (error) {
     return next(error);
   }

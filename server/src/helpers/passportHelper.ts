@@ -1,7 +1,7 @@
 export {};
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-const { filterKeys, encrypt, hashEquals } = require('.');
+const { filterPasswordKeys, encrypt, hashEquals } = require('.');
 const { prisma } = require('./prismaHelper');
 
 const passwordStrategy = new LocalStrategy(
@@ -40,7 +40,7 @@ const passwordStrategy = new LocalStrategy(
 passport.use(passwordStrategy);
 passport.serializeUser(async (user: any, done: any) => {
   process.nextTick(() => {
-    done(null, filterKeys(user, ['hashedPassword', 'salt']));
+    done(null, filterPasswordKeys(user));
   });
 });
 

@@ -1,7 +1,7 @@
 export {};
 const { isAuthenticated } = require('../middlewares');
 const { prisma } = require('../helpers/prismaHelper');
-const { filterKeys, encrypt } = require('../helpers');
+const { filterPasswordKeys, encrypt } = require('../helpers');
 const router = require('express').Router();
 
 router.post('/update', isAuthenticated, async (req: any, res: any, next: any) => {
@@ -19,7 +19,7 @@ router.post('/update', isAuthenticated, async (req: any, res: any, next: any) =>
       },
       data: updateData
     });
-    res.send(filterKeys(user, ['hashedPassword', 'salt']));
+    res.send(filterPasswordKeys(user));
   } catch (error) {
     return next(error);
   }

@@ -7,6 +7,10 @@ function exclude(obj: any, keys: string[]) {
   return obj;
 }
 
+function filterPasswordKeys(obj: any) {
+  return filterKeys(obj, ['hashedPassword', 'salt']);
+}
+
 function filterKeys(obj: any, keys: string[]) {
   exclude(obj, keys);
   for (let value of Object.values(obj)) {
@@ -31,6 +35,7 @@ function hashEquals(hashedA: string, hashedB: string) {
 
 module.exports = {
   exclude,
+  filterPasswordKeys,
   filterKeys,
   encrypt,
   hashEquals,

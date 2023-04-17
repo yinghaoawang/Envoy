@@ -6,6 +6,9 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const cors = require('cors');
 const session = require('express-session');
+const cache = require('./cache');
+
+cache.init();
 
 app.use(express.static(__dirname + '/public'));
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
