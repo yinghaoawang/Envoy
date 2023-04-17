@@ -1,8 +1,8 @@
 import { ProfileActionTypes } from './types';
 
-export const setUser = (user) => ({
+export const setUser = (data) => ({
   type: ProfileActionTypes.SET_USER,
-  payload: { user }
+  payload: { data }
 });
 
 export const updateUser = (data) => ({

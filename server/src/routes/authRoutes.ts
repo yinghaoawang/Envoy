@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const { prisma } = require('../helpers/prismaHelper');
 const { passport } = require('../helpers/passportHelper');
-const { filterKeys, generateSalt, encrypt } = require('../helpers');
+const { filterPasswordKeys, generateSalt, encrypt } = require('../helpers');
 const { isAuthenticated } = require('../middlewares');
 router.use(passport.initialize());
 router.use(passport.session());

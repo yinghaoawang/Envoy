@@ -1,0 +1,6 @@
+export const ChannelActionTypes = {
+  CREATE_CHANNEL: 'CREATE_CHANNEL',
+  RES_SUCCESS: 'RES_SUCCESS',
+  RES_ERROR: 'RES_ERROR',
+  RESET_STATE: 'RESET_STATE'
+};

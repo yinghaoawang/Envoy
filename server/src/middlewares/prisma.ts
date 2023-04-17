@@ -24,15 +24,14 @@ prisma.$use(async (params: any, next: any) => {
       break;
     case 'update':
       const elementIndex = cacheArray.findIndex((e: any) => e.id === result.id);
-      if (elementIndex === -1)
+      if (elementIndex === -1) {
         throw new Error(
           'Cache could not find element with matching id in update middleware.'
         );
+      }
       cacheArray[elementIndex] = filterPasswordKeys(result);
       break;
   }
-
-  console.log(cacheArray);
 
   return result;
 });

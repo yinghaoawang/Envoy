@@ -23,7 +23,7 @@ const Profile = (state = INIT_STATE, action) => {
       };
 
     case ProfileActionTypes.SET_USER:
-      return { ...state, user: action.payload.user };
+      return { ...state, user: action.payload.data };
 
     case ProfileActionTypes.UPDATE_USER:
       return {
@@ -35,7 +35,7 @@ const Profile = (state = INIT_STATE, action) => {
       return {
         ...INIT_STATE
       };
-      
+
     default:
       return { ...state };
   }

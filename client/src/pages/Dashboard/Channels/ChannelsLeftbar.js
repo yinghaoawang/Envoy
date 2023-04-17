@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
-import channelsApi from '../../../api/channelsApi';
+import channelApi from '../../../api/channelApi';
 import { useRedux } from '../../../hooks';
 import { switchContent } from '../../../redux/layout/actions';
 import Channels from '.';
+import FormInput from '../../../components/FormInput';
+import { useForm } from 'react-hook-form';
+import ErrorMessage from '../../../components/ErrorMessage';
+import { createChannel } from '../../../redux/channel/actions';
 
 const ChannelListItem = (props) => {
   const { channel } = props;
   const { dispatch } = useRedux();
-  
+
   const onClickChannelListItem = () => {
     const channelContent = {
       component: Channels,
@@ -36,11 +40,23 @@ const ChannelListItem = (props) => {
 
 const ChannelsLeftbar = (props) => {
   const [channels, setChannels] = useState([]);
+  const { dispatch, useAppSelector } = useRedux();
   useEffect(() => {
-    channelsApi.getChannels().then((channels) => {
+    channelApi.getChannels().then((channels) => {
       setChannels(channels);
     });
-  });
+  }, []);
+  const { isLoading, channelError } = useAppSelector((state) => ({
+    isLoading: state.Channel.loading,
+    channelError: state.Channel.error
+  }));
+  const { register, handleSubmit, reset } = useForm();
+
+  const onSubmit = (data) => {
+    if (isLoading) return;
+    dispatch(createChannel(data));
+    reset();
+  };
 
   return (
     <div>
@@ -51,7 +67,11 @@ const ChannelsLeftbar = (props) => {
         ))}
       </ul>
       <button>Discover new channels</button>
-      <button>Create channel</button>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormInput name='name' placeholder='Channel Name' register={register} />
+        <button disabled={isLoading}>Create channel</button>
+      </form>
+      <ErrorMessage message={channelError} />
     </div>
   );
 };
