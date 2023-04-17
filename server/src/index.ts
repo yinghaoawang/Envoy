@@ -1,13 +1,11 @@
-import config from './config';
-
+export {};
+const config = require('./config');
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const cors = require('cors');
 const session = require('express-session');
-
-const PORT_NUMBER: number = 1270;
 
 app.use(express.static(__dirname + '/public'));
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
@@ -29,6 +27,6 @@ io.on('connection', (socket: any) => {
   });
 });
 
-server.listen(PORT_NUMBER, () => {
-  console.log(`Listening on *: ${PORT_NUMBER}`);
+server.listen(config.PORT, () => {
+  console.log(`Listening on *: ${config.PORT}`);
 });
