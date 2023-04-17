@@ -9,8 +9,17 @@ export const channelError = (error) => ({
   payload: { error }
 });
 
+export const loadChannels = () => ({
+  type: ChannelActionTypes.LOAD_CHANNELS
+});
+
 export const createChannel = (data) => ({
   type: ChannelActionTypes.CREATE_CHANNEL,
+  payload: { data }
+});
+
+export const setChannels = (data) => ({
+  type: ChannelActionTypes.SET_CHANNELS,
   payload: { data }
 });
 

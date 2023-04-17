@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import channelApi from '../../../api/channelApi';
 import { useRedux } from '../../../hooks';
 import { switchContent } from '../../../redux/layout/actions';
@@ -6,7 +6,8 @@ import Channels from '.';
 import FormInput from '../../../components/FormInput';
 import { useForm } from 'react-hook-form';
 import ErrorMessage from '../../../components/ErrorMessage';
-import { createChannel } from '../../../redux/channel/actions';
+import { createChannel, loadChannels } from '../../../redux/channel/actions';
+import { FaHashtag as HashtagIcon } from 'react-icons/fa';
 
 const ChannelListItem = (props) => {
   const { channel } = props;
@@ -23,40 +24,76 @@ const ChannelListItem = (props) => {
   };
 
   return (
-    <>
-      <li className='py-3'>
-        <a
-          onClick={onClickChannelListItem}
-          href='#!'
-          className='d-flex text-decoration-none align-items-center text-light hover-dim'
-        >
-          {channel.name}
-        </a>
-      </li>
-      <hr className='m-0 p-0' />
-    </>
+    <li className='py-2'>
+      <a
+        onClick={onClickChannelListItem}
+        href='#!'
+        className='d-flex text-decoration-none align-items-center text-light hover-dim'
+      >
+        <HashtagIcon />
+        <div className='ms-1'>{channel.name}</div>
+      </a>
+    </li>
   );
 };
 
-const ChannelsLeftbar = (props) => {
-  const [channels, setChannels] = useState([]);
+const CreateChannelForm = (props) => {
   const { dispatch, useAppSelector } = useRedux();
-  useEffect(() => {
-    channelApi.getChannels().then((channels) => {
-      setChannels(channels);
-    });
-  }, []);
+  const { register, handleSubmit, reset } = useForm();
+
   const { isLoading, channelError } = useAppSelector((state) => ({
     isLoading: state.Channel.loading,
     channelError: state.Channel.error
   }));
-  const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = (data) => {
     if (isLoading) return;
     dispatch(createChannel(data));
     reset();
   };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FormInput name='name' placeholder='Channel Name' register={register} />
+      <button
+        className='form-control btn btn-secondary mt-2'
+        disabled={isLoading}
+      >
+        Create channel
+      </button>
+      <ErrorMessage message={channelError} />
+    </form>
+  );
+};
+
+const ChannelsLeftbar = (props) => {
+  const { dispatch, useAppSelector } = useRedux();
+
+  const { channels } = useAppSelector((state) => ({
+    channels: state.Channel.channels
+  }));
+
+  useEffect(() => {
+    dispatch(loadChannels());
+  }, []);
+
+  let firstRun = useRef(true);
+  useEffect(() => {
+    const openFirstChannel = () => {
+      if (!firstRun.current) return;
+      const firstChannel = channels?.[0];
+      if (firstChannel == null) return;
+      const channelContent = {
+        component: Channels,
+        props: {
+          channel: firstChannel
+        }
+      };
+      dispatch(switchContent(channelContent));
+      firstRun.current = false;
+    };
+    openFirstChannel();
+  }, []);
 
   return (
     <div>
@@ -66,12 +103,8 @@ const ChannelsLeftbar = (props) => {
           <ChannelListItem key={idx} channel={channel} />
         ))}
       </ul>
-      <button>Discover new channels</button>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormInput name='name' placeholder='Channel Name' register={register} />
-        <button disabled={isLoading}>Create channel</button>
-      </form>
-      <ErrorMessage message={channelError} />
+      <button className='btn btn-primary'>Discover new channels</button>
+      <CreateChannelForm />
     </div>
   );
 };

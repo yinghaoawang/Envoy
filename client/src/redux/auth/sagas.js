@@ -4,6 +4,7 @@ import { authSuccess, authError, resetAuthState } from './actions';
 import authApi from '../../api/authApi';
 import { resetProfileState, setUser } from '../profile/actions';
 import { resetLayoutState } from '../layout/actions';
+import { resetChannelState } from '../channel/actions';
 
 function* loginUser({ payload: { user } }) {
   try {
@@ -26,6 +27,7 @@ function* logoutUser() {
     yield put(resetAuthState());
     yield put(resetProfileState());
     yield put(resetLayoutState());
+    yield put(resetChannelState());
     yield put(authSuccess());
   } catch (error) {
     yield put(authError(error));

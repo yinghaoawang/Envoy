@@ -3,7 +3,8 @@ import { ChannelActionTypes } from './types';
 const INIT_STATE = {
   channel: null,
   loading: false,
-  error: null
+  error: null,
+  channels: []
 };
 
 const Channel = (state = INIT_STATE, action) => {
@@ -20,6 +21,18 @@ const Channel = (state = INIT_STATE, action) => {
         ...state,
         error: action.payload.error,
         loading: false
+      };
+
+    case ChannelActionTypes.SET_CHANNELS:
+      return {
+        ...state,
+        channels: action.payload.data
+      };
+
+    case ChannelActionTypes.LOAD_CHANNELS:
+      return {
+        ...state,
+        loading: true
       };
 
     case ChannelActionTypes.CREATE_CHANNEL:

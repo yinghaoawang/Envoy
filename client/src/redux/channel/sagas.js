@@ -1,22 +1,27 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { ChannelActionTypes } from './types';
 import channelApi from '../../api/channelApi';
-import { channelSuccess, channelError } from './actions';
+import { channelSuccess, channelError, setChannels } from './actions';
 
 function* createChannel({ payload: { data } }) {
   try {
-    console.log('creation');
     yield call(channelApi.createChannel, data);
-    console.log('b');
+    yield call(loadChannels);
     yield put(channelSuccess());
-    console.log('a');
   } catch (error) {
     yield put(channelError(error));
   }
 }
 
+function* loadChannels() {
+  const channels = yield call(channelApi.getChannels);
+  yield put(setChannels(channels));
+  yield put(channelSuccess());
+}
+
 function* channelSaga() {
   yield takeLatest(ChannelActionTypes.CREATE_CHANNEL, createChannel);
+  yield takeLatest(ChannelActionTypes.LOAD_CHANNELS, loadChannels);
 }
 
 export default channelSaga;

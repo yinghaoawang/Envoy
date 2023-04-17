@@ -18,7 +18,7 @@ const ActiveLeftbarComponent = (props) => {
 const Leftbar = (props) => {
   return (
     <div
-      className='d-flex flex-column flex-shrink-0 p-3 text-white bg-gray-900 h-100'
+      className='d-flex flex-column flex-shrink-0 p-3 text-white bg-gray-900 h-100 overflow-auto'
       style={{ width: '280px' }}
     >
       <ActiveLeftbarComponent />
