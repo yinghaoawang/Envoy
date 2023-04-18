@@ -12,6 +12,17 @@ function getChannels() {
   });
 }
 
+function getDiscoverChannels() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const channels = await api.get(url.GET_DISCOVER_CHANNELS);
+      resolve(channels);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
 function createChannel(data) {
   return new Promise(async (resolve, reject) => {
     try {
@@ -23,7 +34,8 @@ function createChannel(data) {
   });
 }
 
+
 const channelApi = {
-  getChannels, createChannel
+  getChannels, getDiscoverChannels, createChannel
 };
 export default channelApi;

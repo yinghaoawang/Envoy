@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import ErrorMessage from '../../../components/ErrorMessage';
 import { createChannel, loadChannels } from '../../../redux/channel/actions';
 import { FaHashtag as HashtagIcon } from 'react-icons/fa';
+import DiscoverChannels from './DiscoverChannels';
 
 const ChannelListItem = (props) => {
   const { channel } = props;
@@ -56,7 +57,7 @@ const CreateChannelForm = (props) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormInput name='name' placeholder='Channel Name' register={register} />
       <button
-        className='form-control btn btn-secondary mt-2'
+        className='form-control btn btn-success mt-2'
         disabled={isLoading}
       >
         Create channel
@@ -95,6 +96,13 @@ const ChannelsLeftbar = (props) => {
     openFirstChannel();
   }, []);
 
+  const onClickDiscoverChannels = () => {
+    const discoverChannelContent = {
+      component: DiscoverChannels
+    };
+    dispatch(switchContent(discoverChannelContent));
+  };
+
   return (
     <div>
       <h1>Channels</h1>
@@ -103,7 +111,12 @@ const ChannelsLeftbar = (props) => {
           <ChannelListItem key={idx} channel={channel} />
         ))}
       </ul>
-      <button className='btn btn-primary'>Discover new channels</button>
+      <button
+        onClick={onClickDiscoverChannels}
+        className='btn btn-primary mt-2'
+      >
+        Discover new channels
+      </button>
       <CreateChannelForm />
     </div>
   );

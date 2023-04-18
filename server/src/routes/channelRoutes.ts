@@ -3,6 +3,7 @@ const { prisma } = require('../helpers/prismaHelper');
 const { isAuthenticated } = require('../middlewares');
 const { filterPasswordKeys } = require('../helpers');
 const router = require('express').Router();
+
 router.get('/', isAuthenticated, async (req: any, res: any, next: any) => {
   try {
     const channels = await prisma.channel.findMany({
@@ -29,6 +30,28 @@ router.get('/', isAuthenticated, async (req: any, res: any, next: any) => {
     return next(error);
   }
 });
+
+router.get('/discover', isAuthenticated, async (req: any, res: any, next: any) => {
+  try {
+    const channels = await prisma.channel.findMany({
+      where: {
+        isPrivate: false
+      },
+      include: {
+        owner: true,
+        users: {
+          include: {
+            user: true
+          }
+        }
+      }
+    });
+    res.send(filterPasswordKeys(channels));
+  } catch (error) {
+    return next(error);
+  }
+});
+
 router.post(
   '/create',
   isAuthenticated,

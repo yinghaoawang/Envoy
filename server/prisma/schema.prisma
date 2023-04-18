@@ -26,8 +26,9 @@ model User {
 }
 
 model Channel {
-  id   Int    @id @default(autoincrement())
-  name String
+  id        Int     @id @default(autoincrement())
+  name      String
+  isPrivate Boolean @default(false)
 
   owner   User @relation("owner", fields: [ownerId], references: [id])
   ownerId Int
