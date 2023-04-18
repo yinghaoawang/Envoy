@@ -31,22 +31,45 @@ router.get('/', isAuthenticated, async (req: any, res: any, next: any) => {
   }
 });
 
-router.get('/discover', isAuthenticated, async (req: any, res: any, next: any) => {
+router.get(
+  '/discover',
+  isAuthenticated,
+  async (req: any, res: any, next: any) => {
+    try {
+      const channels = await prisma.channel.findMany({
+        where: {
+          isPrivate: false
+        },
+        include: {
+          owner: true,
+          users: {
+            include: {
+              user: true
+            }
+          }
+        }
+      });
+      res.send(filterPasswordKeys(channels));
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+router.post('/join', isAuthenticated, async (req: any, res: any, next: any) => {
   try {
-    const channels = await prisma.channel.findMany({
+    await prisma.channel.update({
       where: {
+        id: req.body.channelId,
         isPrivate: false
       },
-      include: {
-        owner: true,
+      data: {
         users: {
-          include: {
-            user: true
-          }
+          create: [{ user: { connect: { id: req.user.id } } }]
         }
       }
     });
-    res.send(filterPasswordKeys(channels));
+    res.send('success');
   } catch (error) {
     return next(error);
   }

@@ -34,8 +34,21 @@ function createChannel(data) {
   });
 }
 
+function joinChannel(data) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const channel = await api.post(url.JOIN_CHANNEL, data);
+      resolve(channel);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
 
 const channelApi = {
-  getChannels, getDiscoverChannels, createChannel
+  getChannels,
+  getDiscoverChannels,
+  createChannel,
+  joinChannel
 };
 export default channelApi;

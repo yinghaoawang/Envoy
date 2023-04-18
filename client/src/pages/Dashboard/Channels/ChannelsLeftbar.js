@@ -83,7 +83,13 @@ const ChannelsLeftbar = (props) => {
     const openFirstChannel = () => {
       if (!firstRun.current) return;
       const firstChannel = channels?.[0];
-      if (firstChannel == null) return;
+      if (firstChannel == null) {
+        const discoverChannelContent = {
+          component: DiscoverChannels
+        };
+        dispatch(switchContent(discoverChannelContent));
+        return;
+      }
       const channelContent = {
         component: Channels,
         props: {
