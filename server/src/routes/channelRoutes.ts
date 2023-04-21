@@ -58,10 +58,21 @@ router.get(
 
 router.post('/join', isAuthenticated, async (req: any, res: any, next: any) => {
   try {
+    const channel = await prisma.channel.findFirst({
+      where: {
+        id: req.body.channelId
+      }
+    });
+
+    if (channel.isPrivate) {
+      throw new Error('Cannot join private channel.');
+    }
+
+    console.log(channel);
+
     await prisma.channel.update({
       where: {
         id: req.body.channelId,
-        isPrivate: false
       },
       data: {
         users: {

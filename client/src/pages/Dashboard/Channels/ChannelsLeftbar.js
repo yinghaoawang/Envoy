@@ -100,7 +100,7 @@ const ChannelsLeftbar = (props) => {
       firstRun.current = false;
     };
     openFirstChannel();
-  }, []);
+  }, [channels]);
 
   const onClickDiscoverChannels = () => {
     const discoverChannelContent = {
