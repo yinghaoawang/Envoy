@@ -1,12 +1,13 @@
 export {};
+import type { SocketUser, User, Channel } from '../types';
 const { prisma } = require('../helpers/prismaHelper');
 const { filterPasswordKeys } = require('../helpers');
 
-const onlineUsers: any[] = [];
+const onlineUsers: SocketUser[] = [];
 
-const users: any[] = [];
+const users: User[] = [];
 
-const channels: any[] = [];
+const channels: Channel[] = [];
 
 function init() {
   const loadUsers = () => {

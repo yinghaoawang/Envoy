@@ -5,16 +5,14 @@ import authApi from '../../api/authApi';
 import { resetProfileState, setUser } from '../profile/actions';
 import { resetLayoutState } from '../layout/actions';
 import { resetChannelState } from '../channel/actions';
+import { closeCurrentSocket, openNewSocket } from '../socket/actions';
 
 function* loginUser({ payload: { user } }) {
   try {
-    const userData = yield call(
-      authApi.loginUser,
-      user.email,
-      user.password
-    );
+    const userData = yield call(authApi.loginUser, user.email, user.password);
 
     yield put(setUser(userData));
+    yield put(openNewSocket());
     yield put(authSuccess());
   } catch (error) {
     yield put(authError(error));
@@ -28,6 +26,7 @@ function* logoutUser() {
     yield put(resetProfileState());
     yield put(resetLayoutState());
     yield put(resetChannelState());
+    yield put(closeCurrentSocket());
     yield put(authSuccess());
   } catch (error) {
     yield put(authError(error));
@@ -40,7 +39,7 @@ function* registerUser({ payload: { user } }) {
       authApi.registerUser,
       user.email,
       user.password,
-      {displayName: user.displayName}
+      { displayName: user.displayName }
     );
     yield put(setUser(userData));
     yield put(authSuccess());

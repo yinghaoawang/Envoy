@@ -1,0 +1,4 @@
+export const SocketActionTypes = {
+  OPEN_NEW_SOCKET: 'OPEN_NEW_SOCKET',
+  CLOSE_CURRENT_SOCKET: 'CLOSE_CURRENT_SOCKET'
+}

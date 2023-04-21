@@ -1,6 +1,7 @@
-import { call, fork, take } from 'redux-saga/effects';
-import { createSocket } from '../../helpers/socketHelper';
+import { call, fork, take, takeLatest } from 'redux-saga/effects';
+import { closeSocket, createSocket } from '../../helpers/socketHelper';
 import { eventChannel } from 'redux-saga';
+import { SocketActionTypes } from './types';
 
 const socketEvents = [
   {
@@ -43,9 +44,19 @@ function* watchSocket(socket) {
   }
 }
 
-function* socketSaga() {
+function* openNewSocket() {
   const socket = yield call(createSocket);
   yield fork(watchSocket, socket);
+}
+
+function* closeCurrentSocket() {
+  yield call(closeSocket);
+}
+
+function* socketSaga() {
+  yield takeLatest(SocketActionTypes.OPEN_NEW_SOCKET, openNewSocket);
+  yield takeLatest(SocketActionTypes.CLOSE_CURRENT_SOCKET, closeCurrentSocket);
+  
 }
 
 export default socketSaga;

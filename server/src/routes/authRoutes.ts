@@ -12,12 +12,14 @@ router.post(
   '/login',
   passport.authenticate('local'),
   (req: any, res: any, next: any) => {
+    // console.log('login', req.session.id);
     res.send(req.user);
   }
 );
 
 router.get('/me', isAuthenticated, async (req: any, res: any, next: any) => {
-  try {
+    // console.log('me', req.session.id);
+    try {
     const user = await prisma.user.findFirst({
       where: {
         id: req.user.id
