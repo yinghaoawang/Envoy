@@ -1,11 +1,10 @@
+import MessageContent from '../../../components/MessageContent';
+
 const Channels = (props) => {
   const { channel } = props;
 
   return (
-    <div>
-      <div>{channel.id}</div>
-      <div>{channel.name}</div>
-    </div>
+    <MessageContent />
   );
 };
 

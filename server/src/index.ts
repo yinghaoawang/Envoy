@@ -24,10 +24,8 @@ app.use(
 
 require('./routes')(app);
 
-io.on('connection', (socket: any) => {
-  socket.on('clicked', (data: any) => {
-    io.emit('buttonUpdate');
-  });
+io.on('connect', (socket: any) => {
+  io.emit('ping', { createdAt: Date.now() });
 });
 
 server.listen(config.PORT, () => {

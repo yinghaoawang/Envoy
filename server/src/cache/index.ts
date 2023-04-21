@@ -2,6 +2,8 @@ export {};
 const { prisma } = require('../helpers/prismaHelper');
 const { filterPasswordKeys } = require('../helpers');
 
+const onlineUsers: any[] = [];
+
 const users: any[] = [];
 
 const channels: any[] = [];
@@ -39,5 +41,6 @@ function init() {
 module.exports = {
   users,
   channels,
-  init
+  init,
+  onlineUsers
 };
