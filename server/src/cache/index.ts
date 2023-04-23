@@ -58,7 +58,16 @@ function init() {
   const loadChannels = () => {
     return new Promise(async (resolve, reject) => {
       try {
-        const dbChannels = await prisma.channel.findMany();
+        const dbChannels = await prisma.channel.findMany({
+          include: {
+            owner: true,
+            users: {
+              include: {
+                user: true
+              }
+            }
+          }
+        });
         addChannels([...filterPasswordKeys(dbChannels)]);
         resolve(channels);
       } catch (error) {
@@ -78,5 +87,5 @@ module.exports = {
   init,
   onlineUsers,
   connectUser,
-  disconnectUser
+  disconnectUser,
 };

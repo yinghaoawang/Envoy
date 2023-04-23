@@ -5,9 +5,9 @@ import { SocketActionTypes } from './types';
 
 const socketEvents = [
   {
-    name: 'ping',
+    name: 'message',
     handler: (payload) => {
-      console.log('Received server ping at ', payload.createdAt);
+      console.log('Received message ', payload);
     }
   }
 ];

@@ -68,8 +68,6 @@ router.post('/join', isAuthenticated, async (req: any, res: any, next: any) => {
       throw new Error('Cannot join private channel.');
     }
 
-    console.log(channel);
-
     await prisma.channel.update({
       where: {
         id: req.body.channelId,
