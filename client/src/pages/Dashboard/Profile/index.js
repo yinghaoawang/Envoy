@@ -43,7 +43,6 @@ const Profile = (props) => {
                 <button
                   type='button'
                   className='btn btn-outline-dark'
-                  data-mdb-ripple-color='dark'
                   style={{ zIndex: 1 }}
                   onClick={onClickEditProfile}
                 >

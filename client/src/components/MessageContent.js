@@ -120,15 +120,19 @@ const MessageItem = (props) => {
 const MessageContent = (props) => {
   const { channel } = props;
   const { messages } = channel;
+  const reversedMessages = [...messages].reverse();
+  const messagesContainer = useRef();
+  useEffect(() => {
+    messagesContainer.current.scrollIntoView(false);
+  }, []);
 
   return (
     <div className='h-100'>
       <div className='col-md-12 h-100'>
-
         <div className='card bg-transparent px-3 pt-3 h-100'>
           <div className='card-body p-0 overflow-auto'>
-            <div className='mt-auto pe-3' data-mdb-perfect-scrollbar='true'>
-              {messages.map((messageData, idx) => {
+            <div ref={messagesContainer} className='mt-auto pe-3 d-flex flex-column-reverse'>
+              {reversedMessages.map((messageData, idx) => {
                 return (
                   <MessageItem
                     key={idx}
@@ -141,7 +145,6 @@ const MessageContent = (props) => {
           </div>
           <MessageInput channel={channel} />
         </div>
-
       </div>
     </div>
   );
