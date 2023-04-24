@@ -41,11 +41,14 @@ const MessageInput = (props) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    console.log(channel, inputRef.current.value);
+    if (inputRef.current.value === '') return;
     socketEmitEvent('message', {
-      channel,
+      channel: {
+        id: channel.id
+      },
       message: inputRef.current.value
     });
+    inputRef.current.value = '';
   };
 
   return (
@@ -105,7 +108,7 @@ const MessageItem = (props) => {
         <div className='small ms-3 mb-1'>
           <div className='flex'>
             <span className='fw-bold'>{user.displayName}</span>{' '}
-            <Moment format='hh:mm A'>{message.dateCreated}</Moment>
+            <Moment format='hh:mm A'>{message.createdAt}</Moment>
           </div>
           <p>{message.content}</p>
         </div>
@@ -116,20 +119,21 @@ const MessageItem = (props) => {
 
 const MessageContent = (props) => {
   const { channel } = props;
-  const messages = [];
+  const { messages } = channel;
 
   return (
     <div className='h-100'>
       <div className='col-md-12 h-100'>
-        <div className='card bg-transparent px-3 pt-3 h-100' id='chat3'>
-          <div className='card-body p-0'>
+
+        <div className='card bg-transparent px-3 pt-3 h-100'>
+          <div className='card-body p-0 overflow-auto'>
             <div className='mt-auto pe-3' data-mdb-perfect-scrollbar='true'>
               {messages.map((messageData, idx) => {
                 return (
                   <MessageItem
                     key={idx}
                     user={messageData.user}
-                    message={messageData.message}
+                    message={messageData}
                   />
                 );
               })}
@@ -137,6 +141,7 @@ const MessageContent = (props) => {
           </div>
           <MessageInput channel={channel} />
         </div>
+
       </div>
     </div>
   );

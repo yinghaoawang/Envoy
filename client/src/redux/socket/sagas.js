@@ -1,18 +1,29 @@
-import { call, fork, take, takeLatest } from 'redux-saga/effects';
+import { call, fork, take, takeLatest, select, put } from 'redux-saga/effects';
 import { closeSocket, createSocket } from '../../helpers/socketHelper';
 import { eventChannel } from 'redux-saga';
 import { SocketActionTypes } from './types';
+import { setChannels } from '../channel/actions';
 
-const socketEvents = [
-  {
-    name: 'message',
-    handler: (payload) => {
-      console.log('Received message ', payload);
-    }
-  }
-];
+function* onMessageHandler({ channel, message }) {
+  const { channels } = yield select((state) => ({
+    channels: state.Channel.channels
+  }));
+  const matchingChannel = channels.find((c) => c.id === channel.id);
+  if (!matchingChannel) return;
+
+  matchingChannel.messages.push(message);
+  console.log(matchingChannel.messages);
+  yield put(setChannels(channels));
+}
 
 function createSocketChannel(socket) {
+  const socketEvents = [
+    {
+      name: 'message',
+      handler: onMessageHandler
+    }
+  ];
+
   return eventChannel((emit) => {
     const unsubscribeMap = {};
     for (const event of socketEvents) {
@@ -56,7 +67,6 @@ function* closeCurrentSocket() {
 function* socketSaga() {
   yield takeLatest(SocketActionTypes.OPEN_NEW_SOCKET, openNewSocket);
   yield takeLatest(SocketActionTypes.CLOSE_CURRENT_SOCKET, closeCurrentSocket);
-  
 }
 
 export default socketSaga;

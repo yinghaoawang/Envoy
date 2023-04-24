@@ -22,6 +22,11 @@ router.get('/', isAuthenticated, async (req: any, res: any, next: any) => {
           include: {
             user: true
           }
+        },
+        messages: {
+          include: {
+            user: true
+          }
         }
       }
     });

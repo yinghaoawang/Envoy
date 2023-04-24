@@ -50,7 +50,6 @@ model UsersOnChannels {
 
 model Message {
   id        Int       @id @default(autoincrement())
-  title     String
   content   String?
   user      User      @relation(fields: [userId], references: [id])
   userId    Int
