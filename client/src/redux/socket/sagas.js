@@ -12,7 +12,7 @@ function* onMessageHandler({ channel, message }) {
   if (!matchingChannel) return;
 
   matchingChannel.messages.push(message);
-  console.log(matchingChannel.messages);
+  console.log(message, channel);
   yield put(setChannels(channels));
 }
 

@@ -16,7 +16,7 @@ function connectUser(socket: AppSocket, user: User) {
   };
   const existingUser = onlineUsers.find((u) => u.socketId === socket.id);
   if (existingUser != null)
-    throw new Error('User already exists in connect socket user');
+    throw new Error('Socket id already exists in connect socket user');
   onlineUsers.push(socketUser);
 }
 

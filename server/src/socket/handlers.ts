@@ -19,10 +19,10 @@ module.exports = (io: any, socket: AppSocket) => {
       }
       for (const channelUser of channel.users) {
         const { userId } = channelUser;
-        const matchingSocketUser = onlineUsers.find(
+        const matchingSocketUsers = onlineUsers.filter(
           (u: SocketUser) => u.user?.id === userId
         );
-        if (matchingSocketUser) {
+        if (matchingSocketUsers.length > 0) {
           const updatedChannel = await prisma.channel.update({
             where: {
               id: channel.id
@@ -48,10 +48,12 @@ module.exports = (io: any, socket: AppSocket) => {
           const formattedMessage = filterPasswordKeys(
             updatedChannel.messages.at(-1)
           );
-          io.to(matchingSocketUser.socketId).emit('message', {
-            channel: payload.channel,
-            message: formattedMessage
-          });
+          for (const matchingSocketUser of matchingSocketUsers) {
+            io.to(matchingSocketUser.socketId).emit('message', {
+              channel: payload.channel,
+              message: formattedMessage
+            });
+          }
         }
       }
     }
