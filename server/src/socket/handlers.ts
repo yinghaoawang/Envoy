@@ -1,21 +1,12 @@
 import type { AppSocket, Message, Channel, User, SocketUser } from '../types';
-const {
-  connectUser,
-  disconnectUser,
-  onlineUsers,
-  channels
-} = require('../cache');
-
+const { onlineUsers, channels } = require('../cache');
 const { filterPasswordKeys } = require('../helpers');
-
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-module.exports = (io: any) => {
-  io.on('connect', (socket: AppSocket) => {
-    connectUser(socket, socket.handshake.session?.passport?.user);
-
-    socket.on('message', async (payload: Message) => {
+module.exports = (io: any, socket: AppSocket) => {
+  return {
+    onMessageHandler: async (payload: Message) => {
       const user = socket.handshake.session?.passport?.user;
       if (!user) {
         throw new Error('No session user in handle socket message');
@@ -54,17 +45,15 @@ module.exports = (io: any) => {
               }
             }
           });
-          const formattedMessage = filterPasswordKeys(updatedChannel.messages.at(-1));
+          const formattedMessage = filterPasswordKeys(
+            updatedChannel.messages.at(-1)
+          );
           io.to(matchingSocketUser.socketId).emit('message', {
             channel: payload.channel,
             message: formattedMessage
           });
         }
       }
-    });
-
-    socket.on('disconnect', () => {
-      disconnectUser(socket);
-    });
-  });
+    }
+  };
 };

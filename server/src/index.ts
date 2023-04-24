@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(session);
 
 require('./routes')(app);
-require('./socketHandler')(io);
+require('./socket')(io);
 io.use((socket: any, next: any) => {
   session(socket.handshake, {}, next);
 });
