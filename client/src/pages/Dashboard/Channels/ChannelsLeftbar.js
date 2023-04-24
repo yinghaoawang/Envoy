@@ -6,13 +6,19 @@ import Channels from '.';
 import FormInput from '../../../components/FormInput';
 import { useForm } from 'react-hook-form';
 import ErrorMessage from '../../../components/ErrorMessage';
-import { createChannel, loadChannels } from '../../../redux/channel/actions';
+import {
+  createChannel,
+  loadChannels,
+  setChannels
+} from '../../../redux/channel/actions';
 import { FaHashtag as HashtagIcon } from 'react-icons/fa';
 import DiscoverChannels from './DiscoverChannels';
 
 const ChannelListItem = (props) => {
-  const { channel } = props;
+  const { channel, currentChannel, onChannelClick } = props;
   const { dispatch } = useRedux();
+
+  const isSelected = currentChannel != null && currentChannel.id === channel.id;
 
   const onClickChannelListItem = () => {
     const channelContent = {
@@ -21,15 +27,17 @@ const ChannelListItem = (props) => {
         channel: channel
       }
     };
+    onChannelClick(channel);
     dispatch(switchContent(channelContent));
   };
 
   return (
-    <li className='py-2'>
+    <li>
       <a
         onClick={onClickChannelListItem}
         href='#!'
-        className='d-flex text-decoration-none align-items-center text-light hover-dim'
+        className={`py-2 px-2 hover-dim  d-flex text-light text-decoration-none align-items-center
+        ${isSelected ? 'bg-gray-700' : ''}`}
       >
         <HashtagIcon />
         <div className='ms-1'>{channel.name}</div>
@@ -70,6 +78,8 @@ const CreateChannelForm = (props) => {
 const ChannelsLeftbar = (props) => {
   const { dispatch, useAppSelector } = useRedux();
 
+  const [currentChannel, setCurrentChannel] = useState(null);
+
   const { channels } = useAppSelector((state) => ({
     channels: state.Channel.channels
   }));
@@ -96,34 +106,49 @@ const ChannelsLeftbar = (props) => {
           channel: firstChannel
         }
       };
+      setCurrentChannel(firstChannel);
       dispatch(switchContent(channelContent));
       firstRun.current = false;
     };
     openFirstChannel();
   }, [channels]);
 
+  const onChannelClick = (channel) => {
+    setCurrentChannel(channel);
+  };
+
   const onClickDiscoverChannels = () => {
     const discoverChannelContent = {
       component: DiscoverChannels
     };
+    setCurrentChannel(null);
     dispatch(switchContent(discoverChannelContent));
   };
 
   return (
-    <div>
-      <h1>Channels</h1>
-      <ul className='list-unstyled mb-0'>
-        {channels.map((channel, idx) => (
-          <ChannelListItem key={idx} channel={channel} />
-        ))}
-      </ul>
-      <button
-        onClick={onClickDiscoverChannels}
-        className='btn btn-primary mt-2'
-      >
-        Discover new channels
-      </button>
-      <CreateChannelForm />
+    <div className='d-flex flex-column h-100'>
+      <h2>Channels</h2>
+      <div className='overflow-auto'>
+        <ul className='list-unstyled mb-0'>
+          {channels.map((channel, idx) => (
+            <ChannelListItem
+              currentChannel={currentChannel}
+              onChannelClick={onChannelClick}
+              key={idx}
+              channel={channel}
+            />
+          ))}
+        </ul>
+      </div>
+      <div className='mt-auto'>
+        <button
+          onClick={onClickDiscoverChannels}
+          className='btn btn-primary mt-2'
+        >
+          Discover new channels
+        </button>
+        <CreateChannelForm />
+      </div>
     </div>
   );
 };
