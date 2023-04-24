@@ -1,7 +1,6 @@
 import { ChannelActionTypes } from './types';
 
 const INIT_STATE = {
-  channel: null,
   loading: false,
   error: null,
   channels: []

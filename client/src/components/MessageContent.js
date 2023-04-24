@@ -120,19 +120,20 @@ const MessageItem = (props) => {
 const MessageContent = (props) => {
   const { channel } = props;
   const { messages } = channel;
-  const reversedMessages = [...messages].reverse();
-  const messagesContainer = useRef();
-  useEffect(() => {
-    messagesContainer.current.scrollIntoView(false);
-  }, []);
 
   return (
     <div className='h-100'>
       <div className='col-md-12 h-100'>
-        <div className='card bg-transparent px-3 pt-3 h-100'>
-          <div className='card-body p-0 overflow-auto'>
-            <div ref={messagesContainer} className='mt-auto pe-3 d-flex flex-column-reverse'>
-              {reversedMessages.map((messageData, idx) => {
+        <div className='card bg-transparent h-100'>
+          <div
+            className='flex-shrink-0 d-flex align-items-center border-bottom'
+            style={{ height: '70px' }}
+          >
+            <div className='px-3'>{channel.name}</div>
+          </div>
+          <div className='card-body px-3 py-0 d-flex flex-column-reverse overflow-auto'>
+            <div className='pe-3 '>
+              {messages.map((messageData, idx) => {
                 return (
                   <MessageItem
                     key={idx}
@@ -143,7 +144,9 @@ const MessageContent = (props) => {
               })}
             </div>
           </div>
-          <MessageInput channel={channel} />
+          <div className='px-3'>
+            <MessageInput channel={channel} />
+          </div>
         </div>
       </div>
     </div>
