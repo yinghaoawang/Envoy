@@ -10,7 +10,9 @@ import {
   filterObject,
   passwordPattern
 } from '../../../utils';
-import { updateUser } from '../../../redux/profile/actions';
+import { setUser, updateUser } from '../../../redux/profile/actions';
+import { useState } from 'react';
+import profileApi from '../../../api/profileApi';
 
 const schema = yup
   .object({
@@ -126,11 +128,94 @@ const EditProfileForm = () => {
   );
 };
 
-const EditProfile = (props) => {
+const UploadProfileImageForm = (props) => {
   const { dispatch, useAppSelector } = useRedux();
+  const [isLoading, setIsLoading] = useState(false);
+  const [uploadStatusMessage, setUploadStatusMessage] = useState(null);
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [uploadError, setUploadError] = useState(null);
 
-  const { userProfile } = useProfile();
+  const onFileChange = (event) => {
+    try {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        console.log(event.target.result);
+        setUploadedImage(event.target.result);
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    } catch (error) {
+      setUploadError(error);
+    }
+  };
 
+  const onSubmit = async () => {
+    try {
+      setIsLoading(true);
+      setUploadStatusMessage('Uploading...');
+      const user = await profileApi.uploadProfileImage({ uploadData: uploadedImage });
+      dispatch(setUser(user));
+      setIsLoading(false);
+      setUploadStatusMessage('Success');
+    } catch (error) {
+      setUploadError(error);
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className='px-4 py-4 bg-gray-700'>
+      <div className='col-md-8 mx-auto'>
+        <div className='mb-3 text-center'>
+          <div
+            className='mb-3 rounded-3'
+            style={{
+              width: '150px',
+              height: '150px',
+              backgroundImage: 'url("//placehold.it/150")'
+            }}
+          >
+            <img
+              src={uploadedImage}
+              onLoad={() => {
+                setUploadError(null);
+              }}
+              onError={() => {
+                setUploadError({ message: 'Invalid file uploaded' });
+              }}
+              width='150px'
+              height='150px'
+              alt=''
+              className='avatar rounded-3'
+            />
+          </div>
+          <h6>Update profile picture</h6>
+          <div className='col-md-8 mx-auto'>
+            <label className='input-group-text text-center' htmlFor='inputFile'>
+              <span className='w-100'>Select file</span>
+              <input
+                type='file'
+                className='form-control d-none'
+                id='inputFile'
+                onChange={onFileChange}
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+      <div>{!uploadError && uploadStatusMessage}</div>
+      <ErrorMessage message={uploadError?.message} />
+      <button
+        disabled={!uploadedImage || uploadError || isLoading}
+        className='btn btn-primary mt-3'
+        onClick={onSubmit}
+      >
+        Save Changes
+      </button>
+    </div>
+  );
+};
+
+const EditProfile = (props) => {
   return (
     <div className='pt-4 mx-4 '>
       <div
@@ -141,30 +226,7 @@ const EditProfile = (props) => {
         <hr className='py-2' />
         <div className='row gx-5'>
           <div className='col-md-4 mb-4'>
-            <div className='text-center'>
-              <img
-                src={userProfile.imgUrl || '//placehold.it/150'}
-                width='150px'
-                height='150px'
-                className='avatar img-circle mb-3'
-                alt='avatar'
-              />
-              <h6 className='mb-3 mx-auto'>Update profile picture</h6>
-
-              <div className='col-md-4 mx-auto'>
-                <label
-                  className='input-group-text text-center'
-                  htmlFor='inputFile'
-                >
-                  <span className='w-100'>Select file</span>
-                  <input
-                    type='file'
-                    className='form-control d-none'
-                    id='inputFile'
-                  />
-                </label>
-              </div>
-            </div>
+            <UploadProfileImageForm />
           </div>
           <div className='col-md-8 personal-info'>
             <EditProfileForm />

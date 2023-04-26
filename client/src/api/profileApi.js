@@ -12,7 +12,18 @@ function updateUser(data) {
   })
 }
 
+function uploadProfileImage(data) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await api.post(url.UPLOAD_PROFILE_IMAGE, data);
+      resolve(user);
+    } catch(error){
+      reject(error);
+    }
+  })
+}
+
 const profileApi = {
-  updateUser
+  updateUser, uploadProfileImage
 };
 export default profileApi;

@@ -1,5 +1,11 @@
 export {};
-import type { SocketUser, User, Channel, AppSocket, DirectMessage } from '../types';
+import type {
+  SocketUser,
+  User,
+  Channel,
+  AppSocket,
+  DirectMessage
+} from '../types';
 const { prisma } = require('../helpers/prismaHelper');
 const { filterPasswordKeys } = require('../helpers');
 
@@ -17,14 +23,17 @@ function connectUser(socket: AppSocket, user: User) {
     user
   };
   const existingUser = onlineUsers.find((u) => u.socketId === socket.id);
-  if (existingUser != null)
+  if (existingUser != null) {
     throw new Error('Socket id already exists in connect socket user');
+  }
   onlineUsers.push(socketUser);
 }
 
 function disconnectUser(socket: AppSocket) {
   const index = onlineUsers.findIndex((u) => u.socketId === socket.id);
-  if (index === -1) throw new Error('User not found in disconnect socket user');
+  if (index === -1) {
+    throw new Error('User not found in disconnect socket user');
+  }
   onlineUsers.splice(index, 1);
 }
 
@@ -79,9 +88,11 @@ function init() {
     });
   };
 
-  Promise.all([loadUsers(), loadChannels(), loadDirectMessages()]).catch((error) => {
-    throw new Error(error);
-  });
+  Promise.all([loadUsers(), loadChannels(), loadDirectMessages()]).catch(
+    (error) => {
+      throw new Error(error);
+    }
+  );
 }
 
 module.exports = {
@@ -91,5 +102,5 @@ module.exports = {
   init,
   onlineUsers,
   connectUser,
-  disconnectUser,
+  disconnectUser
 };

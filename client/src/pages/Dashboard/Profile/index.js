@@ -27,30 +27,29 @@ const Profile = (props) => {
               className='rounded-top text-white d-flex flex-row'
               style={{
                 backgroundColor: '#000',
-                height: '200px'
+                height: '220px'
               }}
             >
-              <div
-                className='ms-4 mt-5 d-flex flex-column'
-                style={{ width: '150px' }}
-              >
-                <img
-                  src={
-                    userProfile?.profileImgUrl ||
-                    'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp'
-                  }
-                  alt='Generic placeholder image'
-                  className='img-fluid img-thumbnail mt-4 mb-2'
-                  style={{ width: '150px', zIndex: 1, backgroundColor: '#121212' }}
-                />
-                <button
-                  type='button'
-                  className='btn btn-outline-dark'
-                  style={{ zIndex: 1 }}
-                  onClick={onClickEditProfile}
+              <div className='ms-4 mt-5 d-flex flex-column'>
+                <div
+                  style={{
+                    objectFit: 'cover',
+                    width: '150px',
+                    height: '150px'
+                  }}
                 >
-                  Edit profile
-                </button>
+                  <img
+                    src={
+                      userProfile?.profileImgUrl ||
+                      'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp'
+                    }
+                    alt='avatar'
+                    className='img-fluid img-thumbnail h-100 w-100 object-fit-cover'
+                    style={{
+                      backgroundColor: '#121212'
+                    }}
+                  />
+                </div>
               </div>
               <div className='ms-3' style={{ marginTop: '130px' }}>
                 <h5>{userProfile?.displayName || 'Unknown'}</h5>
@@ -58,71 +57,76 @@ const Profile = (props) => {
               </div>
             </div>
             <div
-              className='p-4 text-black'
+              className='p-4 d-flex flex-column text-black'
               style={{ backgroundColor: '#f8f9fa' }}
             >
-              <div className='d-flex justify-content-end text-center py-1'>
-                {/* <div>
-                  <p className='mb-1 h5'>253</p>
-                  <p className='small text-muted mb-0'>Photos</p>
+              <div className='d-flex justify-content-between'>
+                <div className='d-flex w-100'>
+                  <div className='mb-5'>
+                    <p className='lead fw-normal mb-1'>About</p>
+                    <div className='p-2' style={{ backgroundColor: '#f8f9fa' }}>
+                      {userProfile?.biography ||
+                        'This user has nothing to say.'}
+                    </div>
+                  </div>
                 </div>
-                <div className='px-3'>
-                  <p className='mb-1 h5'>1026</p>
-                  <p className='small text-muted mb-0'>Followers</p>
-                </div>
-                <div>
-                  <p className='mb-1 h5'>478</p>
-                  <p className='small text-muted mb-0'>Following</p>
-                </div> */}
-              </div>
-            </div>
-            <div className='card-body p-4 text-black'>
-              <div className='mb-5'>
-                <p className='lead fw-normal mb-1'>About</p>
-                <div className='p-2' style={{ backgroundColor: '#f8f9fa' }}>
-                  {userProfile?.biography || 'This user has nothing to say.'}
-                </div>
-              </div>
-              {/* <div className='d-flex justify-content-between align-items-center mb-4'>
-                <p className='lead fw-normal mb-0'>Recent photos</p>
-                <p className='mb-0'>
-                  <a href='#!' className='text-muted'>
-                    Show all
-                  </a>
-                </p>
-              </div>
-              <div className='row g-2'>
-                <div className='col mb-2'>
-                  <img
-                    src='https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp'
-                    alt='image 1'
-                    className='w-100 rounded-3'
-                  />
-                </div>
-                <div className='col mb-2'>
-                  <img
-                    src='https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp'
-                    alt='image 1'
-                    className='w-100 rounded-3'
-                  />
+                <div className='d-flex'>
+                  <div>
+                    <p className='mb-1 h5'>253</p>
+                    <p className='small text-muted mb-0'>Photos</p>
+                  </div>
+                  <div className='px-3'>
+                    <p className='mb-1 h5'>1026</p>
+                    <p className='small text-muted mb-0'>Followers</p>
+                  </div>
+                  <div>
+                    <p className='mb-1 h5'>478</p>
+                    <p className='small text-muted mb-0'>Following</p>
+                  </div>
                 </div>
               </div>
-              <div className='row g-2'>
-                <div className='col'>
-                  <img
-                    src='https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp'
-                    alt='image 1'
-                    className='w-100 rounded-3'
-                  />
+              <div>
+                <div className='d-flex justify-content-between align-items-center mb-4'>
+                  <p className='lead fw-normal mb-0'>Featured photos</p>
+                  <p className='mb-0'>
+                    <a href='#!' className='text-muted'>
+                      Show all
+                    </a>
+                  </p>
                 </div>
-                <div className='col'>
-                  <img
-                    src='https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp'
-                    alt='image 1'
-                    className='w-100 rounded-3'
-                  />
+                <div className='row g-2'>
+                  <div className='col mb-2'>
+                    <img
+                      src='https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp'
+                      alt='image 1'
+                      className='w-100 rounded-3'
+                    />
+                  </div>
+                  <div className='col mb-2'>
+                    <img
+                      src='https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp'
+                      alt='image 1'
+                      className='w-100 rounded-3'
+                    />
+                  </div>
                 </div>
-              </div> */}
+                <div className='row g-2'>
+                  <div className='col'>
+                    <img
+                      src='https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp'
+                      alt='image 1'
+                      className='w-100 rounded-3'
+                    />
+                  </div>
+                  <div className='col'>
+                    <img
+                      src='https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp'
+                      alt='image 1'
+                      className='w-100 rounded-3'
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

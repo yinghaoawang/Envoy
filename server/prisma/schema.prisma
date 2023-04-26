@@ -15,6 +15,7 @@ model User {
   email              String            @unique
   hashedPassword     Bytes
   salt               Bytes
+  profileImgUrl      String?
   displayName        String?
   status             String?
   biography          String?

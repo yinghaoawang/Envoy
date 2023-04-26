@@ -15,3 +15,4 @@ export const GET_DIRECT_MESSAGES = '/direct-message'
 
 // profile
 export const UPDATE_USER = '/user/update';
+export const UPLOAD_PROFILE_IMAGE = '/user/upload';
