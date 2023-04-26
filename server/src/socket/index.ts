@@ -10,10 +10,13 @@ module.exports = (io: any) => {
     }
 
     connectUser(socket, socket.handshake.session.passport.user);
+    console.log('connected', socket.id, socket.handshake.session.passport.user.id)
 
-    socket.on('message', socketHandlers.onMessageHandler);
+    socket.on('channelMessage', socketHandlers.onChannelMessageHandler);
+    socket.on('directMessage', socketHandlers.onDirectMessageHandler);
 
     socket.on('disconnect', () => {
+      console.log('disconnected', socket.id, socket.handshake.session.passport.user.id)
       disconnectUser(socket);
     });
   });

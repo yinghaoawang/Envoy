@@ -28,9 +28,19 @@ export interface Channel {
   id: string;
 }
 
-export interface Message {
+export interface ChannelMessage {
   channel: {
     id: string;
   };
+  message: string;
+}
+
+export interface DirectMessage {
+  to: {
+    userId: string
+  },
+  from: {
+    userId: string
+  },
   message: string;
 }

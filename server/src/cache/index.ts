@@ -1,5 +1,5 @@
 export {};
-import type { SocketUser, User, Channel, AppSocket } from '../types';
+import type { SocketUser, User, Channel, AppSocket, DirectMessage } from '../types';
 const { prisma } = require('../helpers/prismaHelper');
 const { filterPasswordKeys } = require('../helpers');
 
@@ -8,6 +8,8 @@ const onlineUsers: SocketUser[] = [];
 const users: User[] = [];
 
 const channels: Channel[] = [];
+
+const directMessages: DirectMessage[] = [];
 
 function connectUser(socket: AppSocket, user: User) {
   const socketUser = {
@@ -26,28 +28,12 @@ function disconnectUser(socket: AppSocket) {
   onlineUsers.splice(index, 1);
 }
 
-function addUser(user: User) {
-  users.push(user);
-}
-
-function addUsers(newUsers: User[]) {
-  users.push(...newUsers);
-}
-
-function addChannel(channel: Channel) {
-  channels.push(channel);
-}
-
-function addChannels(newChannels: Channel[]) {
-  channels.push(...newChannels);
-}
-
 function init() {
   const loadUsers = () => {
     return new Promise(async (resolve, reject) => {
       try {
         const dbUsers = await prisma.user.findMany();
-        addUsers([...filterPasswordKeys(dbUsers)]);
+        users.push(...filterPasswordKeys(dbUsers));
         resolve(users);
       } catch (error) {
         reject(error);
@@ -68,7 +54,7 @@ function init() {
             }
           }
         });
-        addChannels([...filterPasswordKeys(dbChannels)]);
+        channels.push(...filterPasswordKeys(dbChannels));
         resolve(channels);
       } catch (error) {
         reject(error);
@@ -76,7 +62,24 @@ function init() {
     });
   };
 
-  Promise.all([loadUsers(), loadChannels()]).catch((error) => {
+  const loadDirectMessages = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const dbDirectMessages = await prisma.directMessage.findMany({
+          include: {
+            from: true,
+            to: true
+          }
+        });
+        directMessages.push(...filterPasswordKeys(dbDirectMessages));
+        resolve(directMessages);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
+  Promise.all([loadUsers(), loadChannels(), loadDirectMessages()]).catch((error) => {
     throw new Error(error);
   });
 }
@@ -84,6 +87,7 @@ function init() {
 module.exports = {
   users,
   channels,
+  directMessages,
   init,
   onlineUsers,
   connectUser,

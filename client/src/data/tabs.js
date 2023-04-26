@@ -20,6 +20,7 @@ import MessagesLeftbar from '../pages/Dashboard/Messages/MessagesLeftbar';
 import ChannelsLeftbar from '../pages/Dashboard/Channels/ChannelsLeftbar';
 import SettingsLeftbar from '../pages/Dashboard/Settings/SettingsLeftbar';
 import PeopleLeftbar from '../pages/Dashboard/People/PeopleLeftbar';
+import Channels from '../pages/Dashboard/Channels';
 
 export const rootTab = {
   id: -1,
@@ -65,7 +66,7 @@ export const tabs = [
     },
     leftbar: {
       component: ChannelsLeftbar
-    }
+    },
   },
   {
     id: 3,
@@ -80,7 +81,7 @@ export const tabs = [
       component: MessagesLeftbar,
     },
     content: {
-      // component: Messages
+      component: Messages
     }
   },
   {

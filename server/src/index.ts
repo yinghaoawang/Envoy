@@ -11,7 +11,8 @@ const session = require('express-session')({
   saveUninitialized: true,
   cookie: { maxAge: 1200000 }
 });
-
+const { updateCache } = require('./middlewares/prisma');
+const { prisma } = require('./helpers/prismaHelper');
 const cache = require('./cache');
 
 cache.init();
@@ -22,11 +23,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session);
 
+prisma.$use(updateCache);
+
 require('./routes')(app);
 require('./socket')(io);
+
 io.use((socket: any, next: any) => {
   session(socket.handshake, {}, next);
 });
+
 server.listen(config.PORT, () => {
   console.log(`Listening on *: ${config.PORT}`);
 });

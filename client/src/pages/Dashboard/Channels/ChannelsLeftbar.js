@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import channelApi from '../../../api/channelApi';
 import { useRedux } from '../../../hooks';
 import { switchContent } from '../../../redux/layout/actions';
 import Channels from '.';
@@ -9,26 +8,17 @@ import ErrorMessage from '../../../components/ErrorMessage';
 import {
   createChannel,
   loadChannels,
-  setChannels
 } from '../../../redux/channel/actions';
 import { FaHashtag as HashtagIcon } from 'react-icons/fa';
 import DiscoverChannels from './DiscoverChannels';
 
 const ChannelListItem = (props) => {
   const { channel, currentChannel, onChannelClick } = props;
-  const { dispatch } = useRedux();
 
   const isSelected = currentChannel != null && currentChannel.id === channel.id;
 
   const onClickChannelListItem = () => {
-    const channelContent = {
-      component: Channels,
-      props: {
-        channel: channel
-      }
-    };
     onChannelClick(channel);
-    dispatch(switchContent(channelContent));
   };
 
   return (
@@ -100,14 +90,7 @@ const ChannelsLeftbar = (props) => {
         dispatch(switchContent(discoverChannelContent));
         return;
       }
-      const channelContent = {
-        component: Channels,
-        props: {
-          channel: firstChannel
-        }
-      };
-      setCurrentChannel(firstChannel);
-      dispatch(switchContent(channelContent));
+      onChannelClick(firstChannel);
       firstRun.current = false;
     };
     openFirstChannel();
@@ -115,6 +98,13 @@ const ChannelsLeftbar = (props) => {
 
   const onChannelClick = (channel) => {
     setCurrentChannel(channel);
+    const channelContent = {
+      component: Channels,
+      props: {
+        channel: channel
+      }
+    };
+    dispatch(switchContent(channelContent));
   };
 
   const onClickDiscoverChannels = () => {

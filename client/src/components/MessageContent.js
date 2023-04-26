@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { socketEmitEvent } from '../helpers/socketHelper';
 
 const MessageInput = (props) => {
-  const { channel } = props;
+  const { channel, otherUser } = props;
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
 
   const toggleEmojiClicker = () => {
@@ -42,12 +42,23 @@ const MessageInput = (props) => {
   const onSubmit = (event) => {
     event.preventDefault();
     if (inputRef.current.value === '') return;
-    socketEmitEvent('message', {
-      channel: {
-        id: channel.id
-      },
-      message: inputRef.current.value
-    });
+    if (channel != null) {
+      socketEmitEvent('channelMessage', {
+        channel: {
+          id: channel.id
+        },
+        message: inputRef.current.value
+      });
+    } else if (otherUser != null) {
+      socketEmitEvent('directMessage', {
+        to: {
+          userId: otherUser.id
+        },
+        message: inputRef.current.value
+      });
+    } else {
+      throw new Error('Target (channel or other user) does not exist in submit message.');
+    }
     inputRef.current.value = '';
   };
 
@@ -118,8 +129,8 @@ const MessageItem = (props) => {
 };
 
 const MessageContent = (props) => {
-  const { channel } = props;
-  const { messages } = channel;
+  const { channel, otherUser } = props;
+  const messages = channel?.messages || props.directMessages;
 
   return (
     <div className='h-100'>
@@ -129,7 +140,9 @@ const MessageContent = (props) => {
             className='flex-shrink-0 d-flex align-items-center border-bottom'
             style={{ height: '70px' }}
           >
-            <div className='px-3'>{channel.name}</div>
+            <div className='px-3'>
+              {channel != null ? channel.name : otherUser.displayName}
+            </div>
           </div>
           <div className='card-body px-3 py-0 d-flex flex-column-reverse overflow-auto'>
             <div className='pe-3 '>
@@ -137,7 +150,7 @@ const MessageContent = (props) => {
                 return (
                   <MessageItem
                     key={idx}
-                    user={messageData.user}
+                    user={messageData.user || messageData.from}
                     message={messageData}
                   />
                 );
@@ -145,7 +158,7 @@ const MessageContent = (props) => {
             </div>
           </div>
           <div className='px-3'>
-            <MessageInput channel={channel} />
+            <MessageInput {...props} />
           </div>
         </div>
       </div>

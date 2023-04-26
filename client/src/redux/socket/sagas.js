@@ -3,8 +3,9 @@ import { closeSocket, createSocket } from '../../helpers/socketHelper';
 import { eventChannel } from 'redux-saga';
 import { SocketActionTypes } from './types';
 import { setChannels } from '../channel/actions';
+import { setDirectMessages } from '../directMessages/actions';
 
-function* onMessageHandler({ channel, message }) {
+function* onChannelMessageHandler({ channel, message }) {
   const { channels } = yield select((state) => ({
     channels: state.Channel.channels
   }));
@@ -12,15 +13,29 @@ function* onMessageHandler({ channel, message }) {
   if (!matchingChannel) return;
 
   matchingChannel.messages.push(message);
-  console.log(message, channel);
-  yield put(setChannels(channels));
+  yield put(setChannels([...channels]));
+}
+
+function* onDirectMessageHandler({ message }) {
+  const { directMessages } = yield select((state) => ({
+    directMessages: state.DirectMessage.directMessages
+  }));
+
+  if (directMessages == null) return;
+  directMessages.push(message);
+
+  yield put(setDirectMessages([...directMessages]));
 }
 
 function createSocketChannel(socket) {
   const socketEvents = [
     {
-      name: 'message',
-      handler: onMessageHandler
+      name: 'channelMessage',
+      handler: onChannelMessageHandler
+    },
+    {
+      name: 'directMessage',
+      handler: onDirectMessageHandler
     }
   ];
 

@@ -71,7 +71,7 @@ const DiscoverChannels = (props) => {
   }, []);
 
   return (
-    <div className='container p-4   '>
+    <div className='container p-4'>
       <h1>Discover Channels</h1>
       <table className='table text-white'>
         <thead>

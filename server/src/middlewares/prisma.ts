@@ -1,9 +1,8 @@
 export {};
 const cache = require('../cache');
-const { prisma } = require('../helpers/prismaHelper');
 const { filterPasswordKeys } = require('../helpers');
 
-prisma.$use(async (params: any, next: any) => {
+const updateCache = async (params: any, next: any) => {
   const result = await next(params);
 
   let cacheArray = null;
@@ -13,6 +12,9 @@ prisma.$use(async (params: any, next: any) => {
       break;
     case 'Channel':
       cacheArray = cache.channels;
+      break;
+    case 'DirectMessage':
+      cacheArray = cache.directMessages;
       break;
     default:
       throw new Error('Unrecognized model name in prisma socket.io middleware');
@@ -34,4 +36,6 @@ prisma.$use(async (params: any, next: any) => {
   }
 
   return result;
-});
+};
+
+module.exports = { updateCache };

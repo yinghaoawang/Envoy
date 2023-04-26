@@ -6,6 +6,7 @@ import { resetProfileState, setUser } from '../profile/actions';
 import { resetLayoutState } from '../layout/actions';
 import { resetChannelState } from '../channel/actions';
 import { closeCurrentSocket, openNewSocket } from '../socket/actions';
+import { resetDirectMessageState } from '../directMessages/actions';
 
 function* loginUser({ payload: { user } }) {
   try {
@@ -23,6 +24,7 @@ function* logoutUser() {
   try {
     yield call(authApi.logoutUser);
     yield put(resetAuthState());
+    yield put(resetDirectMessageState());
     yield put(resetProfileState());
     yield put(resetLayoutState());
     yield put(resetChannelState());

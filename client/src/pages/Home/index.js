@@ -23,7 +23,6 @@ const Home = () => {
   )
   const onLogin = async () => {
     dispatch(loginUser({email: 'hey@email.com', password: 'password'}));
-    console.log(await api.get('/'));
   };
 
   const onLogout = () => {
