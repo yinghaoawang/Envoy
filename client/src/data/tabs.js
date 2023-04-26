@@ -80,9 +80,6 @@ export const tabs = [
     leftbar: {
       component: MessagesLeftbar,
     },
-    content: {
-      component: Messages
-    }
   },
   {
     id: 4,

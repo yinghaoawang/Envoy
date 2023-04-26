@@ -111,7 +111,7 @@ const MessageItem = (props) => {
   return (
     <div className='d-flex flex-row justify-content-start'>
       <img
-        src={user.profileImgUrl}
+        src={user.profileImgUrl || 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp'}
         alt='avatar 1'
         style={{ width: '45px', height: '100%' }}
       />

@@ -5,26 +5,17 @@ import Channels from '.';
 import FormInput from '../../../components/FormInput';
 import { useForm } from 'react-hook-form';
 import ErrorMessage from '../../../components/ErrorMessage';
-import {
-  createChannel,
-  loadChannels,
-} from '../../../redux/channel/actions';
+import { createChannel, loadChannels } from '../../../redux/channel/actions';
 import { FaHashtag as HashtagIcon } from 'react-icons/fa';
 import DiscoverChannels from './DiscoverChannels';
 
 const ChannelListItem = (props) => {
   const { channel, currentChannel, onChannelClick } = props;
-
   const isSelected = currentChannel != null && currentChannel.id === channel.id;
-
-  const onClickChannelListItem = () => {
-    onChannelClick(channel);
-  };
-
   return (
     <li>
       <a
-        onClick={onClickChannelListItem}
+        onClick={() => onChannelClick(channel)}
         href='#!'
         className={`py-2 px-2 hover-dim  d-flex text-light text-decoration-none align-items-center
         ${isSelected ? 'bg-gray-700' : ''}`}

@@ -35,10 +35,13 @@ const Profile = (props) => {
                 style={{ width: '150px' }}
               >
                 <img
-                  src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp'
+                  src={
+                    userProfile?.profileImgUrl ||
+                    'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp'
+                  }
                   alt='Generic placeholder image'
                   className='img-fluid img-thumbnail mt-4 mb-2'
-                  style={{ width: '150px', zIndex: 1 }}
+                  style={{ width: '150px', zIndex: 1, backgroundColor: '#121212' }}
                 />
                 <button
                   type='button'
