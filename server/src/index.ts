@@ -23,8 +23,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session);
 
-prisma.$use(updateCache);
-
 require('./routes')(app);
 require('./socket')(io);
 

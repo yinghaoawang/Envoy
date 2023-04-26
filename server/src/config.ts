@@ -9,6 +9,11 @@ const config = {
     DATABASE: process.env.PG_DATABASE,
     PASSWORD: process.env.PG_PASSWORD,
     PORT: process.env.PG_PORT
+  },
+  CLOUDINARY: {
+    CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+    API_KEY: process.env.CLOUDINARY_API_KEY,
+    API_SECRET: process.env.CLOUDINARY_API_SECRET
   }
 };
 
