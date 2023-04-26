@@ -14,7 +14,7 @@ const MessageListItem = (props) => {
       <a
         onClick={() => onChatClick(chat)}
         href='#!'
-        className={`d-flex py-2 px-2 text-decoration-none align-items-center text-light hover-dim ${
+        className={`d-flex py-2 px-2 align-items-center text-light hover-dim ${
           isSelected ? 'bg-gray-700' : ''
         }`}
       >

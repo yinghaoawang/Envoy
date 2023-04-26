@@ -4,6 +4,7 @@ import EditProfile from './EditProfile';
 
 const Profile = (props) => {
   const { userProfile } = useProfile();
+  const user = props.user || userProfile;
   const { dispatch } = useRedux();
 
   const onClickEditProfile = () => {
@@ -40,7 +41,7 @@ const Profile = (props) => {
                 >
                   <img
                     src={
-                      userProfile?.profileImgUrl ||
+                      user?.profileImgUrl ||
                       'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp'
                     }
                     alt='avatar'
@@ -49,15 +50,17 @@ const Profile = (props) => {
                 </div>
               </div>
               <div className='ms-3 mt-auto d-flex flex-column gap-2'>
-                <a
-                  onClick={onClickEditProfile}
-                  className='text-decoration-none btn btn-outline-light'
-                  href='#!'
-                >
-                  Edit Profile
-                </a>
-                <h5>{userProfile?.displayName || 'Unknown'}</h5>
-                <p>{userProfile?.status}</p>
+                {user === userProfile && (
+                  <a
+                    onClick={onClickEditProfile}
+                    className='btn btn-outline-light'
+                    href='#!'
+                  >
+                    Edit Profile
+                  </a>
+                )}
+                <h5>{user?.displayName || 'Unknown'}</h5>
+                <p>{user?.status}</p>
               </div>
             </div>
             <div
@@ -69,8 +72,7 @@ const Profile = (props) => {
                   <div className='mb-5'>
                     <p className='lead fw-normal mb-1'>About</p>
                     <div className='p-2' style={{ backgroundColor: '#f8f9fa' }}>
-                      {userProfile?.biography ||
-                        'This user has nothing to say.'}
+                      {user?.biography || 'This user has nothing to say.'}
                     </div>
                   </div>
                 </div>
@@ -93,7 +95,7 @@ const Profile = (props) => {
                 <div className='d-flex justify-content-between align-items-center mb-4'>
                   <p className='lead fw-normal mb-0'>Featured photos</p>
                   <p className='mb-0'>
-                    <a href='#!' className='text-muted'>
+                    <a href='#!' className='text-muted text-decoration-underline'>
                       Show all
                     </a>
                   </p>
@@ -102,14 +104,14 @@ const Profile = (props) => {
                   <div className='col mb-2'>
                     <img
                       src='https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp'
-                      alt='image 1'
+                      alt=''
                       className='w-100 rounded-3'
                     />
                   </div>
                   <div className='col mb-2'>
                     <img
                       src='https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp'
-                      alt='image 1'
+                      alt=''
                       className='w-100 rounded-3'
                     />
                   </div>
@@ -118,14 +120,14 @@ const Profile = (props) => {
                   <div className='col'>
                     <img
                       src='https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp'
-                      alt='image 1'
+                      alt=''
                       className='w-100 rounded-3'
                     />
                   </div>
                   <div className='col'>
                     <img
                       src='https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp'
-                      alt='image 1'
+                      alt=''
                       className='w-100 rounded-3'
                     />
                   </div>

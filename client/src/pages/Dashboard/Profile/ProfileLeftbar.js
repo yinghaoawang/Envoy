@@ -1,5 +1,5 @@
 import Profile from '.';
-import { useRedux } from '../../../hooks';
+import { useProfile, useRedux } from '../../../hooks';
 import { switchContent } from '../../../redux/layout/actions';
 import EditProfile from './EditProfile';
 import { AiOutlineEdit as UserEditIcon } from 'react-icons/ai';
@@ -7,6 +7,7 @@ import { BsPerson as UserIcon } from 'react-icons/bs';
 
 const ProfileLeftbar = (props) => {
   const { dispatch } = useRedux();
+  const { userProfile } = useProfile();
 
   const onClickMyProfile = () => {
     const myProfileContent = {
@@ -28,7 +29,7 @@ const ProfileLeftbar = (props) => {
       <ul className='list-unstyled mb-0'>
         <li>
           <a
-            className='py-2 px-2 hover-dim  d-flex text-light text-decoration-none align-items-center'
+            className='py-2 px-2 hover-dim  d-flex text-light align-items-center'
             onClick={onClickMyProfile}
             href='#!'
           >
@@ -38,7 +39,7 @@ const ProfileLeftbar = (props) => {
         </li>
         <li>
           <a
-            className='py-2 px-2 hover-dim  d-flex text-light text-decoration-none align-items-center'
+            className='py-2 px-2 hover-dim  d-flex text-light align-items-center'
             onClick={onClickEditProfile}
             href='#!'
           >

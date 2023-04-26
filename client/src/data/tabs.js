@@ -5,7 +5,6 @@ import {
 
 import { BsExplicitFill as LogoIcon } from 'react-icons/bs';
 
-
 import { RiHashtag as ChannelsIcon } from 'react-icons/ri';
 
 import { BiMessage as MessagesIcon } from 'react-icons/bi';
@@ -25,7 +24,7 @@ export const rootTab = {
     component: LogoIcon,
     props: {
       size: 34
-    },
+    }
   },
   content: {
     component: Welcome
@@ -60,7 +59,7 @@ export const tabs = [
     },
     leftbar: {
       component: ChannelsLeftbar
-    },
+    }
   },
   {
     id: 3,
@@ -72,8 +71,8 @@ export const tabs = [
       }
     },
     leftbar: {
-      component: MessagesLeftbar,
-    },
+      component: MessagesLeftbar
+    }
   },
   {
     id: 4,

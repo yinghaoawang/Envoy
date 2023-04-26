@@ -14,7 +14,7 @@ const MenuHeader = (props) => {
     <div className='d-flex flex-column'>
       <a
         href={props.href || '#!'}
-        className='d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none justify-content-center hover-dim'
+        className='d-flex align-items-center flex-shrink-0 p-3 link-dark justify-content-center hover-dim'
         onClick={() => {
           dispatch(switchTab(tab));
         }}
@@ -80,7 +80,7 @@ const MenuDropdown = (props) => {
     <div className='dropdown border-top border-gray-300'>
       <a
         href='#!'
-        className='d-flex align-items-center justify-content-center py-2 link-dark text-decoration-none'
+        className='d-flex align-items-center justify-content-center py-2 link-dark'
         id='dropdownUser'
         data-bs-toggle='dropdown'
         aria-expanded='false'

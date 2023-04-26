@@ -21,7 +21,7 @@ const ChannelListItem = (props) => {
       <a
         onClick={() => onChannelClick(channel)}
         href='#!'
-        className={`py-2 px-2 hover-dim  d-flex text-light text-decoration-none align-items-center
+        className={`py-2 px-2 hover-dim  d-flex text-light align-items-center
         ${isSelected ? 'bg-gray-700' : ''}`}
       >
         <HashtagIcon />

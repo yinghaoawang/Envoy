@@ -7,7 +7,7 @@ const PlaceholderSidebar = (props) => {
   return (
     <div>
       <p
-        className='d-flex align-items-center mb-3 mb-md-0 ms-2 me-md-auto text-white text-decoration-none'
+        className='d-flex align-items-center mb-3 mb-md-0 ms-2 me-md-auto text-white'
       >
         <span className='fs-4'>Envoy</span>
       </p>

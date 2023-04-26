@@ -3,7 +3,9 @@ import { FaPaperPlane as SendIcon, FaSmile as EmojiIcon } from 'react-icons/fa';
 import EmojiPicker from 'emoji-picker-react';
 import { useEffect, useRef, useState } from 'react';
 import { socketEmitEvent } from '../helpers/socketHelper';
-import { useProfile } from '../hooks';
+import { useProfile, useRedux } from '../hooks';
+import { switchContent } from '../redux/layout/actions';
+import Profile from '../pages/Dashboard/Profile';
 
 const MessageInput = (props) => {
   const { channel, otherUser } = props;
@@ -116,21 +118,35 @@ const MessageInput = (props) => {
 
 const MessageItem = (props) => {
   const { user, message } = props;
+  const { dispatch } = useRedux();
+  const onUserClick = () => {
+    const profileContent = {
+      component: Profile,
+      props: {
+        user
+      }
+    };
+    dispatch(switchContent(profileContent));
+  };
   return (
     <div className='d-flex flex-row justify-content-start'>
-      <img
-        src={
-          user.profileImgUrl ||
-          'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp'
-        }
-        className='rounded-circle avatar'
-        alt='avatar 1'
-        style={{ width: '40px', height: '40px' }}
-      />
+      <a onClick={onUserClick} href='#!'>
+        <img
+          src={
+            user.profileImgUrl ||
+            'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp'
+          }
+          className='rounded-circle avatar'
+          alt='avatar 1'
+          style={{ width: '40px', height: '40px' }}
+        />
+      </a>
       <div>
         <div className='small ms-3 mb-1'>
           <div className='flex'>
-            <span className='fw-bold'>{user.displayName}</span>{' '}
+            <a href='#!' onClick={onUserClick} className='fw-bold text-white'>
+              {user.displayName}
+            </a>{' '}
             <Moment format='hh:mm A'>{message.createdAt}</Moment>
           </div>
           <p>{message.content}</p>
