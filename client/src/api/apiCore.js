@@ -32,7 +32,7 @@ axios.interceptors.response.use(
       default:
         message = error.message || error;
     }
-    return Promise.reject({...error, message});
+    return Promise.reject(message);
   }
 );
 

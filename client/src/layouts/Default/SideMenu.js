@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Tooltip } from 'bootstrap';
 
-import { useRedux } from '../../hooks';
+import { useProfile, useRedux } from '../../hooks';
 import { logoutUser } from '../../redux/auth/actions';
 import { rootTab, tabs } from '../../data';
 import { switchTab } from '../../redux/layout/actions';
@@ -71,6 +71,8 @@ const MenuDropdown = (props) => {
     dispatch(logoutUser());
   };
 
+  const { userProfile } = useProfile();
+
   const profileTab = tabs.find((t) => t.title.toLowerCase() === 'profile');
   const settingsTab = tabs.find((t) => t.title.toLowerCase() === 'settings');
 
@@ -78,17 +80,20 @@ const MenuDropdown = (props) => {
     <div className='dropdown border-top border-gray-300'>
       <a
         href='#!'
-        className='d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle'
+        className='d-flex align-items-center justify-content-center py-2 link-dark text-decoration-none'
         id='dropdownUser'
         data-bs-toggle='dropdown'
         aria-expanded='false'
       >
         <img
-          src='https://github.com/mdo.png'
+          src={
+            userProfile.profileImgUrl ||
+            'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp'
+          }
           alt='mdo'
-          width='24'
-          height='24'
-          className='rounded-circle'
+          width='40'
+          height='40'
+          className='avatar'
         />
       </a>
       <ul

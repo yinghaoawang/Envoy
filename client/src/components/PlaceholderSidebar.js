@@ -1,39 +1,33 @@
+import { tabs } from '../data';
+import { useRedux } from '../hooks';
+import { switchTab } from '../redux/layout/actions';
+
 const PlaceholderSidebar = (props) => {
+  const { dispatch } = useRedux();
   return (
     <div>
-      <a
-        href='/'
+      <p
         className='d-flex align-items-center mb-3 mb-md-0 ms-2 me-md-auto text-white text-decoration-none'
       >
-        <span className='fs-4'>Sidebar</span>
-      </a>
+        <span className='fs-4'>Envoy</span>
+      </p>
       <hr />
       <ul className='nav nav-pills flex-column mb-auto'>
-        <li className='nav-item'>
-          <a href='#!' className='nav-link active' aria-current='page'>
-            Home
-          </a>
-        </li>
-        <li>
-          <a href='#!' className='nav-link text-white'>
-            Dashboard
-          </a>
-        </li>
-        <li>
-          <a href='#!' className='nav-link text-white'>
-            Orders
-          </a>
-        </li>
-        <li>
-          <a href='#!' className='nav-link text-white'>
-            Products
-          </a>
-        </li>
-        <li>
-          <a href='#!' className='nav-link text-white'>
-            Customers
-          </a>
-        </li>
+        {tabs.map((tab, idx) => {
+          return (
+            <li key={idx} className='nav-item hover-dim'>
+              <a
+                href='#!'
+                className='nav-link text-white'
+                onClick={() => {
+                  dispatch(switchTab(tab));
+                }}
+              >
+                {tab.title}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

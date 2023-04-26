@@ -13,14 +13,11 @@ import { BiMessage as MessagesIcon } from 'react-icons/bi';
 import { IoSettingsOutline as SettingsIcon } from 'react-icons/io5';
 import Profile from '../pages/Dashboard/Profile';
 import ProfileLeftbar from '../pages/Dashboard/Profile/ProfileLeftbar';
-import PlaceholderSidebar from '../components/PlaceholderSidebar';
 import Welcome from '../components/Welcome';
-import Messages from '../pages/Dashboard/Messages';
 import MessagesLeftbar from '../pages/Dashboard/Messages/MessagesLeftbar';
 import ChannelsLeftbar from '../pages/Dashboard/Channels/ChannelsLeftbar';
 import SettingsLeftbar from '../pages/Dashboard/Settings/SettingsLeftbar';
 import PeopleLeftbar from '../pages/Dashboard/People/PeopleLeftbar';
-import Channels from '../pages/Dashboard/Channels';
 
 export const rootTab = {
   id: -1,
@@ -29,9 +26,6 @@ export const rootTab = {
     props: {
       size: 34
     },
-  },
-  leftbar: {
-    component: PlaceholderSidebar,
   },
   content: {
     component: Welcome

@@ -172,7 +172,7 @@ const UploadProfileImageForm = (props) => {
         <div className='col-md-8 mx-auto'>
           <div className='mb-3 text-center'>
             <div
-              className='mb-3 rounded-3'
+              className='mb-3 avatar'
               style={{
                 width: '150px',
                 height: '150px',
@@ -190,7 +190,7 @@ const UploadProfileImageForm = (props) => {
                 width='150px'
                 height='150px'
                 alt=''
-                className='avatar rounded-3'
+                className='avatar'
               />
             </div>
             <h6>Update profile picture</h6>

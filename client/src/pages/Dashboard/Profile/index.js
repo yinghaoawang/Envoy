@@ -44,14 +44,18 @@ const Profile = (props) => {
                       'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp'
                     }
                     alt='avatar'
-                    className='img-fluid img-thumbnail h-100 w-100 object-fit-cover'
-                    style={{
-                      backgroundColor: '#121212'
-                    }}
+                    className='img-fluid img-thumbnail h-100 w-100 avatar'
                   />
                 </div>
               </div>
-              <div className='ms-3' style={{ marginTop: '130px' }}>
+              <div className='ms-3 mt-auto d-flex flex-column gap-2'>
+                <a
+                  onClick={onClickEditProfile}
+                  className='text-decoration-none btn btn-outline-light'
+                  href='#!'
+                >
+                  Edit Profile
+                </a>
                 <h5>{userProfile?.displayName || 'Unknown'}</h5>
                 <p>{userProfile?.status}</p>
               </div>

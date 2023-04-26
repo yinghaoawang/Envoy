@@ -29,7 +29,7 @@ const MessageListItem = (props) => {
                 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp'
               }
               alt='avatar'
-              className='d-flex align-self-center rounded-circle'
+              className='avatar'
               width='40'
               height='40'
             />

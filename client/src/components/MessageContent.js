@@ -3,9 +3,11 @@ import { FaPaperPlane as SendIcon, FaSmile as EmojiIcon } from 'react-icons/fa';
 import EmojiPicker from 'emoji-picker-react';
 import { useEffect, useRef, useState } from 'react';
 import { socketEmitEvent } from '../helpers/socketHelper';
+import { useProfile } from '../hooks';
 
 const MessageInput = (props) => {
   const { channel, otherUser } = props;
+  const { userProfile } = useProfile();
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
 
   const toggleEmojiClicker = () => {
@@ -57,7 +59,9 @@ const MessageInput = (props) => {
         message: inputRef.current.value
       });
     } else {
-      throw new Error('Target (channel or other user) does not exist in submit message.');
+      throw new Error(
+        'Target (channel or other user) does not exist in submit message.'
+      );
     }
     inputRef.current.value = '';
   };
@@ -68,9 +72,13 @@ const MessageInput = (props) => {
       className='text-muted d-flex justify-content-start align-items-center py-3 pe-3 w-100'
     >
       <img
-        src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp'
+        src={
+          userProfile.profileImgUrl ||
+          'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp'
+        }
+        className='rounded-circle avatar me-2'
         alt='avatar 3'
-        style={{ width: '40px', height: '100%' }}
+        style={{ width: '40px', height: '40px' }}
       />
       <input
         ref={inputRef}
@@ -111,9 +119,13 @@ const MessageItem = (props) => {
   return (
     <div className='d-flex flex-row justify-content-start'>
       <img
-        src={user.profileImgUrl || 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp'}
+        src={
+          user.profileImgUrl ||
+          'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp'
+        }
+        className='rounded-circle avatar'
         alt='avatar 1'
-        style={{ width: '45px', height: '100%' }}
+        style={{ width: '40px', height: '40px' }}
       />
       <div>
         <div className='small ms-3 mb-1'>
