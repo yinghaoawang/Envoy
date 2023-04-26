@@ -3,7 +3,8 @@ import ErrorMessage from '../../../components/ErrorMessage';
 import FormInput from '../../../components/FormInput';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useProfile, useRedux } from '../../../hooks';
+import { useRedux } from '../../../hooks';
+import { useFilePicker } from 'use-file-picker';
 import {
   displayNamePattern,
   emailPattern,
@@ -129,88 +130,94 @@ const EditProfileForm = () => {
 };
 
 const UploadProfileImageForm = (props) => {
-  const { dispatch, useAppSelector } = useRedux();
-  const [isLoading, setIsLoading] = useState(false);
+  const { dispatch } = useRedux();
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [uploadStatusMessage, setUploadStatusMessage] = useState(null);
-  const [uploadedImage, setUploadedImage] = useState(null);
   const [uploadError, setUploadError] = useState(null);
-
-  const onFileChange = (event) => {
-    try {
-      const reader = new FileReader();
-      reader.onload = function (event) {
-        console.log(event.target.result);
-        setUploadedImage(event.target.result);
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    } catch (error) {
-      setUploadError(error);
-    }
-  };
+  const [openFileSelector, { filesContent }] = useFilePicker({
+    readAs: 'DataURL',
+    accept: 'image/*',
+    multiple: false,
+    maxFileSize: 50
+  });
 
   const onSubmit = async () => {
     try {
-      setIsLoading(true);
+      setIsSubmitLoading(true);
       setUploadStatusMessage('Uploading...');
-      const user = await profileApi.uploadProfileImage({ uploadData: uploadedImage });
+      const user = await profileApi.uploadProfileImage({
+        uploadData: filesContent?.[0]?.content
+      });
       dispatch(setUser(user));
-      setIsLoading(false);
+      setIsSubmitLoading(false);
       setUploadStatusMessage('Success');
     } catch (error) {
+      setUploadStatusMessage(null);
       setUploadError(error);
-      setIsLoading(false);
+      setIsSubmitLoading(false);
+    }
+  };
+
+  const onSelectFileClick = async () => {
+    try {
+      openFileSelector();
+    } catch (error) {
+      setUploadError(error);
     }
   };
 
   return (
-    <div className='px-4 py-4 bg-gray-700'>
-      <div className='col-md-8 mx-auto'>
-        <div className='mb-3 text-center'>
-          <div
-            className='mb-3 rounded-3'
-            style={{
-              width: '150px',
-              height: '150px',
-              backgroundImage: 'url("//placehold.it/150")'
-            }}
-          >
-            <img
-              src={uploadedImage}
-              onLoad={() => {
-                setUploadError(null);
+    <div>
+      <div className='px-4 py-4 bg-gray-700'>
+        <div className='col-md-8 mx-auto'>
+          <div className='mb-3 text-center'>
+            <div
+              className='mb-3 rounded-3'
+              style={{
+                width: '150px',
+                height: '150px',
+                backgroundImage: 'url("//placehold.it/150")'
               }}
-              onError={() => {
-                setUploadError({ message: 'Invalid file uploaded' });
-              }}
-              width='150px'
-              height='150px'
-              alt=''
-              className='avatar rounded-3'
-            />
-          </div>
-          <h6>Update profile picture</h6>
-          <div className='col-md-8 mx-auto'>
-            <label className='input-group-text text-center' htmlFor='inputFile'>
-              <span className='w-100'>Select file</span>
-              <input
-                type='file'
-                className='form-control d-none'
-                id='inputFile'
-                onChange={onFileChange}
+            >
+              <img
+                src={filesContent?.[0]?.content}
+                onLoad={() => {
+                  setUploadError(null);
+                }}
+                onError={() => {
+                  setUploadError({ message: 'Invalid file uploaded' });
+                }}
+                width='150px'
+                height='150px'
+                alt=''
+                className='avatar rounded-3'
               />
-            </label>
+            </div>
+            <h6>Update profile picture</h6>
+            <div className='col-md-8 mx-auto'>
+              <button
+                onClick={onSelectFileClick}
+                className='w-100 btn mt-2 btn-success'
+              >
+                Select file
+              </button>
+            </div>
           </div>
         </div>
+        <div>{!uploadError && uploadStatusMessage}</div>
+        <button
+          disabled={
+            !filesContent?.[0]?.content || uploadError || isSubmitLoading
+          }
+          className='btn btn-primary mt-3'
+          onClick={onSubmit}
+        >
+          Save Changes
+        </button>
       </div>
-      <div>{!uploadError && uploadStatusMessage}</div>
-      <ErrorMessage message={uploadError?.message} />
-      <button
-        disabled={!uploadedImage || uploadError || isLoading}
-        className='btn btn-primary mt-3'
-        onClick={onSubmit}
-      >
-        Save Changes
-      </button>
+      <div className='mt-2'>
+        <ErrorMessage message={uploadError?.response?.statusText || uploadError?.message} />
+      </div>
     </div>
   );
 };

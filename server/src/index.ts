@@ -11,16 +11,18 @@ const session = require('express-session')({
   saveUninitialized: true,
   cookie: { maxAge: 1200000 }
 });
+
 const { updateCache } = require('./middlewares/prisma');
 const { prisma } = require('./helpers/prismaHelper');
+prisma.$use(updateCache);
 const cache = require('./cache');
 
 cache.init();
 
 app.use(express.static(__dirname + '/public'));
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.json({ limit: '50mb' }));
 app.use(session);
 
 require('./routes')(app);

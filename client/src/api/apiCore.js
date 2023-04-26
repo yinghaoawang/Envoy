@@ -26,10 +26,13 @@ axios.interceptors.response.use(
       case 404:
         message = 'Sorry! the data you are looking for could not be found';
         break;
+      case 413:
+        message = 'File too large';
+        break;
       default:
         message = error.message || error;
     }
-    return Promise.reject(message);
+    return Promise.reject({...error, message});
   }
 );
 
