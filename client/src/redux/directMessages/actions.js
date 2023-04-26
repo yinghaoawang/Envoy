@@ -5,6 +5,11 @@ export const setDirectMessages = (data) => ({
   payload: { data }
 });
 
+export const setCurrentChat = (data) => ({
+  type: DirectMessageActionTypes.SET_CURRENT_CHAT,
+  payload: { data }
+});
+
 export const loadDirectMessages = () => ({
   type: DirectMessageActionTypes.LOAD_DIRECT_MESSAGES
 });

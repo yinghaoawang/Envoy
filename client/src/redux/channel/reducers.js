@@ -3,7 +3,8 @@ import { ChannelActionTypes } from './types';
 const INIT_STATE = {
   loading: false,
   error: null,
-  channels: []
+  channels: [],
+  currentChannel: null
 };
 
 const Channel = (state = INIT_STATE, action) => {
@@ -20,6 +21,12 @@ const Channel = (state = INIT_STATE, action) => {
         ...state,
         error: action.payload.error,
         loading: false
+      };
+
+    case ChannelActionTypes.SET_CURRENT_CHANNEL:
+      return {
+        ...state,
+        currentChannel: action.payload.data
       };
 
     case ChannelActionTypes.SET_CHANNELS:

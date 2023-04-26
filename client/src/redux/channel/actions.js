@@ -23,6 +23,11 @@ export const setChannels = (data) => ({
   payload: { data }
 });
 
+export const setCurrentChannel = (data) => ({
+  type: ChannelActionTypes.SET_CURRENT_CHANNEL,
+  payload: { data }
+});
+
 export const resetChannelState = () => ({
   type: ChannelActionTypes.RESET_STATE
 });

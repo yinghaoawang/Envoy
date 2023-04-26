@@ -1,11 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRedux } from '../../../hooks';
 import { switchContent } from '../../../redux/layout/actions';
 import Channels from '.';
 import FormInput from '../../../components/FormInput';
 import { useForm } from 'react-hook-form';
 import ErrorMessage from '../../../components/ErrorMessage';
-import { createChannel, loadChannels } from '../../../redux/channel/actions';
+import {
+  createChannel,
+  loadChannels,
+  setCurrentChannel
+} from '../../../redux/channel/actions';
 import { FaHashtag as HashtagIcon } from 'react-icons/fa';
 import DiscoverChannels from './DiscoverChannels';
 
@@ -59,10 +63,9 @@ const CreateChannelForm = (props) => {
 const ChannelsLeftbar = (props) => {
   const { dispatch, useAppSelector } = useRedux();
 
-  const [currentChannel, setCurrentChannel] = useState(null);
-
-  const { channels } = useAppSelector((state) => ({
-    channels: state.Channel.channels
+  const { channels, currentChannel } = useAppSelector((state) => ({
+    channels: state.Channel.channels,
+    currentChannel: state.Channel.currentChannel
   }));
 
   useEffect(() => {
@@ -88,12 +91,9 @@ const ChannelsLeftbar = (props) => {
   }, [channels]);
 
   const onChannelClick = (channel) => {
-    setCurrentChannel(channel);
+    dispatch(setCurrentChannel(channel));
     const channelContent = {
-      component: Channels,
-      props: {
-        channel: channel
-      }
+      component: Channels
     };
     dispatch(switchContent(channelContent));
   };
@@ -102,7 +102,7 @@ const ChannelsLeftbar = (props) => {
     const discoverChannelContent = {
       component: DiscoverChannels
     };
-    setCurrentChannel(null);
+    dispatch(setCurrentChannel(null));
     dispatch(switchContent(discoverChannelContent));
   };
 

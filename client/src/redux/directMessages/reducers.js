@@ -2,6 +2,7 @@ import { DirectMessageActionTypes } from './types';
 
 const INIT_STATE = {
   directMessages: [],
+  currentChat: null,
   loading: false,
   error: null
 };
@@ -24,6 +25,12 @@ const DirectMessage = (state = INIT_STATE, action) => {
 
     case DirectMessageActionTypes.SET_DIRECT_MESSAGES:
       return { ...state, directMessages: action.payload.data };
+
+    case DirectMessageActionTypes.SET_CURRENT_CHAT:
+      return {
+        ...state,
+        currentChat: action.payload.data
+      };
 
     case DirectMessageActionTypes.LOAD_DIRECT_MESSAGES:
       return {

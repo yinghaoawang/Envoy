@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useProfile, useRedux } from '../../../hooks';
-import { loadDirectMessages } from '../../../redux/directMessages/actions';
+import { loadDirectMessages, setCurrentChat } from '../../../redux/directMessages/actions';
 import Message from '.';
 import { switchContent } from '../../../redux/layout/actions';
 
@@ -59,9 +59,9 @@ const MessageListItem = (props) => {
 const MessagesLeftbar = (props) => {
   const { dispatch, useAppSelector } = useRedux();
   const { userProfile } = useProfile();
-  const [currentChat, setCurrentChat] = useState(null);
-  const { allDirectMessages } = useAppSelector((state) => ({
-    allDirectMessages: state.DirectMessage.directMessages
+  const { allDirectMessages, currentChat } = useAppSelector((state) => ({
+    allDirectMessages: state.DirectMessage.directMessages,
+    currentChat: state.DirectMessage.currentChat
   }));
 
   const otherChatUsers = [];
@@ -100,13 +100,9 @@ const MessagesLeftbar = (props) => {
   }, [chats]);
 
   const onChatClick = (chat) => {
-    setCurrentChat(chat);
+    dispatch(setCurrentChat(chat));
     const chatContent = {
-      component: Message,
-      props: {
-        otherUser: chat.otherUser,
-        messages: chat.messages
-      }
+      component: Message
     };
     dispatch(switchContent(chatContent));
   };
