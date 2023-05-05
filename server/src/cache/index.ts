@@ -4,7 +4,8 @@ import type {
   User,
   Channel,
   AppSocket,
-  DirectMessage
+  DirectMessage,
+  DirectMessageChat
 } from '../types';
 const { prisma } = require('../helpers/prismaHelper');
 const { filterPasswordKeys } = require('../helpers');
@@ -15,7 +16,8 @@ const users: User[] = [];
 
 const channels: Channel[] = [];
 
-const directMessages: DirectMessage[] = [];
+
+const directMessageChats: DirectMessageChat[] = [];
 
 function connectUser(socket: AppSocket, user: User) {
   const socketUser = {
@@ -71,24 +73,25 @@ function init() {
     });
   };
 
-  const loadDirectMessages = () => {
+  const loadDirectMessageChats = () => {
     return new Promise(async (resolve, reject) => {
       try {
-        const dbDirectMessages = await prisma.directMessage.findMany({
+        const dbDirectMessageChats = await prisma.directMessageChat.findMany({
           include: {
-            from: true,
-            to: true
+            users: true,
+            messages: true
           }
         });
-        directMessages.push(...filterPasswordKeys(dbDirectMessages));
-        resolve(directMessages);
+        console.log(dbDirectMessageChats);
+        directMessageChats.push(...filterPasswordKeys(dbDirectMessageChats));
+        resolve(directMessageChats);
       } catch (error) {
         reject(error);
       }
     });
   };
 
-  Promise.all([loadUsers(), loadChannels(), loadDirectMessages()]).catch(
+  Promise.all([loadUsers(), loadChannels(), loadDirectMessageChats()]).catch(
     (error) => {
       throw new Error(error);
     }
@@ -98,7 +101,7 @@ function init() {
 module.exports = {
   users,
   channels,
-  directMessages,
+  directMessageChats,
   init,
   onlineUsers,
   connectUser,

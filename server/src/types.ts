@@ -2,37 +2,37 @@ import { Socket } from 'socket.io';
 
 export interface AppSocket extends Socket {
   handshake: {
-    session: any
+    session: any,
     headers: any,
-    time: any, 
+    time: any,
     address: any,
     xdomain: any,
     secure: any,
     issued: any,
     url: any,
     query: any,
-    auth: any
+    auth: any,
   }
 }
 
 export interface User {
-  id: string;
+  id: string,
 }
 
 export interface SocketUser {
-  socketId: string;
-  user: User;
+  socketId: string,
+  user: User,
 }
 
 export interface Channel {
-  id: string;
+  id: string,
 }
 
 export interface ChannelMessage {
   channel: {
-    id: string;
-  };
-  message: string;
+    id: string,
+  },
+  message: string,
 }
 
 export interface DirectMessage {
@@ -42,5 +42,11 @@ export interface DirectMessage {
   from: {
     userId: string
   },
-  message: string;
+  chat: DirectMessageChat,
+  message: string,
+}
+
+export interface DirectMessageChat {
+  users: User[],
+  messages: DirectMessage[],
 }

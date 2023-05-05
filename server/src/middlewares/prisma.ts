@@ -13,8 +13,8 @@ const updateCache = async (params: any, next: any) => {
     case 'Channel':
       cacheArray = cache.channels;
       break;
-    case 'DirectMessage':
-      cacheArray = cache.directMessages;
+    case 'DirectMessageChat':
+      cacheArray = cache.directMessageChats;
       break;
     default:
       throw new Error('Unrecognized model name in prisma socket.io middleware');

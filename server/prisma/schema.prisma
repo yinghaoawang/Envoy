@@ -11,8 +11,8 @@ datasource db {
 }
 
 model User {
-  id                 Int               @id @default(autoincrement())
-  email              String            @unique
+  id                 Int                         @id @default(autoincrement())
+  email              String                      @unique
   hashedPassword     Bytes
   salt               Bytes
   profileImgUrl      String?
@@ -21,11 +21,12 @@ model User {
   biography          String?
   channelMessages    ChannelMessage[]
   channels           UsersOnChannels[]
-  channelsOwned      Channel[]         @relation("owner")
-  fromDirectMessages DirectMessage[]   @relation("from")
-  toDirectMessage    DirectMessage[]   @relation("to")
-  createdAt          DateTime          @default(now())
-  updatedAt          DateTime?         @updatedAt
+  channelsOwned      Channel[]                   @relation("owner")
+  fromDms            DirectMessage[]             @relation("from")
+  toDms              DirectMessage[]             @relation("to")
+  directMessageChats UsersOnDirectMessageChats[]
+  createdAt          DateTime                    @default(now())
+  updatedAt          DateTime?                   @updatedAt
 }
 
 model Channel {
@@ -49,15 +50,37 @@ model UsersOnChannels {
   @@id([userId, channelId])
 }
 
+model UsersOnDirectMessageChats {
+  user                User              @relation(fields: [userId], references: [id])
+  userId              Int
+  directMessageChat   DirectMessageChat @relation(fields: [directMessageChatId], references: [id])
+  directMessageChatId Int
+
+  @@id([userId, directMessageChatId])
+}
+
+model DirectMessageChat {
+  id                                           Int                         @id @default(autoincrement())
+  messages                                     DirectMessage[]
+  users                                        UsersOnDirectMessageChats[]
+  hidden                                       Boolean                     @default(false)
+  createdAt                                    DateTime                    @default(now())
+  updatedAt                                    DateTime?                   @updatedAt
+  usersOnDirectMessageChatsUserId              Int
+  usersOnDirectMessageChatsDirectMessageChatId Int
+}
+
 model DirectMessage {
-  id         Int       @id @default(autoincrement())
+  id         Int               @id @default(autoincrement())
   content    String?
-  from       User      @relation("from", fields: [fromUserId], references: [id])
+  from       User              @relation("from", fields: [fromUserId], references: [id])
   fromUserId Int
-  to         User      @relation("to", fields: [toUserId], references: [id])
+  to         User              @relation("to", fields: [toUserId], references: [id])
   toUserId   Int
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime? @updatedAt
+  chat       DirectMessageChat @relation(fields: [chatId], references: [id])
+  chatId     Int
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime?         @updatedAt
 }
 
 model ChannelMessage {
