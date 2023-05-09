@@ -50,3 +50,8 @@ export interface DirectMessageChat {
   users: User[],
   messages: DirectMessage[],
 }
+
+
+export interface CacheAction {
+  array: any,
+}

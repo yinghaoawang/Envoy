@@ -1,16 +1,16 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { DirectMessageActionTypes } from './types';
-import { directMessageSuccess, setDirectMessages } from './actions';
+import { directMessageSuccess, setChats } from './actions';
 import directMessageApi from '../../api/directMessageApi';
 
-function* loadDirectMessages() {
-  const directMessages = yield call(directMessageApi.getDirectMessages);
-  yield put(setDirectMessages(directMessages));
+function* loadChats() {
+  const directMessageChats = yield call(directMessageApi.getDirectMessageChats);
+  yield put(setChats(directMessageChats));
   yield put(directMessageSuccess());
 }
 
 function* directMessageSaga() {
-  yield takeLatest(DirectMessageActionTypes.LOAD_DIRECT_MESSAGES, loadDirectMessages);
+  yield takeLatest(DirectMessageActionTypes.LOAD_CHATS, loadChats);
 }
 
 export default directMessageSaga;

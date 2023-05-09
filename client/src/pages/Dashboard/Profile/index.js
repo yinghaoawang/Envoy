@@ -1,5 +1,8 @@
+import { tabs } from '../../../data';
 import { useProfile, useRedux } from '../../../hooks';
-import { switchContent } from '../../../redux/layout/actions';
+import { setCurrentChat } from '../../../redux/directMessages/actions';
+import { switchContent, switchTab } from '../../../redux/layout/actions';
+import Message from '../Messages';
 import EditProfile from './EditProfile';
 
 const IsUserButtons = () => {
@@ -19,12 +22,15 @@ const IsUserButtons = () => {
 };
 
 const IsNotUserButtons = () => {
+  const { dispatch } = useRedux();
   const onAddFriendClick = () => {
     console.log('add friend');
   };
 
   const onSendMessageClick = () => {
     console.log('send message');
+    // const messagesTab = structuredClone(tabs.find(t => t.title === 'Messages'));
+    // dispatch(switchTab(messagesTab));
   };
 
   return (

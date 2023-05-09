@@ -6,16 +6,28 @@ const router = require('express').Router();
 
 router.get('/', isAuthenticated, async (req: any, res: any, next: any) => {
   try {
-    const directMessages = await prisma.directMessage.findMany({
+    const directMessageChats = await prisma.directMessageChat.findMany({
       where: {
-        OR: [{ toUserId: req.user.id }, { fromUserId: req.user.id }]
+        users: {
+          some: {
+            userId: req.user.id
+          }
+        }
       },
       include: {
-        to: true,
-        from: true
+        messages: {
+          include: {
+            from: true
+          }
+        },
+        users: {
+          include: {
+            user: true
+          }
+        }
       }
     });
-    res.send(filterPasswordKeys(directMessages));
+    res.send(filterPasswordKeys(directMessageChats));
   } catch (error) {
     return next(error);
   }

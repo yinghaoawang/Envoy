@@ -4,7 +4,6 @@ import type {
   User,
   Channel,
   AppSocket,
-  DirectMessage,
   DirectMessageChat
 } from '../types';
 const { prisma } = require('../helpers/prismaHelper');
@@ -82,7 +81,6 @@ function init() {
             messages: true
           }
         });
-        console.log(dbDirectMessageChats);
         directMessageChats.push(...filterPasswordKeys(dbDirectMessageChats));
         resolve(directMessageChats);
       } catch (error) {

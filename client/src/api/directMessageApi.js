@@ -1,7 +1,7 @@
 import { api } from './apiCore';
 import * as url from './urls';
 
-function getDirectMessages() {
+function getDirectMessageChats() {
   return new Promise(async (resolve, reject) => {
     try {
       const directMessages = await api.get(url.GET_DIRECT_MESSAGES);
@@ -13,7 +13,7 @@ function getDirectMessages() {
 }
 
 const directMessageApi = {
-  getDirectMessages
+  getDirectMessageChats
 };
 
 export default directMessageApi;

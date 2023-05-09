@@ -1,12 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { useProfile, useRedux } from '../../../hooks';
-import { loadDirectMessages, setCurrentChat } from '../../../redux/directMessages/actions';
+import {
+  loadChats,
+  setCurrentChat
+} from '../../../redux/directMessages/actions';
 import Message from '.';
 import { switchContent } from '../../../redux/layout/actions';
+import { socketEmitEvent } from '../../../helpers/socketHelper';
 
 const MessageListItem = (props) => {
   const { chat, onChatClick, currentChat } = props;
-  const { otherUser } = chat;
+  const { userProfile } = useProfile();
+  const otherUser = chat.users.find(u => u.user.id !== userProfile.id)?.user;
   const unreadMessageCount = 0;
   const isSelected = currentChat != null && currentChat.id === chat.id;
   return (
@@ -58,46 +63,15 @@ const MessageListItem = (props) => {
 
 const MessagesLeftbar = (props) => {
   const { dispatch, useAppSelector } = useRedux();
-  const { userProfile } = useProfile();
-  const { allDirectMessages, currentChat } = useAppSelector((state) => ({
+  const { currentChat, chats } = useAppSelector((state) => ({
     allDirectMessages: state.DirectMessage.directMessages,
+    chats: state.DirectMessage.chats,
     currentChat: state.DirectMessage.currentChat
   }));
 
-  const otherChatUsers = [];
-  for (const directMessage of allDirectMessages) {
-    const otherUser =
-      directMessage.from.id === userProfile.id
-        ? directMessage.to
-        : directMessage.from;
-
-    if (!otherChatUsers.find((u) => u.id === otherUser.id)) {
-      otherChatUsers.push(otherUser);
-    }
-  }
-
-  const chats = otherChatUsers.map((user) => ({
-    otherUser: user,
-    messages: allDirectMessages.filter(
-      (dm) => dm.from.id === user.id || dm.to.id === user.id
-    )
-  }));
-
   useEffect(() => {
-    dispatch(loadDirectMessages());
+    dispatch(loadChats());
   }, []);
-
-  let firstRun = useRef(true);
-  useEffect(() => {
-    const openFirstChat = () => {
-      if (!firstRun.current) return;
-      const firstChat = chats?.[0];
-      if (firstChat == null) return;
-      onChatClick(firstChat);
-      firstRun.current = false;
-    };
-    openFirstChat();
-  }, [chats]);
 
   const onChatClick = (chat) => {
     dispatch(setCurrentChat(chat));

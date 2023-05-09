@@ -3,7 +3,7 @@ import { closeSocket, createSocket } from '../../helpers/socketHelper';
 import { eventChannel } from 'redux-saga';
 import { SocketActionTypes } from './types';
 import { setChannels, setCurrentChannel } from '../channel/actions';
-import { setCurrentChat, setDirectMessages } from '../directMessages/actions';
+import { setChats, setCurrentChat } from '../directMessages/actions';
 
 function* onChannelMessageHandler({ channel, message }) {
   const { channels, currentChannel } = yield select((state) => ({
@@ -26,24 +26,25 @@ function* onChannelMessageHandler({ channel, message }) {
 }
 
 function* onDirectMessageHandler({ message }) {
-  const { directMessages, currentChat } = yield select((state) => ({
-    directMessages: state.DirectMessage.directMessages,
-    currentChat: state.DirectMessage.currentChat
+  const { chats, currentChat, userProfile } = yield select((state) => ({
+    chats: state.DirectMessage.chats,
+    currentChat: state.DirectMessage.currentChat,
+    userProfile: state.Profile.user
   }));
 
-  if (directMessages == null) return;
+  if (chats == null) return;
+
+  const otherUser = currentChat.users.find(u => u.user.id !== userProfile.id)?.user;
 
   if (
-    currentChat.otherUser.id === message.toUserId ||
-    currentChat.otherUser.id === message.fromUserId
+    otherUser.id === message.toUserId ||
+    otherUser.id === message.fromUserId
   ) {
     currentChat.messages.push(message);
     yield put(setCurrentChat(currentChat));
-  } else {
-    directMessages.push(message);
   }
 
-  yield put(setDirectMessages([...directMessages]));
+  yield put(setChats([...chats]));
 }
 
 function createSocketChannel(socket) {

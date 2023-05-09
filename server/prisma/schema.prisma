@@ -60,14 +60,12 @@ model UsersOnDirectMessageChats {
 }
 
 model DirectMessageChat {
-  id                                           Int                         @id @default(autoincrement())
-  messages                                     DirectMessage[]
-  users                                        UsersOnDirectMessageChats[]
-  hidden                                       Boolean                     @default(false)
-  createdAt                                    DateTime                    @default(now())
-  updatedAt                                    DateTime?                   @updatedAt
-  usersOnDirectMessageChatsUserId              Int
-  usersOnDirectMessageChatsDirectMessageChatId Int
+  id        Int                         @id @default(autoincrement())
+  messages  DirectMessage[]
+  users     UsersOnDirectMessageChats[]
+  hidden    Boolean                     @default(false)
+  createdAt DateTime                    @default(now())
+  updatedAt DateTime?                   @updatedAt
 }
 
 model DirectMessage {

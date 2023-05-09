@@ -1,7 +1,7 @@
 import { DirectMessageActionTypes } from './types';
 
-export const setDirectMessages = (data) => ({
-  type: DirectMessageActionTypes.SET_DIRECT_MESSAGES,
+export const setChats = (data) => ({
+  type: DirectMessageActionTypes.SET_CHATS,
   payload: { data }
 });
 
@@ -10,8 +10,8 @@ export const setCurrentChat = (data) => ({
   payload: { data }
 });
 
-export const loadDirectMessages = () => ({
-  type: DirectMessageActionTypes.LOAD_DIRECT_MESSAGES
+export const loadChats = () => ({
+  type: DirectMessageActionTypes.LOAD_CHATS
 });
 
 export const directMessageSuccess = () => ({
