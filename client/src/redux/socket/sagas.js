@@ -15,7 +15,7 @@ function* onChannelMessageHandler({ channel, message }) {
 
   if (!matchingChannel) return;
 
-  if (currentChannel === matchingChannel) {
+  if (currentChannel.id === matchingChannel.id) {
     currentChannel.messages.push(message);
     yield put(setCurrentChannel(currentChannel));
   } else {
