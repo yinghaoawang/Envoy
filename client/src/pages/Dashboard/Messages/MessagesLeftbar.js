@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useProfile, useRedux } from '../../../hooks';
 import {
   loadChats,
@@ -6,7 +6,7 @@ import {
 } from '../../../redux/directMessages/actions';
 import Message from '.';
 import { switchContent } from '../../../redux/layout/actions';
-import { socketEmitEvent } from '../../../helpers/socketHelper';
+import NoFriends from '../../../components/NoFriends';
 
 const MessageListItem = (props) => {
   const { chat, onChatClick, currentChat } = props;
@@ -72,6 +72,24 @@ const MessagesLeftbar = (props) => {
   useEffect(() => {
     dispatch(loadChats());
   }, []);
+
+  let firstRun = useRef(true);
+  useEffect(() => {
+    const openFirstChannel = () => {
+      if (!firstRun.current) return;
+      const firstChat = chats?.[0];
+      if (firstChat == null) {
+        const discoverChannelContent = {
+          component: NoFriends
+        };
+        dispatch(switchContent(discoverChannelContent));
+        return;
+      }
+      onChatClick(firstChat);
+      firstRun.current = false;
+    };
+    openFirstChannel();
+  }, [chats]);
 
   const onChatClick = (chat) => {
     dispatch(setCurrentChat(chat));
