@@ -7,6 +7,7 @@ import {
 import Message from '.';
 import { switchContent } from '../../../redux/layout/actions';
 import NoFriends from '../../../components/NoFriends';
+import moment from 'moment';
 
 const MessageListItem = (props) => {
   const { chat, onChatClick, currentChat } = props;
@@ -99,6 +100,8 @@ const MessagesLeftbar = (props) => {
     dispatch(switchContent(chatContent));
   };
 
+  const sortedChats = chats.sort((a, b) => -moment(a.updatedAt).diff(b.updatedAt));
+
   return (
     <div className='col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0 w-100'>
       <div className=''>
@@ -114,7 +117,7 @@ const MessagesLeftbar = (props) => {
 
         <div>
           <ul className='list-unstyled mb-0'>
-            {chats.map((chat, idx) => (
+            {sortedChats.map((chat, idx) => (
               <MessageListItem
                 key={idx}
                 chat={chat}

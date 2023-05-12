@@ -25,8 +25,8 @@ function* onChannelMessageHandler({ channel, message }) {
   yield put(setChannels([...channels]));
 }
 
-function* onDirectMessageHandler({ message }) {
-  const { chats, currentChat, userProfile } = yield select((state) => ({
+function* onDirectMessageHandler({ message, updatedChat }) {
+  let { chats, currentChat, userProfile } = yield select((state) => ({
     chats: state.DirectMessage.chats,
     currentChat: state.DirectMessage.currentChat,
     userProfile: state.Profile.user
@@ -34,7 +34,17 @@ function* onDirectMessageHandler({ message }) {
 
   if (chats == null) return;
 
-  const otherUser = currentChat.users.find(u => u.user.id !== userProfile.id)?.user;
+  const existingChat = chats.find(
+    (c) => c.id === updatedChat.id
+  );
+  if (existingChat == null) {
+    throw new Error('Existing chat not found on socket receive direct message');
+  }
+  existingChat.updatedAt = updatedChat.updatedAt;
+
+  const otherUser = currentChat.users.find(
+    (u) => u.user.id !== userProfile.id
+  )?.user;
 
   if (
     otherUser.id === message.toUserId ||
@@ -42,6 +52,7 @@ function* onDirectMessageHandler({ message }) {
   ) {
     currentChat.messages.push(message);
     yield put(setCurrentChat(currentChat));
+  } else {
   }
 
   yield put(setChats([...chats]));

@@ -61,6 +61,23 @@ const dbHelpers = {
           messages: true
         }
       });
+    } else {
+      directMessageChat = await prisma.directMessageChat.update({
+        where: {
+          id: directMessageChat.id
+        },
+        data: {
+          updatedAt: new Date()
+        },
+        include: {
+          users: {
+            select: {
+              user: true
+            }
+          },
+          messages: true
+        }
+      });
     }
 
     const directMessage = await prisma.directMessage.create({
@@ -94,7 +111,7 @@ const dbHelpers = {
       }
     });
 
-    return directMessage;
+    return { directMessage, directMessageChat };
   },
   addChannelMessage: async (channel: Channel, message: string, user: User) => {
     return await prisma.channel.update({
@@ -143,17 +160,17 @@ module.exports = (io: any, socket: AppSocket) => {
         (u: SocketUser) => u.user?.id === toUser.id || u.user?.id === user.id
       );
 
-      const directMessage = await dbHelpers.addDirectMessageToChat(
-        user,
-        toUser,
-        payload.message
-      );
-      const formattedMessage = filterKeys(filterPasswordKeys(directMessage), ['chat']);
+      const { directMessage, directMessageChat } =
+        await dbHelpers.addDirectMessageToChat(user, toUser, payload.message);
+      const formattedMessage = filterKeys(filterPasswordKeys(directMessage), [
+        'chat'
+      ]);
 
       if (matchingSocketUsers.length > 0) {
         for (const matchingSocketUser of matchingSocketUsers) {
           io.to(matchingSocketUser.socketId).emit('directMessage', {
-            message: formattedMessage
+            message: formattedMessage,
+            updatedChat: directMessageChat
           });
         }
       }
