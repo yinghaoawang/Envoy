@@ -1,10 +1,9 @@
 import directMessageApi from '../../../api/directMessageApi';
 import { tabs } from '../../../data';
 import { useProfile, useRedux } from '../../../hooks';
-import { setCurrentChat } from '../../../redux/directMessages/actions';
 import { switchContent, switchTab } from '../../../redux/layout/actions';
-import Message from '../Messages';
 import EditProfile from './EditProfile';
+import { toast } from 'react-toastify';
 
 const IsUserButtons = () => {
   const { dispatch } = useRedux();
@@ -28,17 +27,15 @@ const IsNotUserButtons = (props) => {
   const { otherUser } = props;
 
   const onAddFriendClick = () => {
-    console.log('add friend');
+    toast.info(`Friend request to ${otherUser.displayName} sent`);
   };
 
   const onSendMessageClick = async () => {
-    console.log('send message');
     const dmData = {
       toUser: otherUser
     };
     try {
-      const res = await directMessageApi.createSendMessage(dmData);
-      console.log(res);
+      await directMessageApi.createSendMessage(dmData);
       const messagesTab = tabs.find((t) => t.title === 'Messages');
       dispatch(switchTab(messagesTab));
     } catch (error) {
