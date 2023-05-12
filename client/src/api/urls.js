@@ -12,6 +12,7 @@ export const JOIN_CHANNEL = '/channel/join';
 
 // direct messages
 export const GET_DIRECT_MESSAGES = '/direct-message'
+export const CREATE_SEND_MESSAGE = '/direct-message/create'
 
 // profile
 export const UPDATE_USER = '/user/update';

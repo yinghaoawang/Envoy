@@ -1,3 +1,4 @@
+import directMessageApi from '../../../api/directMessageApi';
 import { tabs } from '../../../data';
 import { useProfile, useRedux } from '../../../hooks';
 import { setCurrentChat } from '../../../redux/directMessages/actions';
@@ -21,16 +22,28 @@ const IsUserButtons = () => {
   );
 };
 
-const IsNotUserButtons = () => {
+const IsNotUserButtons = (props) => {
   const { dispatch } = useRedux();
+
+  const { otherUser } = props;
+
   const onAddFriendClick = () => {
     console.log('add friend');
   };
 
-  const onSendMessageClick = () => {
+  const onSendMessageClick = async () => {
     console.log('send message');
-    // const messagesTab = structuredClone(tabs.find(t => t.title === 'Messages'));
-    // dispatch(switchTab(messagesTab));
+    const dmData = {
+      toUser: otherUser
+    };
+    try {
+      const res = await directMessageApi.createSendMessage(dmData);
+      console.log(res);
+      const messagesTab = tabs.find((t) => t.title === 'Messages');
+      dispatch(switchTab(messagesTab));
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
@@ -48,7 +61,6 @@ const IsNotUserButtons = () => {
 const Profile = (props) => {
   const { userProfile } = useProfile();
   const user = props.user || userProfile;
-  console.log(user);
 
   return (
     <div className='px-5 py-5'>
@@ -90,10 +102,10 @@ const Profile = (props) => {
                 <p>{user?.status}</p>
               </div>
               <div className='d-flex flex-column gap-2 ms-auto mt-auto mb-3 me-4'>
-                {user === userProfile ? (
+                {user.id === userProfile.id ? (
                   <IsUserButtons />
                 ) : (
-                  <IsNotUserButtons />
+                  <IsNotUserButtons otherUser={user} />
                 )}
               </div>
             </div>

@@ -12,8 +12,19 @@ function getDirectMessageChats() {
   });
 }
 
+function createSendMessage(data) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const directMessageChats = await api.post(url.CREATE_SEND_MESSAGE, data);
+      resolve(directMessageChats);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
 const directMessageApi = {
-  getDirectMessageChats
+  getDirectMessageChats, createSendMessage
 };
 
 export default directMessageApi;
