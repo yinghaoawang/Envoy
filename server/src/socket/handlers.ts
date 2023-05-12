@@ -20,11 +20,15 @@ const getUser = (socket: AppSocket, assertExists: boolean = false) => {
 
 const dbHelpers = {
   addDirectMessageToChat: async (from: User, to: User, message: string) => {
+    const userIds = [from.id, to.id];
+
     let directMessageChat = await prisma.directMessageChat.findFirst({
       where: {
         users: {
-          some: {
-            userId: from.id
+          every: {
+            userId: {
+              in: userIds
+            }
           }
         }
       },
