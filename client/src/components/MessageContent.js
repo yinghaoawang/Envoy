@@ -165,7 +165,7 @@ const MessageContent = (props) => {
       <div className='col-md-12 h-100'>
         <div className='card bg-transparent h-100'>
           <div
-            className='flex-shrink-0 d-flex align-items-center border-bottom'
+            className='flex-shrink-0 d-flex align-items-center border-b'
             style={{ height: '70px' }}
           >
             <div className='px-3'>

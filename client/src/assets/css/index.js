@@ -6,3 +6,4 @@ import './colors.css';
 import './avatar.css';
 import './scrollbar.css';
 import './dropdown.css';
+import './border.css';
