@@ -11,7 +11,7 @@ const NoFriends = (props) => {
       </div>
       <h4>You have no friends</h4>
       <p className='text-muted'>
-        Find friends by joining public servers and adding people, or use the friend finder tool in the people sidebar.
+        Find friends by joining public servers and adding people, or use the find friends tool in the profile tab.
       </p>
     </div>
   );

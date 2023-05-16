@@ -1,13 +1,15 @@
 import Profile from '.';
-import { useProfile, useRedux } from '../../../hooks';
+import { useRedux } from '../../../hooks';
 import { switchContent } from '../../../redux/layout/actions';
 import EditProfile from './EditProfile';
 import { AiOutlineEdit as UserEditIcon } from 'react-icons/ai';
-import { BsPerson as UserIcon } from 'react-icons/bs';
+import { BsPerson as UserIcon, BsPeople as FriendRequestIcon } from 'react-icons/bs';
+import { BsSearch as FindFriendsIcon } from 'react-icons/bs';
+import FriendRequests from './FriendRequests';
+import FindFriends from './FindFriends';
 
 const ProfileLeftbar = (props) => {
   const { dispatch } = useRedux();
-  const { userProfile } = useProfile();
 
   const onClickMyProfile = () => {
     const myProfileContent = {
@@ -23,6 +25,20 @@ const ProfileLeftbar = (props) => {
     dispatch(switchContent(editProfileContent));
   };
 
+  const onClickFriendRequests = () => {
+    const friendRequestContent = {
+      component: FriendRequests
+    };
+    dispatch(switchContent(friendRequestContent));
+  }
+
+  const onClickFindFriend = () => {
+    const findFriendContent = {
+      component: FindFriends
+    };
+    dispatch(switchContent(findFriendContent));
+  }
+
   return (
     <div>
       <h2>Profile</h2>
@@ -34,7 +50,7 @@ const ProfileLeftbar = (props) => {
             href='#!'
           >
             <UserIcon size={20} />
-            <div className='ms-1'>My profile</div>
+            <div className='ms-2'>My profile</div>
           </a>
         </li>
         <li>
@@ -44,7 +60,27 @@ const ProfileLeftbar = (props) => {
             href='#!'
           >
             <UserEditIcon size={20} />
-            <div className='ms-1'>Edit profile</div>
+            <div className='ms-2'>Edit profile</div>
+          </a>
+        </li>
+        <li>
+          <a
+            className='py-2 px-2 hover-dim  d-flex text-light align-items-center'
+            onClick={onClickFriendRequests}
+            href='#!'
+          >
+            <FriendRequestIcon size={20} />
+            <div className='ms-2'>Friend requests</div>
+          </a>
+        </li>
+        <li>
+          <a
+            className='py-2 px-2 hover-dim  d-flex text-light align-items-center'
+            onClick={onClickFindFriend}
+            href='#!'
+          >
+            <FindFriendsIcon size={20} />
+            <div className='ms-2'>Find friends</div>
           </a>
         </li>
       </ul>

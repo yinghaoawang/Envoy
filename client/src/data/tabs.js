@@ -76,19 +76,6 @@ export const tabs = [
   },
   {
     id: 4,
-    title: 'People',
-    icon: {
-      component: PeopleIcon,
-      props: {
-        size: 24
-      }
-    },
-    leftbar: {
-      component: PeopleLeftbar
-    }
-  },
-  {
-    id: 5,
     title: 'Settings',
     icon: {
       component: SettingsIcon,
