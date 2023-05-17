@@ -47,8 +47,8 @@ const FriendRequestItem = (props) => {
             style={{ width: '60px', height: '60px' }}
           />
           <div className='my-auto'>
-            <div>{user.displayName}</div>
-            <div>{user.friends.length} friends</div>
+            <div className='fw-bold'>{user.displayName}</div>
+            <div className='text-muted'>{user.friends.length} friends</div>
           </div>
         </div>
         <div className='d-flex my-auto gap-2'>
