@@ -6,7 +6,7 @@ import type {
   User,
   SocketUser
 } from '../types';
-const cache = require('../cache');
+const { onlineUsers } = require('../cache');
 const { filterPasswordKeys, filterKeys } = require('../helpers');
 const { prisma } = require('../helpers/prismaHelper');
 
@@ -142,21 +142,42 @@ const dbHelpers = {
         }
       }
     });
+  },
+  getAllUsers: async () => {
+    return await prisma.user.findMany({});
+  },
+  getAllChannels: async () => {
+    return await prisma.channel.findMany({
+      include: {
+        owner: true,
+        users: {
+          include: {
+            user: true
+          }
+        },
+        messages: {
+          include: {
+            user: true
+          }
+        }
+      }
+    });
   }
 };
 
 module.exports = (io: any, socket: AppSocket) => {
   return {
     onDirectMessageHandler: async (payload: DirectMessage) => {
+      const allUsers = await dbHelpers.getAllUsers();
       const user = getUser(socket, true);
-      const toUser = cache.users.find((u: User) => u.id === payload.to.userId);
+      const toUser = allUsers.find((u: User) => u.id === payload.to.userId);
       if (toUser === null) {
         throw new Error(
           'No matching to user found in handle socket direct message'
         );
       }
 
-      const matchingSocketUsers = cache.onlineUsers.filter(
+      const matchingSocketUsers = onlineUsers.filter(
         (u: SocketUser) => u.user?.id === toUser.id || u.user?.id === user.id
       );
 
@@ -178,7 +199,8 @@ module.exports = (io: any, socket: AppSocket) => {
 
     onChannelMessageHandler: async (payload: ChannelMessage) => {
       const user = getUser(socket, true);
-      const channel = cache.channels.find(
+      const allChannels = await dbHelpers.getAllChannels();
+      const channel = allChannels.find(
         (c: Channel) => c.id === payload.channel.id
       );
       if (channel == null) {
@@ -189,7 +211,7 @@ module.exports = (io: any, socket: AppSocket) => {
 
       for (const channelUser of channel.users) {
         const { userId } = channelUser;
-        const matchingSocketUsers = cache.onlineUsers.filter(
+        const matchingSocketUsers = onlineUsers.filter(
           (u: SocketUser) => u.user?.id === userId
         );
 

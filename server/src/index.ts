@@ -12,9 +12,7 @@ const session = require('express-session')({
   cookie: { maxAge: 1200000 }
 });
 
-const { updateCache } = require('./middlewares/prisma');
 const { prisma } = require('./helpers/prismaHelper');
-prisma.$use(updateCache);
 const cache = require('./cache');
 
 cache.init();
