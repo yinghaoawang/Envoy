@@ -10,7 +10,7 @@ const { onlineUsers } = require('../cache');
 const { filterPasswordKeys, filterKeys } = require('../helpers');
 const { prisma } = require('../helpers/prismaHelper');
 
-const getUser = (socket: AppSocket, assertExists: boolean = false) => {
+const getCurrentUser = (socket: AppSocket, assertExists: boolean = false) => {
   const user = socket.handshake.session?.passport?.user;
   if (assertExists && !user) {
     throw new Error('No session user in handle socket message');
@@ -19,6 +19,32 @@ const getUser = (socket: AppSocket, assertExists: boolean = false) => {
 };
 
 const dbHelpers = {
+  addFollow: async (follower: User, following: User) => {
+    const matchingFollow = await prisma.follow.findFirst({
+      where: {
+        followerUserId: follower.id,
+        followingUserId: following.id
+      }
+    });
+
+    if (matchingFollow) {
+      return {
+        error: {
+          code: 123,
+          message: 'User is already following targeted user.'
+        } 
+      };
+    }
+
+    const follow = await prisma.follow.create({
+      data: {
+        followerUserId: follower.id,
+        followingUserId: following.id
+      }
+    });
+
+    return { follow };
+  },
   addDirectMessageToChat: async (from: User, to: User, message: string) => {
     const userIds = [from.id, to.id];
 
@@ -143,6 +169,9 @@ const dbHelpers = {
       }
     });
   },
+  getAllFollows: async () => {
+    return await prisma.follow.findMany({});
+  },
   getAllUsers: async () => {
     return await prisma.user.findMany({});
   },
@@ -167,9 +196,26 @@ const dbHelpers = {
 
 module.exports = (io: any, socket: AppSocket) => {
   return {
+    onFollowUserHandler: async (payload: User) => {
+      const following = payload;
+      const follower = getCurrentUser(socket, true);
+      if (following === null) {
+        throw new Error('No follower in payload in handle on follow user');
+      }
+      const matchingFollowingSocketUser = onlineUsers.filter(
+        (u: SocketUser) => u.user?.id === follower.id
+      );
+
+      const { error, follow } = await dbHelpers.addFollow(follower, following);
+      if (error) {
+        console.error(error.message);
+        socket.emit('followUser', { error });
+      }
+      console.log(follow);
+    },
     onDirectMessageHandler: async (payload: DirectMessage) => {
       const allUsers = await dbHelpers.getAllUsers();
-      const user = getUser(socket, true);
+      const user = getCurrentUser(socket, true);
       const toUser = allUsers.find((u: User) => u.id === payload.to.userId);
       if (toUser === null) {
         throw new Error(
@@ -198,7 +244,7 @@ module.exports = (io: any, socket: AppSocket) => {
     },
 
     onChannelMessageHandler: async (payload: ChannelMessage) => {
-      const user = getUser(socket, true);
+      const user = getCurrentUser(socket, true);
       const allChannels = await dbHelpers.getAllChannels();
       const channel = allChannels.find(
         (c: Channel) => c.id === payload.channel.id

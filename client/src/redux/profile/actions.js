@@ -10,8 +10,9 @@ export const updateUser = (data) => ({
   payload: { data }
 });
 
-export const profileSuccess = () => ({
-  type: ProfileActionTypes.RES_SUCCESS
+export const profileSuccess = (success) => ({
+  type: ProfileActionTypes.RES_SUCCESS,
+  payload: { success }
 });
 
 export const profileError = (error) => ({

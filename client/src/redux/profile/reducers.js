@@ -3,6 +3,7 @@ import { ProfileActionTypes } from './types';
 const INIT_STATE = {
   user: null,
   loading: false,
+  success: null,
   error: null
 };
 
@@ -12,6 +13,7 @@ const Profile = (state = INIT_STATE, action) => {
       return {
         ...state,
         error: null,
+        success: action.payload?.success,
         loading: false
       };
 

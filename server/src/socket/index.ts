@@ -14,6 +14,7 @@ module.exports = (io: any) => {
 
     socket.on('channelMessage', socketHandlers.onChannelMessageHandler);
     socket.on('directMessage', socketHandlers.onDirectMessageHandler);
+    socket.on('followUser', socketHandlers.onFollowUserHandler);
 
     socket.on('disconnect', () => {
       console.log('disconnected', socket.id, socket.handshake.session.passport.user.id)

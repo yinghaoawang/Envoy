@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import directMessageApi from '../../../api/directMessageApi';
 import { tabs } from '../../../data';
+import { socketEmitEvent } from '../../../helpers/socketHelper';
 import { useProfile, useRedux } from '../../../hooks';
 import { switchContent, switchTab } from '../../../redux/layout/actions';
 import EditProfile from './EditProfile';
@@ -23,11 +25,28 @@ const IsUserButtons = () => {
 
 const IsNotUserButtons = (props) => {
   const { dispatch } = useRedux();
+  const { useAppSelector } = useRedux();
+  const { error, success } = useAppSelector((state) => ({
+    error: state.Profile.error,
+    success: state.Profile.success
+  }));
+
+  useEffect(() => {
+    if (error?.code === 123) {
+      toast.error('You are already following ' + otherUser.displayName);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (success?.code === 123) {
+      toast.info('You followed ' + otherUser.displayName)
+    }
+  }, [success])
 
   const { otherUser } = props;
 
-  const onAddFriendClick = () => {
-    toast.info(`Friend request to ${otherUser.displayName} sent`);
+  const onFollowUserClick = () => {
+    socketEmitEvent('followUser', otherUser);
   };
 
   const onSendMessageClick = async () => {
@@ -45,8 +64,8 @@ const IsNotUserButtons = (props) => {
 
   return (
     <>
-      <a onClick={onAddFriendClick} className='btn btn-success' href='#!'>
-        Add Friend
+      <a onClick={onFollowUserClick} className='btn btn-success' href='#!'>
+        Follow
       </a>
       <a onClick={onSendMessageClick} className='btn btn-primary' href='#!'>
         Send Message
@@ -126,7 +145,11 @@ const Profile = (props) => {
                   </div>
                   <div>
                     <p className='h5 mb-1'>1026</p>
-                    <p className='small text-muted mb-0'>Friends</p>
+                    <p className='small text-muted mb-0'>Followers</p>
+                  </div>
+                  <div>
+                    <p className='h5 mb-1'>1026</p>
+                    <p className='small text-muted mb-0'>Following</p>
                   </div>
                   <div>
                     <p className='h5 mb-1'>{user?.channels?.length || 0}</p>

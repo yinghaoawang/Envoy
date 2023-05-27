@@ -4,6 +4,16 @@ import { eventChannel } from 'redux-saga';
 import { SocketActionTypes } from './types';
 import { setChannels, setCurrentChannel } from '../channel/actions';
 import { setChats, setCurrentChat } from '../directMessages/actions';
+import { profileError, profileSuccess } from '../profile/actions';
+
+function* onFollowUserHandler({ error, follow }) {
+  if (error) {
+    yield put(profileError(error));
+    return;
+  }
+
+  yield put(profileSuccess({ code: 123 }));
+}
 
 function* onChannelMessageHandler({ channel, message }) {
   const { channels, currentChannel } = yield select((state) => ({
@@ -34,9 +44,7 @@ function* onDirectMessageHandler({ message, updatedChat }) {
 
   if (chats == null) return;
 
-  const existingChat = chats.find(
-    (c) => c.id === updatedChat.id
-  );
+  const existingChat = chats.find((c) => c.id === updatedChat.id);
   if (existingChat == null) {
     throw new Error('Existing chat not found on socket receive direct message');
   }
@@ -67,7 +75,8 @@ function createSocketChannel(socket) {
     {
       name: 'directMessage',
       handler: onDirectMessageHandler
-    }
+    },
+    { name: 'followUser', handler: onFollowUserHandler }
   ];
 
   return eventChannel((emit) => {
