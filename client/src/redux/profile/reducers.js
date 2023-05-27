@@ -33,6 +33,13 @@ const Profile = (state = INIT_STATE, action) => {
         loading: true
       };
 
+    case ProfileActionTypes.RESET_REST_STATE:
+      return {
+        ...state,
+        success: null,
+        error: null
+      }
+
     case ProfileActionTypes.RESET_STATE:
       return {
         ...INIT_STATE

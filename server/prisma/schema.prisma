@@ -32,11 +32,13 @@ model User {
 }
 
 model Follow {
-  id              Int  @id @default(autoincrement())
-  follower        User @relation("followers", fields: [followerUserId], references: [id])
+  id              Int       @id @default(autoincrement())
+  follower        User      @relation("followers", fields: [followerUserId], references: [id])
   followerUserId  Int
-  following       User @relation("following", fields: [followingUserId], references: [id])
+  following       User      @relation("following", fields: [followingUserId], references: [id])
   followingUserId Int
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @updatedAt
 }
 
 model Channel {

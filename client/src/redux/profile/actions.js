@@ -23,3 +23,7 @@ export const profileError = (error) => ({
 export const resetProfileState = () => ({
   type: ProfileActionTypes.RESET_STATE
 });
+
+export const resetProfileRestState = () => ({
+  type: ProfileActionTypes.RESET_REST_STATE
+});

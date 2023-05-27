@@ -1,18 +1,27 @@
 import { call, fork, take, takeLatest, select, put } from 'redux-saga/effects';
-import { closeSocket, createSocket } from '../../helpers/socketHelper';
+import { closeSocket, createSocket, socketEmitEvent } from '../../helpers/socketHelper';
 import { eventChannel } from 'redux-saga';
 import { SocketActionTypes } from './types';
 import { setChannels, setCurrentChannel } from '../channel/actions';
 import { setChats, setCurrentChat } from '../directMessages/actions';
 import { profileError, profileSuccess } from '../profile/actions';
 
-function* onFollowUserHandler({ error, follow }) {
+function* onFollowUserHandler({ error, success }) {
   if (error) {
     yield put(profileError(error));
     return;
   }
 
-  yield put(profileSuccess({ code: 123 }));
+  yield put(profileSuccess({ code: success.code }));
+}
+
+function* onUnfollowUserHandler({ error, success }) {
+  if (error) {
+    yield put(profileError(error));
+    return;
+  }
+
+  yield put(profileSuccess({ code: success.code }));
 }
 
 function* onChannelMessageHandler({ channel, message }) {
@@ -76,7 +85,8 @@ function createSocketChannel(socket) {
       name: 'directMessage',
       handler: onDirectMessageHandler
     },
-    { name: 'followUser', handler: onFollowUserHandler }
+    { name: 'followUser', handler: onFollowUserHandler },
+    { name: 'unfollowUser', handler: onUnfollowUserHandler }
   ];
 
   return eventChannel((emit) => {
@@ -102,6 +112,14 @@ function createSocketChannel(socket) {
   });
 }
 
+function* followUser({ payload: { data } }) {
+  socketEmitEvent('followUser', data);
+}
+
+function* unfollowUser({ payload: { data } }) {
+  socketEmitEvent('unfollowUser', data);
+}
+
 function* watchSocket(socket) {
   const channel = yield call(createSocketChannel, socket);
   while (true) {
@@ -120,6 +138,8 @@ function* closeCurrentSocket() {
 }
 
 function* socketSaga() {
+  yield takeLatest(SocketActionTypes.FOLLOW_USER, followUser);
+  yield takeLatest(SocketActionTypes.UNFOLLOWER_USER, unfollowUser);
   yield takeLatest(SocketActionTypes.OPEN_NEW_SOCKET, openNewSocket);
   yield takeLatest(SocketActionTypes.CLOSE_CURRENT_SOCKET, closeCurrentSocket);
 }

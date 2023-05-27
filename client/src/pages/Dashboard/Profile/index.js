@@ -1,11 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import directMessageApi from '../../../api/directMessageApi';
 import { tabs } from '../../../data';
-import { socketEmitEvent } from '../../../helpers/socketHelper';
 import { useProfile, useRedux } from '../../../hooks';
 import { switchContent, switchTab } from '../../../redux/layout/actions';
 import EditProfile from './EditProfile';
 import { toast } from 'react-toastify';
+import { followUser, unFollowUser } from '../../../redux/socket/actions';
+import { resetProfileRestState } from '../../../redux/profile/actions';
+import followApi from '../../../api/followApi';
 
 const IsUserButtons = () => {
   const { dispatch } = useRedux();
@@ -26,27 +28,82 @@ const IsUserButtons = () => {
 const IsNotUserButtons = (props) => {
   const { dispatch } = useRedux();
   const { useAppSelector } = useRedux();
+  const { userProfile } = useProfile();
   const { error, success } = useAppSelector((state) => ({
     error: state.Profile.error,
     success: state.Profile.success
   }));
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [isFollowing, setIsFollowing] = useState(false);
+
   useEffect(() => {
-    if (error?.code === 123) {
-      toast.error('You are already following ' + otherUser.displayName);
+    const getUserFollows = async () => {
+      const { followers, following } = await followApi.getUserFollows(
+        otherUser.id
+      );
+      for (const follower of followers) {
+        if (follower.followerUserId === userProfile.id) {
+          setIsFollowing(true);
+          break;
+        }
+      }
+      setIsLoading(false);
+    };
+    getUserFollows();
+  }, []);
+
+  useEffect(() => {
+    switch (error?.code) {
+      case 1:
+        toast.error(error.message);
+        break;
+      case 123:
+        toast.error('You are already following ' + otherUser.displayName);
+        setIsFollowing(true);
+        break;
+      case 124:
+        toast.error('You are already not following ' + otherUser.displayName);
+        setIsFollowing(false);
+        break;
+      default:
+        if (error?.code != null) {
+          console.warn('Unknown error code ' + error?.code);
+        }
     }
+    setIsLoading(false);
   }, [error]);
 
   useEffect(() => {
-    if (success?.code === 123) {
-      toast.info('You followed ' + otherUser.displayName)
+    switch (success?.code) {
+      case 0:
+        toast.info(success.message);
+        break;
+      case 123:
+        toast.info('You followed ' + otherUser.displayName);
+        setIsFollowing(true);
+        break;
+      case 124:
+        toast.info('You unfollowed ' + otherUser.displayName);
+        setIsFollowing(false);
+        break;
+      default:
+        if (success?.code != null) {
+          console.warn('Unknown success code ' + success?.code);
+        }
     }
-  }, [success])
+    setIsLoading(false);
+  }, [success]);
 
   const { otherUser } = props;
 
   const onFollowUserClick = () => {
-    socketEmitEvent('followUser', otherUser);
+    if (isFollowing) {
+      dispatch(unFollowUser(otherUser));
+    } else {
+      dispatch(followUser(otherUser));
+    }
+    setIsLoading(true);
   };
 
   const onSendMessageClick = async () => {
@@ -64,9 +121,14 @@ const IsNotUserButtons = (props) => {
 
   return (
     <>
-      <a onClick={onFollowUserClick} className='btn btn-success' href='#!'>
-        Follow
-      </a>
+      <button
+        onClick={onFollowUserClick}
+        disabled={isLoading}
+        className={`btn ${isFollowing ? 'btn-danger' : 'btn-success'}`}
+        href='#!'
+      >
+        {isFollowing ? 'Unfollow' : 'Follow'}
+      </button>
       <a onClick={onSendMessageClick} className='btn btn-primary' href='#!'>
         Send Message
       </a>
@@ -76,7 +138,14 @@ const IsNotUserButtons = (props) => {
 
 const Profile = (props) => {
   const { userProfile } = useProfile();
+  const { dispatch } = useRedux();
   const user = props.user || userProfile;
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetProfileRestState());
+    };
+  }, []);
 
   return (
     <div className='px-5 py-5'>

@@ -10,4 +10,5 @@ module.exports = (app: any) => {
   app.use('/user', require('./userRoutes'));
   app.use('/channel', require('./channelRoutes'));
   app.use('/direct-message', require('./directMessageRoutes'));
+  app.use('/follow', require('./followRoutes'));
 };

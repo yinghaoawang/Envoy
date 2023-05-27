@@ -16,7 +16,7 @@ export interface AppSocket extends Socket {
 }
 
 export interface User {
-  id: string,
+  id: number,
 }
 
 export interface SocketUser {
@@ -25,22 +25,22 @@ export interface SocketUser {
 }
 
 export interface Channel {
-  id: string,
+  id: number,
 }
 
 export interface ChannelMessage {
   channel: {
-    id: string,
+    id: number,
   },
   message: string,
 }
 
 export interface DirectMessage {
   to: {
-    userId: string
+    userId: number
   },
   from: {
-    userId: string
+    userId: number
   },
   chat: DirectMessageChat,
   message: string,

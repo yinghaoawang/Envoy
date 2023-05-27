@@ -32,7 +32,7 @@ const dbHelpers = {
         error: {
           code: 123,
           message: 'User is already following targeted user.'
-        } 
+        }
       };
     }
 
@@ -44,6 +44,31 @@ const dbHelpers = {
     });
 
     return { follow };
+  },
+  removeFollow: async (follower: User, following: User) => {
+    const matchingFollow = await prisma.follow.findFirst({
+      where: {
+        followerUserId: follower.id,
+        followingUserId: following.id
+      }
+    });
+
+    if (!matchingFollow) {
+      return {
+        error: {
+          code: 124,
+          message: 'User is already not following targeted user.'
+        }
+      };
+    }
+
+    await prisma.follow.delete({
+      where: {
+        id: matchingFollow.id
+      }
+    });
+
+    return {};
   },
   addDirectMessageToChat: async (from: User, to: User, message: string) => {
     const userIds = [from.id, to.id];
@@ -200,8 +225,14 @@ module.exports = (io: any, socket: AppSocket) => {
       const following = payload;
       const follower = getCurrentUser(socket, true);
       if (following === null) {
-        throw new Error('No follower in payload in handle on follow user');
+        const error = {
+          code: 1,
+          message: 'Invalid user to follow'
+        };
+        socket.emit('followUser', { error });
+        return;
       }
+
       const matchingFollowingSocketUser = onlineUsers.filter(
         (u: SocketUser) => u.user?.id === follower.id
       );
@@ -210,8 +241,34 @@ module.exports = (io: any, socket: AppSocket) => {
       if (error) {
         console.error(error.message);
         socket.emit('followUser', { error });
+        return;
       }
-      console.log(follow);
+
+      socket.emit('followUser', { success: { code: 123 } });
+    },
+    onUnfollowUserHandler: async (payload: User) => {
+      const following = payload;
+      const follower = getCurrentUser(socket, true);
+      if (following === null) {
+        const error = {
+          code: 1,
+          message: 'Invalid user to unfollow'
+        };
+        socket.emit('followUser', { error });
+        return;
+      }
+
+      const matchingFollowingSocketUser = onlineUsers.filter(
+        (u: SocketUser) => u.user?.id === follower.id
+      );
+
+      const { error } = await dbHelpers.removeFollow(follower, following);
+      if (error) {
+        console.error(error.message);
+        socket.emit('unfollowUser', { error });
+        return;
+      }
+      socket.emit('unfollowUser', { success: { code: 124 } });
     },
     onDirectMessageHandler: async (payload: DirectMessage) => {
       const allUsers = await dbHelpers.getAllUsers();

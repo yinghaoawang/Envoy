@@ -6,7 +6,7 @@ const ErrorMessage = (props) => {
       {props.message && (
         <p className='text-danger align-middle lh-lg'>
           <WarningIcon size={16} />{' '}
-          <span className='d-inline-block align-middle'>{props.message}</span>
+          <span className='d-inline-block align-middle'>{props.message?.message || props.message}</span>
         </p>
       )}
     </>
