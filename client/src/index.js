@@ -7,11 +7,12 @@ import { BrowserRouter } from 'react-router-dom';
 import { configureStore } from './redux/store';
 import './assets/css';
 import './assets/js';
+import config from './config';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={configureStore({})}>
-    <BrowserRouter basename={process.env.NODE_ENV === 'production' ? '/envoy' : ''}>
+    <BrowserRouter basename={config.BASENAME}>
       <App />
     </BrowserRouter>
   </Provider>

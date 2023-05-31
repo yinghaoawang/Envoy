@@ -5,12 +5,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useRedux } from '../../hooks';
 import { registerUser } from '../../redux/auth/actions';
-import {
-  displayNamePattern,
-  emailPattern,
-  passwordPattern
-} from '../../utils';
+import { displayNamePattern, emailPattern, passwordPattern } from '../../utils';
 import ErrorMessage from '../../components/ErrorMessage';
+import config from '../../config';
 
 const schema = yup
   .object({
@@ -39,7 +36,7 @@ const schema = yup
 
 const Register = (props) => {
   const { dispatch, useAppSelector } = useRedux();
-  
+
   const {
     register,
     handleSubmit,
@@ -111,7 +108,10 @@ const Register = (props) => {
         <div>
           <p className='mb-0 text-center'>
             Already have an account?{' '}
-            <a href='/login' className='text-primary fw-bold'>
+            <a
+              href={config.BASENAME + '/login'}
+              className='text-primary fw-bold'
+            >
               Log In
             </a>
           </p>

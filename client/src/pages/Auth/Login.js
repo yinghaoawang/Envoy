@@ -7,11 +7,20 @@ import { loginUser } from '../../redux/auth/actions';
 import FormInput from '../../components/FormInput';
 import { emailPattern, passwordPattern } from '../../utils';
 import ErrorMessage from '../../components/ErrorMessage';
+import config from '../../config';
 
 const schema = yup
   .object({
-    email: yup.string().required().matches(emailPattern, 'Email must be a valid email').label('Email'),
-    password: yup.string().required().matches(passwordPattern, 'Password must be a valid password').label('Password'),
+    email: yup
+      .string()
+      .required()
+      .matches(emailPattern, 'Email must be a valid email')
+      .label('Email'),
+    password: yup
+      .string()
+      .required()
+      .matches(passwordPattern, 'Password must be a valid password')
+      .label('Password')
   })
   .required();
 
@@ -27,7 +36,7 @@ const Login = (props) => {
   const { dispatch, useAppSelector } = useRedux();
   const { isLoading, loginError } = useAppSelector((state) => ({
     isLoading: state.Auth.loading,
-    loginError: state.Auth.error,
+    loginError: state.Auth.error
   }));
 
   const onSubmit = (data) => {
@@ -41,11 +50,22 @@ const Login = (props) => {
         <form className='mb-3' onSubmit={handleSubmit(onSubmit)}>
           <h2 className='fw-bold mb-3'>Log in</h2>
           <div className='mb-3'>
-            <FormInput label='Email address' name='email' placeholder='name@example.com' register={register} />
+            <FormInput
+              label='Email address'
+              name='email'
+              placeholder='name@example.com'
+              register={register}
+            />
             <ErrorMessage message={errors.email?.message} />
           </div>
           <div className='mb-3'>
-            <FormInput label='Password' name='password' placeholder='*******' type='password' register={register} />
+            <FormInput
+              label='Password'
+              name='password'
+              placeholder='*******'
+              type='password'
+              register={register}
+            />
             <ErrorMessage message={errors.password?.message} />
           </div>
           <p className='small'>
@@ -67,7 +87,10 @@ const Login = (props) => {
         <div>
           <p className='mb-0 text-center'>
             Don't have an account?{' '}
-            <a href='/signup' className='text-primary fw-bold'>
+            <a
+              href={config.BASENAME + '/signup'}
+              className='text-primary fw-bold'
+            >
               Sign Up
             </a>
           </p>
