@@ -11,7 +11,7 @@ import './assets/js';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={configureStore({})}>
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.NODE_ENV === 'production' ? '/envoy' : ''}>
       <App />
     </BrowserRouter>
   </Provider>

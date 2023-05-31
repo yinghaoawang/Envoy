@@ -18,7 +18,7 @@ const cache = require('./cache');
 cache.init();
 
 app.use(express.static(__dirname + '/public'));
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+app.use(cors({ credentials: true, origin: config.CLIENT_HOST }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({ limit: '50mb' }));
 app.use(session);
