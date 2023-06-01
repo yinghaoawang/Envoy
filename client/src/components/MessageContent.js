@@ -47,19 +47,27 @@ const MessageInput = (props) => {
     event.preventDefault();
     if (inputRef.current.value === '') return;
     if (channel != null) {
-      socketEmitEvent('channelMessage', {
+      const socket = socketEmitEvent('channelMessage', {
         channel: {
           id: channel.id
         },
         message: inputRef.current.value
       });
+      if (!socket) {
+        alert('Socket error, reloading page');
+        window.location.reload();
+      }
     } else if (otherUser != null) {
-      socketEmitEvent('directMessage', {
+      const socket = socketEmitEvent('directMessage', {
         to: {
           userId: otherUser.id
         },
         message: inputRef.current.value
       });
+      if (!socket) {
+        alert('Socket error, reloading page');
+        window.location.reload();
+      }
     } else {
       throw new Error(
         'Target (channel or other user) does not exist in submit message.'

@@ -35,7 +35,8 @@ export function closeSocket() {
 export function socketEmitEvent(name, payload) {
   if (socket == null) {
     console.error('Socket not created before emitting event');
-    return;
+    return null;
   }
   socket.emit(name, payload);
+  return socket;
 }
