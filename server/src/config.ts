@@ -2,6 +2,8 @@ require('dotenv').config();
 
 const config = {
   CLIENT_HOST: process.env.NODE_ENV === 'production' ? process.env.CLIENT_HOST : 'http://localhost:3000',
+  SOCKET_PATH: process.env.NODE_ENV === 'production' ? process.env.SOCKET_PATH : '',
+
   PORT: 1270,
   SESSION_SECRET: 'i dont know if session secrets are case sensitive',
   POSTGRES: {

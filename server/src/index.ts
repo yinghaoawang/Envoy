@@ -3,7 +3,11 @@ const config = require('./config');
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, {
+  secure: process.env.NODE_ENV == 'production' ? true : false,
+  path: config.SOCKET_PATH,
+  transports: ['websocket']
+});
 const cors = require('cors');
 const session = require('express-session')({
   secret: config.SESSION_SECRET,

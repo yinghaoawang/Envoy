@@ -10,6 +10,8 @@ export function createSocket() {
     }
 
     socket = io(config.SOCKET_URL, {
+      path: config.SOCKET_PATH,
+      secure: process.env.NODE_ENV ? true : false,
       transports: ['websocket'],
       withCredentials: true
     });
