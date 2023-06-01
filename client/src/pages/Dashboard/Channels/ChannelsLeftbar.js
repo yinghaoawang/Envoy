@@ -84,6 +84,7 @@ const ChannelsLeftbar = (props) => {
           component: NoChannels
         };
         dispatch(switchContent(noChannelsContent));
+        firstRun.current = false;
         return;
       }
       onChannelClick(firstChannel);
