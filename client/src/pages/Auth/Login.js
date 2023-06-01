@@ -7,7 +7,7 @@ import { loginUser } from '../../redux/auth/actions';
 import FormInput from '../../components/FormInput';
 import { emailPattern, passwordPattern } from '../../utils';
 import ErrorMessage from '../../components/ErrorMessage';
-import config from '../../config';
+import { Link } from 'react-router-dom';
 
 const schema = yup
   .object({
@@ -69,9 +69,9 @@ const Login = (props) => {
             <ErrorMessage message={errors.password?.message} />
           </div>
           <p className='small'>
-            <a className='text-primary' href='forget-password.html'>
+            <Link className='text-primary' to='/forget-password'>
               Forgot password?
-            </a>
+            </Link>
           </p>
           <div className='d-grid'>
             <button
@@ -87,12 +87,12 @@ const Login = (props) => {
         <div>
           <p className='mb-0 text-center'>
             Don't have an account?{' '}
-            <a
-              href={config.BASENAME + '/signup'}
+            <Link
+              to={'/signup'}
               className='text-primary fw-bold'
             >
               Sign Up
-            </a>
+            </Link>
           </p>
         </div>
       </div>

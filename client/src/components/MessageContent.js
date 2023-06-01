@@ -89,9 +89,9 @@ const MessageInput = (props) => {
         style={{ fontSize: '16px' }}
         placeholder='Type message'
       />
-      <a ref={emojiTogglerRef} className='ms-3 text-muted' href='#!'>
+      <li ref={emojiTogglerRef} className='ms-3 text-muted' href='#!'>
         <EmojiIcon onClick={toggleEmojiClicker} size={22} />
-      </a>
+      </li>
       <div>
         {isEmojiPickerOpen && (
           <div

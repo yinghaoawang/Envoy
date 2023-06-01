@@ -7,7 +7,7 @@ import { useRedux } from '../../hooks';
 import { registerUser } from '../../redux/auth/actions';
 import { displayNamePattern, emailPattern, passwordPattern } from '../../utils';
 import ErrorMessage from '../../components/ErrorMessage';
-import config from '../../config';
+import { Link } from 'react-router-dom';
 
 const schema = yup
   .object({
@@ -108,12 +108,12 @@ const Register = (props) => {
         <div>
           <p className='mb-0 text-center'>
             Already have an account?{' '}
-            <a
-              href={config.BASENAME + '/login'}
+            <Link
+              to={'/login'}
               className='text-primary fw-bold'
             >
               Log In
-            </a>
+            </Link>
           </p>
         </div>
       </div>
