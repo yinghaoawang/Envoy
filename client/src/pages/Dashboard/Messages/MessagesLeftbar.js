@@ -4,7 +4,7 @@ import {
   loadChats,
   setCurrentChat
 } from '../../../redux/directMessages/actions';
-import Message from '.';
+import Messages from '.';
 import { switchContent } from '../../../redux/layout/actions';
 import NoFriends from '../../../components/NoFriends';
 import moment from 'moment';
@@ -95,7 +95,7 @@ const MessagesLeftbar = (props) => {
   const onChatClick = (chat) => {
     dispatch(setCurrentChat(chat));
     const chatContent = {
-      component: Message
+      component: Messages
     };
     dispatch(switchContent(chatContent));
   };

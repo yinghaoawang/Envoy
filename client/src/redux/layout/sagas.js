@@ -4,9 +4,7 @@ import { switchContent } from './actions';
 
 function* switchTab({ payload: { data } }) {
   try {
-    if (data.content?.component) {
-      yield put(switchContent(data.content));
-    }
+    yield put(switchContent(data));
   } catch (error) {
     console.error(error);
   }

@@ -1,7 +1,7 @@
 import MessageContent from '../../../components/MessageContent';
 import { useProfile, useRedux } from '../../../hooks';
 
-const Message = (props) => {
+const Messages = (props) => {
   const { useAppSelector } = useRedux();
   const { userProfile } = useProfile();
   const { currentChat } = useAppSelector((state) => ({
@@ -24,4 +24,4 @@ const Message = (props) => {
   );
 };
 
-export default Message;
+export default Messages;

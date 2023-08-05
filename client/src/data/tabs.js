@@ -10,13 +10,6 @@ import { RiHashtag as ChannelsIcon } from 'react-icons/ri';
 import { BiMessage as MessagesIcon } from 'react-icons/bi';
 
 import { IoSettingsOutline as SettingsIcon } from 'react-icons/io5';
-import Profile from '../pages/Dashboard/Profile';
-import ProfileLeftbar from '../pages/Dashboard/Profile/ProfileLeftbar';
-import Welcome from '../components/Welcome';
-import MessagesLeftbar from '../pages/Dashboard/Messages/MessagesLeftbar';
-import ChannelsLeftbar from '../pages/Dashboard/Channels/ChannelsLeftbar';
-import SettingsLeftbar from '../pages/Dashboard/Settings/SettingsLeftbar';
-import PeopleLeftbar from '../pages/Dashboard/People/PeopleLeftbar';
 
 export const rootTab = {
   id: -1,
@@ -26,9 +19,6 @@ export const rootTab = {
       size: 34
     }
   },
-  content: {
-    component: Welcome
-  }
 };
 
 export const tabs = [
@@ -40,12 +30,6 @@ export const tabs = [
       props: {
         size: 26
       }
-    },
-    leftbar: {
-      component: ProfileLeftbar
-    },
-    content: {
-      component: Profile
     }
   },
   {
@@ -56,9 +40,6 @@ export const tabs = [
       props: {
         size: 28
       }
-    },
-    leftbar: {
-      component: ChannelsLeftbar
     }
   },
   {
@@ -69,9 +50,6 @@ export const tabs = [
       props: {
         size: 25
       }
-    },
-    leftbar: {
-      component: MessagesLeftbar
     }
   },
   {
@@ -82,9 +60,6 @@ export const tabs = [
       props: {
         size: 26
       }
-    },
-    leftbar: {
-      component: SettingsLeftbar
     }
   }
 ];

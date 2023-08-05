@@ -129,7 +129,7 @@ const MessageItem = (props) => {
   const { dispatch } = useRedux();
   const onUserClick = () => {
     const profileContent = {
-      component: Profile,
+      title: 'Profile',
       props: {
         user
       }
