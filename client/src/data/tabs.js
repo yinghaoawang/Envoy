@@ -18,7 +18,7 @@ export const rootTab = {
     props: {
       size: 34
     }
-  },
+  }
 };
 
 export const tabs = [

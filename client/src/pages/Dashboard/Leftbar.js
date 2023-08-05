@@ -8,12 +8,8 @@ import ChannelsLeftbar from './Channels/ChannelsLeftbar';
 import MessagesLeftbar from './Messages/MessagesLeftbar';
 
 const ActiveLeftbarComponent = (props) => {
-  const { useAppSelector } = useRedux();
-  const { activeContent } = useAppSelector((state) => ({
-    activeContent: state.Layout.activeContent
-  }));
-
-  switch (activeContent?.title) {
+  const { activeTab, activeContent } = props;
+  switch (activeTab?.title) {
     case 'Profile':
       return <ProfileLeftbar {...activeContent.props} />;
     case 'Channels':
@@ -23,18 +19,33 @@ const ActiveLeftbarComponent = (props) => {
     case 'Settings':
       return <PlaceholderSidebar {...activeContent.props} />;
     default:
-      return <PlaceholderSidebar />;
+      return <></>;
   }
 };
 
 const Leftbar = (props) => {
+  const { useAppSelector } = useRedux();
+  const { activeTab, activeContent } = useAppSelector((state) => ({
+    activeTab: state.Layout.activeTab,
+    activeContent: state.Layout.activeContent
+  }));
+
   return (
-    <div
-      className='d-flex flex-column flex-shrink-0 p-3 text-white bg-gray-900 h-100 overflow-auto'
-      style={{ width: '280px' }}
-    >
-      <ActiveLeftbarComponent />
-    </div>
+    <>
+      {activeTab == null ? (
+        <></>
+      ) : (
+        <div
+          className='d-flex flex-column flex-shrink-0 p-3 text-white bg-gray-900 h-100 overflow-auto'
+          style={{ width: '280px' }}
+        >
+          <ActiveLeftbarComponent
+            activeContent={activeContent}
+            activeTab={activeTab}
+          />
+        </div>
+      )}
+    </>
   );
 };
 

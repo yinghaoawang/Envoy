@@ -8,7 +8,7 @@ const Messages = (props) => {
     currentChat: state.DirectMessage.currentChat
   }));
 
-  const otherUser = currentChat.users.find(u => u.user.id !== userProfile.id)?.user;
+  const otherUser = currentChat?.users.find(u => u.user.id !== userProfile.id)?.user;
 
   return (
     <>
